@@ -24,7 +24,7 @@ str(UNICEF_colors)
 ```
 
 ## Functions for data engineering
-### Input
+### Data input
 ```{r}
 # get CME mortality rate for certain years 
 get.CME.data(year_range = c(2016:2018))[1:3]
@@ -36,7 +36,7 @@ get.CME.data(year_range = c(2016:2018), "deaths")[1:3]
 get.country.info()[1:3, 1:5]
 ```
 
-### Output
+### Data output
 ```{r}
 # Write several dataset into one xlsx file:
 xlsx.writeMultipleData("myworkbook.xlsx", mtcars, Titanic, sheet_name = c("dt1", "dt2"))
