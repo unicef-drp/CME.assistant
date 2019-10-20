@@ -2,7 +2,7 @@
 
 Copyright (c) 2019 UNICEF DAPM CME Group
 
-Permission is hereby granted to any person authorized or within the United 
+Permission is granted to people authorized or within the United 
 Nations system to deal in the Software.
 
 Unauthorized person is not allowed 

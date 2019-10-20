@@ -1,5 +1,5 @@
 Package: CME.assistant
-Title: Reuseable Helper Functions for CME Team
+Title: Reusable Helper Functions for CME Team
 Version: 0.0.1
 Authors@R: 
     person(given = "First",
