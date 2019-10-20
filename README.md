@@ -34,6 +34,10 @@ get.CME.data(year_range = c(2016:2018))[1:3]
 # get CME death numbers for certain years
 get.CME.data(year_range = c(2016:2018), "deaths")[1:3]
 ```
+<p align="center">
+  <img src = "https://github.com/UnicefDAPM/CME.assistant/blob/master/vignettes/VignetteFigure/Fig.Table1.png"/>
+</p>
+
 **`get.country.info`**
 ```{r}
 get.country.info()[1:3, 1:5]
