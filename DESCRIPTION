@@ -1,6 +1,6 @@
 Package: CME.assistant
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: Reuseable Helper Functions for CME Team
+Version: 0.0.1
 Authors@R: 
     person(given = "First",
            family = "Last",
@@ -11,3 +11,13 @@ Description: What the package does (one paragraph).
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+Depends: 
+    R (>= 3.3.0)
+Imports:
+    ggplot2 (>= 3.0.0),
+    data.table (>= 1.12.0),
+    ggforce (>= 0.2.1.9000),
+    here, 
+    scales,
+    xlsx (>= 0.6)
+RoxygenNote: 6.1.1
