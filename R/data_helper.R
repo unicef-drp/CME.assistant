@@ -79,7 +79,7 @@ xlsx.writeMultipleData <- function (file, ..., sheet_name = NULL)
   # if length (sheet_name) != length of object, sheet_name will be ignored
   objnames <- if(is.null(sheet_name)|(length(sheet_name)!=length(objects)))as.character(fargs)[-c(1, 2)] else sheet_name
   nobjects <- length(objects)
-
+  # create a blank work book
   wb <- createWorkbook(type="xlsx")
   # cell style could be further revised in the future
   CellStyle(wb, dataFormat=NULL, alignment=NULL,
@@ -100,7 +100,7 @@ xlsx.writeMultipleData <- function (file, ..., sheet_name = NULL)
   saveWorkbook(wb, file)
 }
 
-
+# something to please the cran, not that necessary
 if(getRversion() >= "2.15.1")  {
   utils::globalVariables(c("."))
 }
