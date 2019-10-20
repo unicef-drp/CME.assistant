@@ -34,7 +34,7 @@ get.CME.data(year_range = c(2016:2018))[1:3]
 # get CME death numbers for certain years
 get.CME.data(year_range = c(2016:2018), "deaths")[1:3]
 ```
-**`get country info`**
+**`get.country.info`**
 ```{r}
 get.country.info()[1:3, 1:5]
 ```
@@ -44,7 +44,7 @@ get.country.info()[1:3, 1:5]
 ```{r}
 # Write several dataset into one xlsx file:
 xlsx.writeMultipleData("myworkbook.xlsx", mtcars, Titanic, sheet_name = c("dt1", "dt2"))
-# to remove the file saved
+# to remove the file just saved
 file.remove("myworkbook.xlsx")
 ```
 
@@ -56,7 +56,7 @@ file.remove("myworkbook.xlsx")
 
 ggplot_sample <- ggplot2::qplot(data = iris, x = Sepal.Length, y = Petal.Length)
 ggsave.figs(ggplot_sample, file_name = "Iris_sample", folder_name = "figures")
-# to remove the file saved
+# to remove the file just saved
 unlink(here::here("figures"), recursive = TRUE)
 
 
