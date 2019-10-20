@@ -9,6 +9,7 @@
 
 #' get three types (Under-five Infant Neonatal) from Rates & Deaths summary
 #' @import data.table
+#' @importFrom readr parse_number
 #' @param year_range a vector of years we want, default to 2000:2018
 #' @param get_what "Deaths" or "Rate", default to "Rate": get the three CME rate
 #' @examples
@@ -17,8 +18,6 @@
 #' @return dt of ISO3, UNcode, year, Under-five, Infant, Neonatal, one row for each country each year in year_range
 #'
 get.CME.data <- function(year_range = c(2000:2018), get_what = NULL){
-
-  data(Rates_Deaths_Country_Summary_2019)
   dt <- Rates_Deaths_Country_Summary_2019
   available_years <- readr::parse_number(grep("IMR", names(dt), value = TRUE))
   if (!all(year_range%in%available_years)) {
@@ -52,7 +51,6 @@ get.CME.data <- function(year_range = c(2000:2018), get_what = NULL){
 #' @export get.country.info
 #' @return dataset of country info
 get.country.info <- function(){
-  data("country_info")
   dt <- country_info
   # UNICEFReportRegion2 offers subregions for ECA and SSA, combined into UNICEFReportRegion
   dt[, UNICEFReportRegion:=UNICEFReportRegion1]

@@ -8,9 +8,13 @@ The goal of CME.assistant is to share reuseable helper functions within the CME 
 
 ## Installation
 
-Please install from github:
-``` {r}
+To install from github:
+```{r}
 devtools::install_github("UnicefDAPM/CME.assistant")
+```
+It is also a good idea to download, further revise and use 'Ctrl+Shift+B' to compile locally.
+```{r}
+git clone https://github.com/UnicefDAPM/CME.assistant.git
 ```
 
 ## UNICEF color scheme

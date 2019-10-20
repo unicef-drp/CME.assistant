@@ -4,12 +4,12 @@
 \alias{get.CME.data}
 \title{get three types (Under-five Infant Neonatal) from Rates & Deaths summary}
 \usage{
-get.CME.data(year_range, get_what = NULL)
+get.CME.data(year_range = c(2000:2018), get_what = NULL)
 }
 \arguments{
-\item{year_range}{a vector of years we want, for example, 2000:2018}
+\item{year_range}{a vector of years we want, default to 2000:2018}
 
-\item{get_what}{"Deaths" or "Rate", default to get the three CME rate}
+\item{get_what}{"Deaths" or "Rate", default to "Rate": get the three CME rate}
 }
 \value{
 dt of ISO3, UNcode, year, Under-five, Infant, Neonatal, one row for each country each year in year_range

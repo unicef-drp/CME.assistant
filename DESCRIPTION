@@ -19,5 +19,6 @@ Imports:
     ggforce (>= 0.2.1.9000),
     here, 
     scales,
+    readr, 
     xlsx (>= 0.6)
 RoxygenNote: 6.1.1

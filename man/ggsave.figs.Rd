@@ -2,22 +2,24 @@
 % Please edit documentation in R/plot_helper.R
 \name{ggsave.figs}
 \alias{ggsave.figs}
-\title{use ggsave to save figs in both png and pdf, default to 600dpi, in folder "figure/"}
+\title{use ggsave to save figs in both png and pdf}
 \usage{
-ggsave.figs(file_name, myplot, width = 8, height = 6,
-  folder_name = "figure")
+ggsave.figs(myplot, file_name = "myplot", width = 8, height = 6,
+  folder_name = "")
 }
 \arguments{
-\item{file_name}{the name of the plot file, e.g, "plot1"}
-
 \item{myplot}{ggplot2 object}
+
+\item{file_name}{the name of the plot file, e.g, "plot1"}
 
 \item{width}{width for ggsave}
 
 \item{height}{height for ggsave}
 
-\item{folder_name}{the relative dir for here()}
+\item{folder_name}{the name of the folder, e.g. "figure", if provided, the
+directory will be created if not there}
 }
 \description{
-use ggsave to save figs in both png and pdf, default to 600dpi, in folder "figure/"
+use ggsave to save figs in both png and pdf, default to 600dpi, store in working
+folder unless `folder_name` is named.
 }

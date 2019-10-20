@@ -60,14 +60,18 @@ get.label <- function(x, new_list = NULL, no_line_break = FALSE){
   return(if(no_line_break)gsub("\n", "", out) else out)
 }
 
-#' use ggsave to save figs in both png and pdf, default to 600dpi, in folder "figure/"
+#' use ggsave to save figs in both png and pdf
+#'
+#' use ggsave to save figs in both png and pdf, default to 600dpi, store in working
+#' folder unless `folder_name` is named.
 #' @importFrom ggplot2 ggsave
 #' @importFrom here here
 #' @param file_name the name of the plot file, e.g, "plot1"
 #' @param myplot ggplot2 object
 #' @param width width for ggsave
 #' @param height height for ggsave
-#' @param folder_name the relative dir for here()
+#' @param folder_name the name of the folder, e.g. "figure", if provided, the
+#'   directory will be created if not there
 #' @export ggsave.figs
 #' @return NULL
 ggsave.figs <- function(myplot, file_name = "myplot", width = 8, height = 6, folder_name = ""){

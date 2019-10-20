@@ -9,7 +9,8 @@ get.label(x, new_list = NULL, no_line_break = FALSE)
 \arguments{
 \item{x}{a element or a vector}
 
-\item{new_list}{if you supply a new list the function will use instead of the default_labels}
+\item{new_list}{if you supply a new list the function will use instead of the
+default_labels}
 
 \item{no_line_break}{to remove \n from the string}
 }
@@ -17,5 +18,6 @@ get.label(x, new_list = NULL, no_line_break = FALSE)
 updated labels as character vector
 }
 \description{
-a label function to relabel certain variable names
+You can provide a __new_list__ to define the labels. If any label is not
+provided, the function will just return the original value
 }
