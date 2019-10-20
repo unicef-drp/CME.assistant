@@ -1,5 +1,5 @@
 ---
-title: "CMEvignette1"
+title: "Example of Functions Part I"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{vignettes/CMEvignette1.Rmd}
