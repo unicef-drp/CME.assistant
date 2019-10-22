@@ -49,6 +49,10 @@ get.label <- function(x, new_list = NULL, no_line_break = FALSE){
       labs <- default_labels
     }
   }
+  if(!is.character(x)){
+    message("Coerse input into character.")
+    x <- as.character(x)
+  }
   out <- rep(NA, length(x))
   for (i in 1:length(x)){
     if (is.null(labs[[ x[i] ]])){
