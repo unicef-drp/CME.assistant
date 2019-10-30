@@ -11,34 +11,11 @@
 #' @param x a element or a vector
 #' @param new_list if you supply a new list the function will use instead of the
 #'   default_labels
-#' @param no_line_break to remove \n from the string
+#' @param no_line_break to remove linebreak from the string
 #' @export get.label
 #' @return updated labels as character vector
 get.label <- function(x, new_list = NULL, no_line_break = FALSE){
-  default_labels <- list(
-    "2"  = "HIV/AIDS",
-    "3"  = "Diarrhoea",
-    "5"  = "Tetanus",
-    "6"  = "Measles",
-    "7"  = "Meningitis\n/encephalitis",
-    "8"  = "Malaria",
-    "9"  = "Pneumonia",
-    "10" = "Prematurity",
-    "11" = "Birth asphyxia and birth trauma",
-    "12" = "Sepsis",
-    "13" = "Other Group 1",
-    "15" = "Congenital anomalies",
-    "16" = "Other noncommunicable diseases",
-    "17" = "Injuries",
-    "57" = "Tetanus\n/meningitis\n/encep",  # 5+7
-    # WHO region names
-    "1_Afr" = "Africa",
-    "2_Amr" = "Americas",
-    "3_Sear"= "South-East Asia",
-    "4_Eur" = "Europe",
-    "5_Emr" = "Eastern Mediterranean",
-    "6_Wpr" = "Western Pacific"
-  )
+  default_labels <- default_label_1
   if(is.null(new_list)){
     labs <- default_labels
   } else {

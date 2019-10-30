@@ -34,3 +34,9 @@
 #' @docType data
 #' @keywords dataset
 "country_info"
+
+
+#' some pre-stored labels, will update from time to time
+#' @docType data
+#' @keywords labels
+"default_label_1"

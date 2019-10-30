@@ -12,7 +12,7 @@ get.label(x, new_list = NULL, no_line_break = FALSE)
 \item{new_list}{if you supply a new list the function will use instead of the
 default_labels}
 
-\item{no_line_break}{to remove \n from the string}
+\item{no_line_break}{to remove linebreak from the string}
 }
 \value{
 updated labels as character vector
