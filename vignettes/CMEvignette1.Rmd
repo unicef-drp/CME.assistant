@@ -67,11 +67,11 @@ unlink(here::here("figures"), recursive = TRUE)
 SHAPforxgboost::scatter.plot.diagonal(data = iris, x = "Sepal.Length", y = "Petal.Length")
 ```
 
-**`get.label`**
+**`get.match`**
 ```{r}
 # a helpful function to revise labels, you can provide a __new_list__ to define the labels
-get.label(c("2", "3"))
-get.label(c("a","b", "c"), new_list = list("a" = "a new label"))
+get.match(c("2", "3"))
+get.match(c("a","b", "c"), new_list = list("a" = "a new label"))
 
 ```
 

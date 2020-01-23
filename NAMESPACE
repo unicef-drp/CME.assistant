@@ -3,7 +3,7 @@
 export(fc)
 export(get.CME.data)
 export(get.country.info)
-export(get.label)
+export(get.match)
 export(ggsave.figs)
 export(xlsx.writeMultipleData)
 import(data.table)
