@@ -4,7 +4,7 @@
 <!-- badges: end -->
 __Under development__
 
-The goal of CME.assistant is to share reusable helper functions within the CME team.
+The goal of CME.assistant is to store some reusable helper functions
 
 ## Installation
 
