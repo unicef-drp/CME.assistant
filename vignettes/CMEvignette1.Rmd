@@ -36,10 +36,6 @@ get.CME.data(year_range = c(2016:2018))[1:3]
 get.CME.data(year_range = c(2016:2018), "deaths")[1:3]
 ```
 
-**`get.country.info`**
-```{r}
-get.country.info()[1:3, 1:5]
-```
 
 ### Data output
 
@@ -62,11 +58,13 @@ ggsave.figs(ggplot_sample, file_name = "Iris_sample", folder_name = "figures")
 # to remove the file just saved
 unlink(here::here("figures"), recursive = TRUE)
 
-# Ads: if you wish to give a try, __SHAPforxgboost__ was my last package offering some simple ggplot visualization functions
+# Ads: if you wish to give a try, __SHAPforxgboost__ was my last package offering some ggplot visualization functions
 # install.packages("SHAPforxgboost")
 SHAPforxgboost::scatter.plot.diagonal(data = iris, x = "Sepal.Length", y = "Petal.Length")
 ```
 
+
+## Extra  
 **`get.match`**
 ```{r}
 # a helpful function to revise labels, you can provide a __new_list__ to define the labels

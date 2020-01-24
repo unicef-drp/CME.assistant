@@ -8,7 +8,7 @@ The goal of CME.assistant is to store some reusable helper functions
 
 ## Installation
 
-To install from github:
+To install from github: / not working if the repo is private. 
 ```{r}
 devtools::install_github("unicef-drp/CME.assistant")
 library(CME.assistant)
@@ -27,17 +27,13 @@ str(UNICEF_colors)
 ## Functions for data engineering
 ### Data input
 **`get.CME.data`**
+Get publised 2019 CME mortality rate for certain years 
+Source: [childmortality.org](https://childmortality.org/)
+
 ```{r}
-# get CME mortality rate for certain years 
 get.CME.data(year_range = c(2016:2018))[1:3]
 
-# get CME death numbers for certain years
 get.CME.data(year_range = c(2016:2018), "deaths")[1:3]
-```
-
-**`get.country.info`**
-```{r}
-get.country.info()[1:3, 1:5]
 ```
 
 ### Data output

@@ -30,7 +30,6 @@ ggsave.figs <- function(myplot, file_name = "myplot", width = 8, height = 6, fol
 #' format by comma
 #' @param x param to be rounded, e.g, 1000 -> "1,000"
 #' @importFrom scales comma
-#' @export fc
 #' @return charactor
 fc <- function(x){
   scales::comma(round(x))
