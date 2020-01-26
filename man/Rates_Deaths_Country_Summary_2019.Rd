@@ -11,4 +11,7 @@ Rates_Deaths_Country_Summary_2019
 \description{
 Rates_Deaths_Country_Summary_2019: The 2019 CME estimates
 }
+\references{
+\url{https://childmortality.org/}
+}
 \keyword{dataset}

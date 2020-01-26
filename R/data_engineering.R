@@ -3,14 +3,27 @@
 # more to be added
 # Yang Liu
 
-
 # Extra -------------------------------------------------------------------
+
+#' check and install pkgs if missing
+#'
+#' @param pkgs vector of packages
+#' @return NULL
+#' @export check.and.install.pkgs
+#'
+check.and.install.pkgs <- function(pkgs){
+  new.packages <- pkgs[!pkgs %in% installed.packages()[,"Package"]]
+  if(length(new.packages)) install.packages(new.packages, dependencies = TRUE)
+  suppressPackageStartupMessages(invisible(lapply(pkgs, library, character.only = TRUE)))
+}
 
 #' a round function that Round off numbers in the conventional way instead of the R round
 #' In R, round(0.5) = 0
 #'
 #' @param x the number
 #' @param digits digits, default to 2
+#'
+#' @export roundoff
 roundoff <- function(#
   x, digits = 2
 ) {
@@ -33,16 +46,17 @@ roundoff <- function(#
 #' @param no_line_break to remove linebreak from the string
 #' @export get.match
 #' @return updated labels as character vector
-get.match <- function(x, new_list = NULL, no_line_break = FALSE){
-  default_labels <- default_label_1
+get.match <- function(x,
+                      new_list = NULL,
+                      no_line_break = FALSE){
   if(is.null(new_list)){
-    labs <- default_labels
+    labs <- default_label_1
   } else {
     if(is.list(new_list)){
       labs <- new_list
     } else {
       message("new_list must be a list. Still use the default list.")
-      labs <- default_labels
+      labs <- default_label_1
     }
   }
   if(!is.character(x)){
@@ -63,9 +77,77 @@ get.match <- function(x, new_list = NULL, no_line_break = FALSE){
 
 # Read data ---------------------------------------------------------------
 
+#' Read in IGME 2019 estimates, using CME_2019_all_data
+#' 01/24/2020
+#' @importFrom here here
+#' @param ind choose indicators among U5MR, NMR, and IMR
+#' @param get both, rate, or death
+#' @param c_name country name
+#' @param year_range a vector, e.g. 1990:2018
+#' @return a data.table
+#' @export get.CME.estimates.long
+#' @examples dt_cme_long <- get.cme.long(ind = "U5MR", c_name = "Mozambique", year_range = 2016:2018)
+get.CME.estimates.long <- function(ind = c("U5MR", "NMR"),
+                                   get = "both",
+                                   c_name = "Mozambique",
+                                   year_range = 1990:2018
+){
+  if(file.exists(here::here("data", "CME_2019_all_data.csv"))) {
+    dt1 <- fread(here::here("data", "CME_2019_all_data.csv"))
+  } else {
+    dt1 <- CME.org_2019_all_data
+  }
+  if(!all(ind%in%c("U5MR", "NMR", "IMR"))) stop("choose indicators among U5MR, NMR, and IMR")
+  match_ind <- list("U5MR" = "Under-five mortality rate",
+                    "NMR"  = "Neonatal mortality rate",
+                    "IMR"  = "Infant mortality rate",
+                    "U5MR_death" = "Under-five deaths",
+                    "NMR_death"  = "Neonatal deaths",
+                    "IMR"  = "Infant deaths")
+  if(get == "both"){
+    inds_wanted <- c(get.match(ind, new_list = match_ind), get.match(paste0(ind, "_death"), new_list = match_ind))
+  } else if (get == "rate") {
+    inds_wanted <- get.match(ind, new_list = match_ind)
+  } else if (get == "death") {
+    inds_wanted <- get.match(paste0(ind, "_death"), new_list = match_ind)
+  } else {
+    stop("get either rate, death, or both")
+  }
+  vars_wanted <- c("REF_AREA", "INDICATOR", "TIME_PERIOD", "UNIT_MEASURE",
+                   "OBS_VALUE", "LOWER_BOUND", "UPPER_BOUND")
+  dt2 <- dt1[INDICATOR%in%inds_wanted][REF_AREA == c_name][SEX=="Total"][SERIES_NAME=="UN IGME estimate 2019"][,..vars_wanted]
+  dt2[, year:= as.numeric(substr(TIME_PERIOD, 1, 4))]
+  dt2 <- dt2[year%in%year_range][, TIME_PERIOD:= NULL]
+  setnames(dt2, c("Country", "Indicator", "Unit","Estimate", "Lower_Bound", "Upper_Bound", "Year"))
+  dt_cme_long <- dt2[,c("Country", "Year", "Indicator", "Unit", "Estimate", "Lower_Bound", "Upper_Bound"), with = FALSE]
+  cols <- c("Estimate", "Lower_Bound", "Upper_Bound")
+  dt_cme_long[, c(cols):=lapply(.SD, roundoff, digits = 2), .SDcols = cols]
+  setorder(dt_cme_long, -Indicator, -Year)
+  return(dt_cme_long)
+}
 
-#' get three types (Under-five Infant Neonatal) from Rates & Deaths summary
-#' 2009/10
+#' Get wide format for dataset
+#'
+#' @param dt_long a long-format data with "Country", "Year", "Indicator","Estimate", "Lower_Bound", "Upper_Bound"
+#' @return  a wide-format data
+#' @export get.dt.wide
+#' @examples dt_cme_wide <- get.dt.wide(get.cme.long(c_name = "China", year_range = 2018))
+get.dt.wide <- function(dt_long){
+  dt_wide <- dcast.data.table(dt_long, Country  + Year  ~ Indicator, value.var = c("Estimate", "Lower_Bound", "Upper_Bound"))
+  # remove the "Estimate_" in variable names
+  setnames(dt_wide, sub("Estimate_", "", colnames(dt_wide)))
+  # set new order, which put each indicator together
+  new_col_order <- c("Country", "Year",
+                     do.call(paste, c(expand.grid(c("", "_Lower_Bound", "_Upper_Bound"),
+                                                  unique(dt_long$Indicator)), sep = "_")))
+  # remove the "_" in front of string
+  dt_wide <- dt_wide[, sub(".*?_", "" ,new_col_order), with = FALSE]
+  setorder(dt_wide, -Year)
+  return(dt_wide)
+}
+
+#' old and simpler version: get three types (Under-five Infant Neonatal) from
+#' Rates & Deaths summary using the wide format data source, without SE 2009/10
 #' @import data.table
 #' @importFrom readr parse_number
 #' @param year_range a vector of years we want, default to 2000:2018
@@ -73,7 +155,8 @@ get.match <- function(x, new_list = NULL, no_line_break = FALSE){
 #' @examples
 #' get.CME.data(year_range = c(2016:2018))
 #' @export get.CME.data
-#' @return dt of ISO3, UNcode, year, Under-five, Infant, Neonatal, one row for each country each year in year_range
+#' @return dt of ISO3, UNcode, year, Under-five, Infant, Neonatal, one row for
+#'   each country each year in year_range
 #'
 get.CME.data <- function(year_range = c(2000:2018), get_what = NULL){
   dt <- Rates_Deaths_Country_Summary_2019
@@ -115,4 +198,5 @@ get.country.info <- function(){
   dt[UNICEFReportRegion2!="", UNICEFReportRegion:=UNICEFReportRegion2]
   return(dt)
 }
+
 

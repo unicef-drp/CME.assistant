@@ -10,7 +10,7 @@
 #' @param data_sources  vector of sources
 #' @param ColumnWidth0  default to 4000
 #'
-#' @examples save.xlsx.XLConnect(file_dir = "temp.xlsx", list_of_dt = list(mtcars = mtcars[1:5,]))
+#' @examples save.xlsx.XLConnect(file_dir = "temp.xlsx", list_of_dt = list(mtcars[1:5,]))
 save.xlsx.XLConnect <- function(file_dir = NULL,
                                 list_of_dt,
                                 sheet_names = NULL,
@@ -25,6 +25,11 @@ save.xlsx.XLConnect <- function(file_dir = NULL,
   wb0 = loadWorkbook(file_dir, create = TRUE)
   if(is.null(sheet_names)) sheet_names <- paste0("Data", 1:length(list_of_dt))
   if(is.null(data_sources)) data_sources <- rep("", length(list_of_dt))
+  # check dimensions of dataset
+  if(!all(lapply(list_of_dt, function(x) length(dim(x))) == 2)) stop (
+    "Dataset in list_of_dt should have dimension of 2. ",
+    "dim(dt) are ", paste(lapply(list_of_dt, dim), collapse = ", "))
+
   write.sheet <- function(sheet_name, dt, data_source, wb = wb0){
     message("dim dt is ", dim(dt))
     createSheet(wb, name = sheet_name)
@@ -54,74 +59,7 @@ save.xlsx.XLConnect <- function(file_dir = NULL,
   }
   invisible(Map(write.sheet, sheet_names, list_of_dt, data_sources))
   saveWorkbook(wb0)
+  message("Xlsx file saved as: ", file_dir)
 }
 
 
-
-#' function to write several dataset into excel file (one dataset each sheet) with table format
-#' 2009/10
-#' revised based on http://www.sthda.com/english/wiki/r-xlsx-package-a-quick-start-guide-to-manipulate-excel-files-in-r
-#' @import xlsx
-#' @export save.xlsx
-#' @param file the path to the output file
-#' @param ...  a list of data to write to the workbook
-#' @param sheet_name must be a vector of sheet names you want, if length != length of object, it will be ignored
-#' @examples save.xlsx("myworkbook.xlsx", list(mtcars, Titanic), sheet_name = c("dt1", "dt2"))
-#'
-save.xlsx <- function (file_dir = NULL,
-                       list_of_dt,
-                       end_notes = NULL,
-                       sheet_name = NULL)
-{
-  if(is.null(file_dir)) file_dir <- here::here("temp.xlsx")
-  # each dt is an object
-  n_obj <- length(list_of_dt)
-  objnames <- if(is.null(sheet_name)|(length(sheet_name)!=length(list_of_dt))) paste0("Data_", 1:n_obj)  else sheet_name
-
-  # funcs
-  add.string <- function(sheet, rowIndex, colIndex,
-                        string0,
-                        stringStyle = CellStyle(wb)){
-    rows <-createRow(sheet, rowIndex=rowIndex)
-    sheetTitle <-createCell(rows, colIndex)
-    setCellValue(sheetTitle[[1,1]], string0)
-    setCellStyle(sheetTitle[[1,1]], stringStyle)
-  }
-
-  # create a blank work book
-  wb <- createWorkbook(type="xlsx")
-  # cell style could be further revised in the future
-  CellStyle(wb, dataFormat=NULL, alignment=NULL,
-            border=NULL, fill=NULL, font=NULL)
-  # set some format
-  TABLE_ROWNAMES_STYLE <- CellStyle(wb) + Font(wb, isBold=TRUE)
-  TABLE_COLNAMES_STYLE <- CellStyle(wb) + Font(wb, isBold=TRUE) +
-    Alignment(wrapText=TRUE, horizontal="ALIGN_CENTER") +
-    Border(color="black", position=c("TOP", "BOTTOM"),
-           pen=c("BORDER_THIN", "BORDER_THICK"))
-
-
-  sheets_list <- lapply(objnames, createSheet, wb = wb)
-  for (i in 1:n_obj) {
-    addDataFrame(list_of_dt[[i]], sheet = sheets_list[[i]],
-
-                 colnamesStyle = TABLE_COLNAMES_STYLE,
-                 rownamesStyle = TABLE_ROWNAMES_STYLE)
-    if(!is.null(end_notes)){
-      note_style <- CellStyle(wb) + Font(wb,  heightInPoints = 11, isBold = FALSE)
-      add.string(sheets_list[[i]], rowIndex=nrow(list_of_dt[[i]])+2, colIndex =1,
-                string = end_notes[i], stringStyle = note_style)
-
-    }
-  }
-  saveWorkbook(wb, file_dir)
-}
-
-# something to please the cran, not that necessary
-if(getRversion() >= "2.15.1")  {
-  utils::globalVariables(c(".",
-                           "Rates_Deaths_Country_Summary_2019",
-                           "..vars_wanted", "patterns", "ISO3Code", "country_info",
-                           "UNICEFReportRegion", "UNICEFReportRegion1", "UNICEFReportRegion2",
-                           "default_label_1"))
-}

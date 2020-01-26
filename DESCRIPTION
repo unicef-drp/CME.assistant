@@ -1,13 +1,13 @@
 Package: CME.assistant
-Title: Reusable Helper Functions for CME Team
-Version: 0.0.1
+Title: Reusable Helper Functions for CME
+Version: 0.0.2
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Yang",
+           family = "Liu",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+           email = "yanliu@unicef.org",
+           comment = c(ORCID = "0000-0001-6557-6439"))
+Description: Provide reusable helper functions realted to CME.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
