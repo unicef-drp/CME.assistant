@@ -16,5 +16,5 @@ a wide-format data
 Get wide format for dataset
 }
 \examples{
-dt_cme_wide <- get.dt.wide(get.cme.long(c_name = "China", year_range = 2018))
+dt_cme_wide <- get.dt.wide(get.CME.estimates.long(c_name = "China", year_range = 2018))
 }

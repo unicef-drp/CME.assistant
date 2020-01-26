@@ -1593,7 +1593,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h2>Functions for data engineering</h2>
 <div id="data-input" class="section level3">
 <h3>Data input</h3>
-<p><strong><code>get.cme.long</code> and <code>get.cme.data</code></strong></p>
+<p><strong><code>get.CME.estimates.long</code> and <code>get.dt.wide</code></strong></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>dt_cme_long &lt;-<span class="st"> </span><span class="kw">get.CME.estimates.long</span>(<span class="dt">ind =</span> <span class="st">&quot;U5MR&quot;</span>, <span class="dt">c_name =</span> <span class="st">&quot;Mozambique&quot;</span>,</span>
 <span id="cb2-2"><a href="#cb2-2"></a>                                      <span class="dt">year_range =</span> <span class="dv">2000</span><span class="op">:</span><span class="dv">2018</span>)</span>
 <span id="cb2-3"><a href="#cb2-3"></a>dt_cme_wide &lt;-<span class="st"> </span><span class="kw">get.dt.wide</span>(dt_cme_long)</span>
@@ -1616,17 +1616,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p><strong><code>xlsx.writeMultipleData</code></strong></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Write several dataset into one xlsx file:</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="kw">save.xlsx.XLConnect</span>(<span class="dt">file_dir =</span> <span class="st">&quot;temp.xlsx&quot;</span>, <span class="dt">list_of_dt =</span> <span class="kw">list</span>(mtcars[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,]))</span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; Loading required package: XLConnect</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt; Warning: package &#39;XLConnect&#39; was built under R version 3.6.2</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; Loading required package: XLConnectJars</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt; XLConnect 0.2-15 by Mirai Solutions GmbH [aut],</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt;   Martin Studer [cre],</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt;   The Apache Software Foundation [ctb, cph] (Apache POI),</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt;   Graph Builder [ctb, cph] (Curvesapi Java library)</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt; http://www.mirai-solutions.com</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt; https://github.com/miraisolutions/xlconnect</span></span>
-<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt; dim dt is 511</span></span>
-<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt; Xlsx file saved as: temp.xlsx</span></span></code></pre></div>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; dim dt is 511</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt; Xlsx file saved as: temp.xlsx</span></span></code></pre></div>
 </div>
 </div>
 <div id="functions-for-making-plots" class="section level2">

@@ -20,7 +20,7 @@ Imports:
     here, 
     scales,
     readr, 
-    xlsx (>= 0.6)
+    XLConnect
 RoxygenNote: 6.1.1
 Suggests: 
     knitr,

@@ -25,5 +25,5 @@ Read in IGME 2019 estimates, using CME_2019_all_data
 01/24/2020
 }
 \examples{
-dt_cme_long <- get.cme.long(ind = "U5MR", c_name = "Mozambique", year_range = 2016:2018)
+dt_cme_long <- get.CME.estimates.long(ind = "U5MR", c_name = "Mozambique", year_range = 2016:2018)
 }

@@ -6,7 +6,7 @@
 # Extra -------------------------------------------------------------------
 
 #' check and install pkgs if missing
-#'
+#' @importFrom utils install.packages installed.packages
 #' @param pkgs vector of packages
 #' @return NULL
 #' @export check.and.install.pkgs
@@ -86,7 +86,7 @@ get.match <- function(x,
 #' @param year_range a vector, e.g. 1990:2018
 #' @return a data.table
 #' @export get.CME.estimates.long
-#' @examples dt_cme_long <- get.cme.long(ind = "U5MR", c_name = "Mozambique", year_range = 2016:2018)
+#' @examples dt_cme_long <- get.CME.estimates.long(ind = "U5MR", c_name = "Mozambique", year_range = 2016:2018)
 get.CME.estimates.long <- function(ind = c("U5MR", "NMR"),
                                    get = "both",
                                    c_name = "Mozambique",
@@ -131,7 +131,7 @@ get.CME.estimates.long <- function(ind = c("U5MR", "NMR"),
 #' @param dt_long a long-format data with "Country", "Year", "Indicator","Estimate", "Lower_Bound", "Upper_Bound"
 #' @return  a wide-format data
 #' @export get.dt.wide
-#' @examples dt_cme_wide <- get.dt.wide(get.cme.long(c_name = "China", year_range = 2018))
+#' @examples dt_cme_wide <- get.dt.wide(get.CME.estimates.long(c_name = "China", year_range = 2018))
 get.dt.wide <- function(dt_long){
   dt_wide <- dcast.data.table(dt_long, Country  + Year  ~ Indicator, value.var = c("Estimate", "Lower_Bound", "Upper_Bound"))
   # remove the "Estimate_" in variable names

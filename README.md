@@ -17,5 +17,9 @@ It is also a good idea to download, further revise and use 'Ctrl+Shift+B' to com
 ```{r}
 git clone https://github.com/unicef-drp/CME.assistant.git
 ```
-
+## To view vignette
+```{r}
+vignette(package = "CME.assistant")
+vignette("CMEvignette1")
+```
 

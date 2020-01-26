@@ -27,7 +27,7 @@ str(UNICEF_colors)
 
 ### Data input
 
-**`get.cme.long` and `get.cme.data`**
+**`get.CME.estimates.long` and `get.dt.wide`**
 ```{r}
 dt_cme_long <- get.CME.estimates.long(ind = "U5MR", c_name = "Mozambique",
                                       year_range = 2000:2018)

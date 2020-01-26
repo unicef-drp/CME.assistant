@@ -16,6 +16,8 @@ save.xlsx.XLConnect(file_dir = NULL, list_of_dt, sheet_names = NULL,
 
 \item{data_sources}{vector of sources}
 
+\item{title_style}{style for title row: bottom border (default) or grey infill}
+
 \item{ColumnWidth0}{default to 4000}
 }
 \description{

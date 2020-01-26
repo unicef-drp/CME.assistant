@@ -9,6 +9,7 @@
 #' @param file_dir if NULL, save as temp.xlsx
 #' @param data_sources  vector of sources
 #' @param ColumnWidth0  default to 4000
+#' @param title_style style for title row: bottom border (default) or grey infill
 #'
 #' @examples save.xlsx.XLConnect(file_dir = "temp.xlsx", list_of_dt = list(mtcars[1:5,]))
 save.xlsx.XLConnect <- function(file_dir = NULL,
@@ -17,7 +18,7 @@ save.xlsx.XLConnect <- function(file_dir = NULL,
                                 data_sources = NULL,
                                 title_style = "border",
                                 ColumnWidth0 = 4000){
-  require("XLConnect")
+  # require("XLConnect")
   options(java.parameters = "-Xmx1024m" )
   if(is.null(file_dir)) file_dir <- here::here("temp.xlsx")
   if(file.exists(file_dir))file.remove(file_dir)

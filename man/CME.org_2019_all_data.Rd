@@ -4,7 +4,7 @@
 \name{CME.org_2019_all_data}
 \alias{CME.org_2019_all_data}
 \title{CME.org_2019_all_data: The 2019 CME estimates with SE and all the survey data}
-\format{An object of class \code{data.table} (inherits from \code{data.frame}) with 332096 rows and 20 columns.}
+\format{An object of class \code{data.table} (inherits from \code{data.frame}) with 332096 rows and 22 columns.}
 \usage{
 CME.org_2019_all_data
 }
