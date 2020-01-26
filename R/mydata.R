@@ -28,12 +28,15 @@
 #'
 #' @docType data
 #' @keywords dataset
+#' @references \url{https://childmortality.org/}
 "Rates_Deaths_Country_Summary_2019"
 
-#' country_info: country.info.CME.csv
+#'CME.org_2019_all_data: The 2019 CME estimates with SE and all the survey data
+#'
 #' @docType data
 #' @keywords dataset
-"country_info"
+#' @references \url{https://childmortality.org/data}
+"CME.org_2019_all_data"
 
 
 #' some pre-stored labels, will update from time to time
