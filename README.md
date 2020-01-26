@@ -10,7 +10,7 @@ The goal of CME.assistant is to store some reusable helper functions
 
 To install from github: / not working if the repo is private. 
 ```{r}
-devtools::install_github("unicef-drp/CME.assistant")
+devtools::install_github("unicef-drp/CME.assistant", build_vignettes = TRUE)
 library(CME.assistant)
 ```
 It is also a good idea to download, further revise and use 'Ctrl+Shift+B' to compile locally.
