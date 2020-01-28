@@ -4,8 +4,14 @@
 \alias{save.xlsx.XLConnect}
 \title{save a list of dts as one xlsx}
 \usage{
-save.xlsx.XLConnect(file_dir = NULL, list_of_dt, sheet_names = NULL,
-  data_sources = NULL, title_style = "border", ColumnWidth0 = 4000)
+save.xlsx.XLConnect(
+  file_dir = NULL,
+  list_of_dt,
+  sheet_names = NULL,
+  data_sources = NULL,
+  title_style = "border",
+  ColumnWidth0 = 4000
+)
 }
 \arguments{
 \item{file_dir}{if NULL, save as temp.xlsx}

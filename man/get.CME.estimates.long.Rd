@@ -5,15 +5,22 @@
 \title{Read in IGME 2019 estimates, using CME_2019_all_data
 01/24/2020}
 \usage{
-get.CME.estimates.long(ind = c("U5MR", "NMR"), get = "both",
-  c_name = "Mozambique", year_range = 1990:2018)
+get.CME.estimates.long(
+  ind = c("U5MR", "NMR"),
+  get = "both",
+  c_iso = NULL,
+  c_name = "Mozambique",
+  year_range = 1990:2018
+)
 }
 \arguments{
 \item{ind}{choose indicators among U5MR, NMR, and IMR}
 
 \item{get}{both, rate, or death}
 
-\item{c_name}{country name}
+\item{c_iso}{get country by ISO, will overwrite c_name if provided}
+
+\item{c_name}{country by official name}
 
 \item{year_range}{a vector, e.g. 1990:2018}
 }

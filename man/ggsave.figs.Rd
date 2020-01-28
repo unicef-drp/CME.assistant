@@ -4,8 +4,13 @@
 \alias{ggsave.figs}
 \title{use ggsave to save figs in both png and pdf}
 \usage{
-ggsave.figs(myplot, file_name = "myplot", width = 8, height = 6,
-  folder_name = "")
+ggsave.figs(
+  myplot,
+  file_name = "myplot",
+  width = 8,
+  height = 6,
+  folder_name = ""
+)
 }
 \arguments{
 \item{myplot}{ggplot2 object}

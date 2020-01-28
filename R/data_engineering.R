@@ -80,15 +80,19 @@ get.match <- function(x,
 #' Read in IGME 2019 estimates, using CME_2019_all_data
 #' 01/24/2020
 #' @importFrom here here
+#'
 #' @param ind choose indicators among U5MR, NMR, and IMR
 #' @param get both, rate, or death
-#' @param c_name country name
+#' @param c_name country by official name
+#' @param c_iso get country by ISO, will overwrite c_name if provided
 #' @param year_range a vector, e.g. 1990:2018
+#'
 #' @return a data.table
 #' @export get.CME.estimates.long
 #' @examples dt_cme_long <- get.CME.estimates.long(ind = "U5MR", c_name = "Mozambique", year_range = 2016:2018)
 get.CME.estimates.long <- function(ind = c("U5MR", "NMR"),
                                    get = "both",
+                                   c_iso = NULL,
                                    c_name = "Mozambique",
                                    year_range = 1990:2018
 ){
@@ -115,6 +119,7 @@ get.CME.estimates.long <- function(ind = c("U5MR", "NMR"),
   }
   vars_wanted <- c("REF_AREA", "INDICATOR", "TIME_PERIOD", "UNIT_MEASURE",
                    "OBS_VALUE", "LOWER_BOUND", "UPPER_BOUND")
+  if(!is.null(c_iso)) c_name <- dt1[ISO3Code == c_iso, REF_AREA][1]
   dt2 <- dt1[INDICATOR%in%inds_wanted][REF_AREA == c_name][SEX=="Total"][SERIES_NAME=="UN IGME estimate 2019"][,..vars_wanted]
   dt2[, year:= as.numeric(substr(TIME_PERIOD, 1, 4))]
   dt2 <- dt2[year%in%year_range][, TIME_PERIOD:= NULL]
