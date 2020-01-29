@@ -155,40 +155,55 @@ get.dt.wide <- function(dt_long){
 #' Rates & Deaths summary using the wide format data source, without SE 2009/10
 #' @import data.table
 #' @importFrom readr parse_number
+#'
 #' @param year_range a vector of years we want, default to 2000:2018
+#' @param dir_file dir to the file to read
 #' @param get_what "Deaths" or "Rate", default to "Rate": get the three CME rate
+#'
 #' @examples
 #' get.CME.data(year_range = c(2016:2018))
 #' @export get.CME.data
 #' @return dt of ISO3, UNcode, year, Under-five, Infant, Neonatal, one row for
 #'   each country each year in year_range
 #'
-get.CME.data <- function(year_range = c(2000:2018), get_what = NULL){
-  dt <- Rates_Deaths_Country_Summary_2019
+get.CME.data <- function(year_range = c(2019:2030), get_what = "rate",
+                             dir_file = dir_summary_file){
+  dt <- fread(dir_file)
   available_years <- readr::parse_number(grep("IMR", names(dt), value = TRUE))
   if (!all(year_range%in%available_years)) {
-    warning("Available years are between: ", paste(range(available_years), collapse = " and "),
-            ". Set years to default range.")
-    year_range <- c(2000:2018) # set to default range
+    stop("Available years are between: ", paste(range(available_years), collapse = " and "),
+         ". Set years to default range.")
   }
 
-  if(is.null(get_what)) {
+  if(get_what == "rate") {
     CME_types_full <- c("U5MR", "IMR", "NMR")
     vars_wanted <- c("ISO3Code",	"UNCode", "OfficialName",
                      do.call(paste, expand.grid(CME_types_full, year_range)))
-  } else {
+  } else if (get_what == "death") {
     CME_types_full <- c("Under-five Deaths", "Infant Deaths", "Neonatal Deaths")
     # get all the combination for variable names: e.g. Under-five Deaths 2000, 19*3 = 57 variables
     vars_wanted <- c("ISO3Code",	"UNCode", "OfficialName",
                      do.call(paste, expand.grid(CME_types_full, year_range)))
+  } else (
+    stop("choose get_what between rate and death.")
+  )
+
+  if(nrow(dt) == dt[,uniqueN(ISO3Code)] * 3){
+    message("Extract Upper and Lower bound instead")
+    setnames(dt, "V77", "UI", skip_absent = TRUE)
+    vars_wanted <- c("ISO3Code",	"UNCode", "OfficialName", "UI",
+                     do.call(paste, expand.grid(CME_types_full, year_range)))
   }
+
   # melt by CME_types_full using `patterns`
-  dt_death_long <- data.table::melt(dt[,..vars_wanted],
-                                    measure = patterns(paste0("^", CME_types_full)),
-                                    value.name = CME_types_full, variable.name = "year")
-  levels(dt_death_long$year) <- year_range
-  dt_death_long[, year:=as.numeric(levels(year)[year])]
+  dt_death_long <- melt.data.table(dt[,..vars_wanted],
+                                   measure = patterns(paste0("^", CME_types_full)),
+                                   value.name = CME_types_full, variable.name = "Year")
+  levels(dt_death_long$Year) <- year_range
+  dt_death_long[, Year:=as.numeric(levels(Year)[Year])]
   dt_death_long[order(ISO3Code)]
+
+  if(nrow(dt) == dt[,uniqueN(ISO3Code)] * 3) dt_death_long <- dt_death_long[UI%in%c("Lower", "Upper"),]
   return(dt_death_long)
 }
 
