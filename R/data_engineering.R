@@ -167,8 +167,9 @@ get.dt.wide <- function(dt_long){
 #'   each country each year in year_range
 #'
 get.CME.data <- function(year_range = c(2019:2030), get_what = "rate",
-                             dir_file = dir_summary_file){
-  dt <- fread(dir_file)
+                             dir_file = NULL){
+  dt <- if(is.null(dir_file)) Rates_Deaths_Country_Summary_2019 else fread(dir_file)
+
   available_years <- readr::parse_number(grep("IMR", names(dt), value = TRUE))
   if (!all(year_range%in%available_years)) {
     stop("Available years are between: ", paste(range(available_years), collapse = " and "),

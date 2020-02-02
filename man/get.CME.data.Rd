@@ -5,12 +5,14 @@
 \title{old and simpler version: get three types (Under-five Infant Neonatal) from
 Rates & Deaths summary using the wide format data source, without SE 2009/10}
 \usage{
-get.CME.data(year_range = c(2000:2018), get_what = NULL)
+get.CME.data(year_range = c(2019:2030), get_what = "rate", dir_file = NULL)
 }
 \arguments{
 \item{year_range}{a vector of years we want, default to 2000:2018}
 
 \item{get_what}{"Deaths" or "Rate", default to "Rate": get the three CME rate}
+
+\item{dir_file}{dir to the file to read}
 }
 \value{
 dt of ISO3, UNcode, year, Under-five, Infant, Neonatal, one row for
