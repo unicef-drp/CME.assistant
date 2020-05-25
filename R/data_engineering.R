@@ -130,10 +130,10 @@ get.CME.UI.data <- function(
   use_sample_data = FALSE
 ){
   if(is.null(dir_file)) {
-    dt <- if(use_sample_data) {
-      dt_sample
+    if(use_sample_data) {
+      dt <- CME.assistant::dt_sample
     } else {
-      fread(dir_list$dir_total_2019)
+      dt <- fread(dir_list$dir_total_2019)
       message("Data loaded (by default), supply dir_file if needed: ",
               dir_list$dir_total_2019)
     }
