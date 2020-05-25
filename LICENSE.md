@@ -1,13 +1,13 @@
-# License
+# MIT License
 
-Copyright (c) 2019 UNICEF DAPM CME Group
+Copyright (c) 2019 Yang Liu, yanliu@unicef.org, lyhello@gmail.com
 
-Permission is granted to people authorized or within the United 
-Nations system to deal in the Software.
-
-Unauthorized person is not allowed 
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software.
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.

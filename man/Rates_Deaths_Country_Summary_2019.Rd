@@ -3,15 +3,15 @@
 \docType{data}
 \name{Rates_Deaths_Country_Summary_2019}
 \alias{Rates_Deaths_Country_Summary_2019}
-\title{Rates_Deaths_Country_Summary_2019: The 2019 CME estimates}
+\title{Rates_Deaths_Country_Summary_2019: The 2019 CME estimates with SE and all the survey data}
 \format{An object of class \code{data.table} (inherits from \code{data.frame}) with 196 rows and 491 columns.}
 \usage{
 Rates_Deaths_Country_Summary_2019
 }
 \description{
-Rates_Deaths_Country_Summary_2019: The 2019 CME estimates
+Rates_Deaths_Country_Summary_2019: The 2019 CME estimates with SE and all the survey data
 }
 \references{
-\url{https://childmortality.org/}
+\url{https://childmortality.org/data}
 }
 \keyword{dataset}

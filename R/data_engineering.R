@@ -5,6 +5,16 @@
 
 # Extra -------------------------------------------------------------------
 
+#' search all the folders in `target.dir`, and list files containing the `file_name_string`
+#'
+#' @param target.dir target directory
+#' @param file_name_string e.g. "data_U5MR"
+#' @param full_path full path or not
+search.for.file <- function(target.dir, file_name_string, full_path = FALSE){
+  n <- which(grepl(file_name_string, list.files(target.dir, recursive = TRUE)))
+  list.files(target.dir, recursive = TRUE, full.names = full_path)[n]
+}
+
 #' check and install pkgs if missing
 #' @importFrom utils install.packages installed.packages
 #' @param pkgs vector of packages
@@ -75,40 +85,86 @@ get.match <- function(x,
 }
 
 
-# Read data ---------------------------------------------------------------
+# Show data ---------------------------------------------------------------
 
-#' Read in IGME 2019 estimates, using CME_2019_all_data
-#' 01/24/2020
-#' @importFrom here here
+
+#' return different format of data using the final aggregate results country
+#' summary
 #'
-#' @param ind choose indicators among U5MR, NMR, and IMR
-#' @param get both, rate, or death
-#' @param c_name country by official name
-#' @param c_iso get country by ISO, will overwrite c_name if provided
-#' @param year_range a vector, e.g. 1990:2018
+#' @param c_iso country iso, if NULL, returns all isos, default to NULL
+#' @param year_range a vector of years, default to 1990: 2018
+#' @param ind be either "U5MR", "NMR", "IMR", "all", default to "all"
+#' @param idvars default to "OfficialName, ISO3Code", what id vars you want to
+#'   include
+#' @param dir_file allow a different dataset to be read
+#' @param match_ind a different rules to create variable to read using
+#'   `get.match`
+#' @param format Choose format among raw, long, wide_year, wide_ind, and
+#'   wide_get, default to "long". All the wide-format just decasts the
+#'   long-format data
+#' @param get  get either "rate", "death", or "both", default to "rate"
+#' @param round_digit round estimates, default to 1
+#' @param use_sample_data use a build-in sample data for fast evaluating the
+#'   function
 #'
 #' @return a data.table
-#' @export get.CME.estimates.long
-#' @examples dt_cme_long <- get.CME.estimates.long(ind = "U5MR", c_name = "Mozambique", year_range = 2016:2018)
-get.CME.estimates.long <- function(ind = c("U5MR", "NMR"),
-                                   get = "both",
-                                   c_iso = NULL,
-                                   c_name = "Mozambique",
-                                   year_range = 1990:2018
+#' @export get.CME.UI.data
+#'
+#' @examples
+#' dt_t <- get.CME.UI.data(c_iso = "AFG", year_range = 2000:2018,
+#' ind = "all", use_sample_data = TRUE)
+#' dt_f <- get.CME.UI.data(c_iso = "AFG", year_range = 1960:2018,
+#' ind = c("U5MR", "IMR"), format = "wide_year", use_sample_data = TRUE)
+#'
+#'
+get.CME.UI.data <- function(
+  c_iso = NULL,
+  year_range = c(1990:2018),
+  ind = "all",
+  get = "rate",
+  idvars = c("OfficialName", "ISO3Code"),
+  dir_file = NULL,
+  match_ind = NULL,
+  format = "long",
+  round_digit = 1L,
+  use_sample_data = FALSE
 ){
-  if(file.exists(here::here("data", "CME_2019_all_data.csv"))) {
-    dt1 <- fread(here::here("data", "CME_2019_all_data.csv"))
+  if(is.null(dir_file)) {
+    dt <- if(use_sample_data) {
+      dt_sample
+    } else {
+      fread(dir_list$dir_total_2019)
+      message("Data loaded (by default), supply dir_file if needed: ",
+              dir_list$dir_total_2019)
+    }
   } else {
-    dt1 <- CME.org_2019_all_data
+    if(file.exists(dir_file)){
+      dt <- fread(dir_file)
+      message("Data loaded: ", dir_file)
+    } else {
+      stop("Check: file doesn't exist: ", dir_file)
+    }
   }
-  if(!all(ind%in%c("U5MR", "NMR", "IMR"))) stop("choose indicators among U5MR, NMR, and IMR")
-  match_ind <- list("U5MR" = "Under-five mortality rate",
-                    "NMR"  = "Neonatal mortality rate",
-                    "IMR"  = "Infant mortality rate",
-                    "U5MR_death" = "Under-five deaths",
-                    "NMR_death"  = "Neonatal deaths",
-                    "IMR"  = "Infant deaths")
+  available_years <- as.numeric(sub("IMR.", "", (grep("IMR", names(dt), value = TRUE))))
+  if (!all(year_range%in%available_years)) {
+    stop("Available years are between: ", paste(range(available_years), collapse = " and "),
+         ". Set years to default range.")
+  }
+
+  if(!all(ind%in%c("U5MR", "NMR", "IMR", "all"))) stop("choose indicators among U5MR, NMR, and IMR")
+  if("all" %in% ind) ind <- c("U5MR", "NMR", "IMR")
+
+  match_ind_default <- list(
+    # "U5MR" = "Under-five mortality rate",
+    # "NMR"  = "Neonatal mortality rate",
+    # "IMR"  = "Infant mortality rate",
+    "U5MR_death" = "Under.five.Deaths",
+    "IMR_death"  = "Infant.Deaths",
+    "NMR_death"  = "Neonatal.Deaths"
+  )
+  if(is.null(match_ind)) match_ind <- match_ind_default
   if(get == "both"){
+    # the variables I want from the dataset:
     inds_wanted <- c(get.match(ind, new_list = match_ind), get.match(paste0(ind, "_death"), new_list = match_ind))
   } else if (get == "rate") {
     inds_wanted <- get.match(ind, new_list = match_ind)
@@ -117,41 +173,76 @@ get.CME.estimates.long <- function(ind = c("U5MR", "NMR"),
   } else {
     stop("get either rate, death, or both")
   }
-  vars_wanted <- c("REF_AREA", "INDICATOR", "TIME_PERIOD", "UNIT_MEASURE",
-                   "OBS_VALUE", "LOWER_BOUND", "UPPER_BOUND")
-  if(!is.null(c_iso)) c_name <- dt1[ISO3Code == c_iso, REF_AREA][1]
-  dt2 <- dt1[INDICATOR%in%inds_wanted][REF_AREA == c_name][SEX=="Total"][SERIES_NAME=="UN IGME estimate 2019"][,..vars_wanted]
-  dt2[, year:= as.numeric(substr(TIME_PERIOD, 1, 4))]
-  dt2 <- dt2[year%in%year_range][, TIME_PERIOD:= NULL]
-  setnames(dt2, c("Country", "Indicator", "Unit","Estimate", "Lower_Bound", "Upper_Bound", "Year"))
-  dt_cme_long <- dt2[,c("Country", "Year", "Indicator", "Unit", "Estimate", "Lower_Bound", "Upper_Bound"), with = FALSE]
-  cols <- c("Estimate", "Lower_Bound", "Upper_Bound")
-  dt_cme_long[, c(cols):=lapply(.SD, roundoff, digits = 2), .SDcols = cols]
-  setorder(dt_cme_long, -Indicator, -Year)
-  return(dt_cme_long)
+
+  isos <- dt[, unique(ISO3Code)]
+  isos <- isos[isos!=""]
+  if(!is.null(c_iso)) {
+    c_iso <- c_iso[c_iso%in%isos]
+  } else {
+    c_iso <- isos
+  }
+  inds_wanted_year <- sort(do.call(paste, c(expand.grid(inds_wanted, year_range), sep = ".")))
+  # "X" is the quantile column
+  vars_wanted <- c(idvars, "X", inds_wanted_year)
+  dt1 <- dt[ISO3Code %in% c_iso,..vars_wanted]
+  if(!format%in%c("raw", "long", "wide_year", "wide_ind", "wide_get")){
+    message("Choose format among raw, long, wide_get, wide_year and wide_ind, default to long")
+    format <-  "wide_ind"
+  }
+  if(format == "raw") {
+    return(dt1)
+  } else {
+    dt1[, (inds_wanted_year):= lapply(.SD, as.numeric), .SDcols = inds_wanted_year]
+    dt_long <- melt(dt1, measure.vars = inds_wanted_year, value.name = "Value", variable.factor = FALSE)
+    # dt_long[, Indicator:= gsub( "\\..*", "", variable )] # remove anything after .
+    dt_long[, Indicator:= substr(variable, 1, nchar(variable)-5)] # remove anything after .
+    dt_long[, Year:= gsub( ".*\\.", "", variable )] # remove anything after the last dot
+    setnames(dt_long, "X", "UI")
+    vars_kept <- c(idvars, "Indicator", "Year", "UI", "Value")
+    dt_long <- dt_long[, ..vars_kept]
+    setkey(dt_long, ISO3Code)
+    # round?
+    if(is.numeric(round_digit)) dt_long[, Value:= roundoff(Value, digits = round_digit)]
+
+    # pick output format here ----
+    # since everything is made from format long
+    if(format == "long"){
+      return(dt_long)
+      # wide all the indicators (incl. rates, deaths, if all selected)
+    } else if (format == "wide_ind") {
+      # e.g. OfficialName ISO3Code      X Year      U5MR      NMR       IMR
+      dt_wide_ind <- dcast(dt_long, ISO3Code + OfficialName  + Year + UI ~ Indicator, value.var = "Value")
+      return(dt_wide_ind)
+      # wide all the years, all the inds in one column
+    } else if (format == "wide_year") {
+      dt_wide_year <- dcast(dt_long, ISO3Code + OfficialName  +Indicator  + UI ~ Year, value.var = "Value")
+      return(dt_wide_year)
+    } else {
+      # Two value columns : one for rate, one for deaths
+      dt_long[, Get:="Rate"]
+      dt_long[grepl("Deaths", Indicator), Get:="Deaths"]
+      if(uniqueN(dt_long$Get)==1){
+        "You only selected Rate or Death, not both, long-format output is returned"
+        return(dt_long)
+      } else {
+        align_ind <- list(
+          "U5MR" = "Under.five",
+          "Under.five.Deaths"  = "Under.five",
+          "IMR"  = "Infant",
+          "Infant.Deaths" = "Infant",
+          "NMR"  = "Neonatal",
+          "Neonatal.Deaths"  = "Neonatal"
+        )
+        dt_long[, Indicator:= get.match(Indicator, new_list = align_ind)]
+        dt_wide_get <- dcast(dt_long, ISO3Code + OfficialName  + Indicator  + Year + UI~ Get, value.var = "Value")
+        return(dt_wide_get)
+      }
+    }
+  }
 }
 
-#' Get wide format for dataset
-#'
-#' @param dt_long a long-format data with "Country", "Year", "Indicator","Estimate", "Lower_Bound", "Upper_Bound"
-#' @return  a wide-format data
-#' @export get.dt.wide
-#' @examples dt_cme_wide <- get.dt.wide(get.CME.estimates.long(c_name = "China", year_range = 2018))
-get.dt.wide <- function(dt_long){
-  dt_wide <- dcast.data.table(dt_long, Country  + Year  ~ Indicator, value.var = c("Estimate", "Lower_Bound", "Upper_Bound"))
-  # remove the "Estimate_" in variable names
-  setnames(dt_wide, sub("Estimate_", "", colnames(dt_wide)))
-  # set new order, which put each indicator together
-  new_col_order <- c("Country", "Year",
-                     do.call(paste, c(expand.grid(c("", "_Lower_Bound", "_Upper_Bound"),
-                                                  unique(dt_long$Indicator)), sep = "_")))
-  # remove the "_" in front of string
-  dt_wide <- dt_wide[, sub(".*?_", "" ,new_col_order), with = FALSE]
-  setorder(dt_wide, -Year)
-  return(dt_wide)
-}
 
-#' old and simpler version: get three types (Under-five Infant Neonatal) from
+#' older and simpler version: get three types (Under-five Infant Neonatal) from
 #' Rates & Deaths summary using the wide format data source, without SE 2009/10
 #' @import data.table
 #' @importFrom readr parse_number
@@ -166,7 +257,7 @@ get.dt.wide <- function(dt_long){
 #' @return dt of ISO3, UNcode, year, Under-five, Infant, Neonatal, one row for
 #'   each country each year in year_range
 #'
-get.CME.data <- function(year_range = c(2019:2030), get_what = "rate",
+get.CME.data <- function(year_range = c(1990:2018), get_what = "rate",
                              dir_file = NULL){
   dt <- if(is.null(dir_file)) Rates_Deaths_Country_Summary_2019 else fread(dir_file)
 
@@ -198,7 +289,7 @@ get.CME.data <- function(year_range = c(2019:2030), get_what = "rate",
 
   # melt by CME_types_full using `patterns`
   dt_death_long <- melt.data.table(dt[,..vars_wanted],
-                                   measure = patterns(paste0("^", CME_types_full)),
+                                   measure.vars = patterns(paste0("^", CME_types_full)),
                                    value.name = CME_types_full, variable.name = "Year")
   levels(dt_death_long$Year) <- year_range
   dt_death_long[, Year:=as.numeric(levels(Year)[Year])]

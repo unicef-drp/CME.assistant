@@ -9,5 +9,7 @@ if(getRversion() >= "2.15.1")  {
                            "..vars_wanted", "patterns", "ISO3Code", "country_info",
                            "UNICEFReportRegion", "UNICEFReportRegion1", "UNICEFReportRegion2",
                            "INDICATOR", "REF_AREA", "SERIES_NAME", "SEX",
-                           "TIME_PERIOD", "Indicator", "Year"))
+                           "TIME_PERIOD", "Indicator", "Year",
+                           "dt_sample", "dir_list", "..vars_kept", "Get", "UI", "Value",
+                           "dir_list", "dt_sample", "variable"))
 }

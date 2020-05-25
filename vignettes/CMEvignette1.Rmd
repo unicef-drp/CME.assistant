@@ -25,26 +25,31 @@ str(UNICEF_colors)
 
 ## Functions for data engineering
 
-### Data input
+### Get data in various form
 
-**`get.CME.estimates.long` and `get.dt.wide`**
+Choose out format among raw, long, wide_year and wide_ind, default to "long"
+
+**`get.CME.UI.data`**
 ```{r}
-dt_cme_long <- get.CME.estimates.long(ind = "U5MR", c_name = "Mozambique",
-                                      year_range = 2000:2018)
-dt_cme_wide <- get.dt.wide(dt_cme_long)
-
-rmarkdown::paged_table(dt_cme_long[1:5])
-rmarkdown::paged_table(dt_cme_wide[1:5])
+dt_1 <- get.CME.UI.data(c_iso = "AFG", year_range = 2015:2018, ind = "all", 
+                        format = "wide_year", use_sample_data = TRUE)
+dt_2 <- get.CME.UI.data(c_iso = c("AFG", "ZWE"), 
+                        year_range = 2000:2018, 
+                        ind = c("U5MR", "IMR"), 
+                        format = "wide_ind", 
+                        get = "both", 
+                        use_sample_data = TRUE)
+dt_3 <- get.CME.UI.data(c_iso = c("AFG", "ZWE"), 
+                        year_range = 2000:2018, 
+                        ind = "all", 
+                        format = "wide_get", 
+                        get = "both", 
+                        use_sample_data = TRUE)
+rmarkdown::paged_table(dt_1)
+rmarkdown::paged_table(dt_2)
+rmarkdown::paged_table(dt_3)
 ```
 
-
-### Data output
-
-**`xlsx.writeMultipleData`**
-```{r}
-# Write several dataset into one xlsx file:
-save.xlsx.XLConnect(file_dir = "temp.xlsx", list_of_dt = list(mtcars[1:5,]))
-```
 
 ## Functions for making plots
 
@@ -67,9 +72,19 @@ SHAPforxgboost::scatter.plot.diagonal(data = iris, x = "Sepal.Length", y = "Peta
 **`get.match`**
 ```{r}
 # a helpful function to revise labels, you can provide a __new_list__ to define the labels
-get.match(c("2", "3"))
 get.match(c("a","b", "c"), new_list = list("a" = "new label 1",
                                            "b" = "new label 2"))
 
 ```
 
+
+### Data output
+
+Maybe not that useful... put in the end. 
+
+**`xlsx.writeMultipleData`**
+```{r}
+# Write several dataset into one xlsx file:
+save.xlsx.XLConnect(file_dir = "temp.xlsx", list_of_dt = list(mtcars[1:5,]))
+unlink("temp.xlsx")
+```

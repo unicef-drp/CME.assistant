@@ -24,19 +24,40 @@
 "UNICEF_colors"
 
 
-#'Rates_Deaths_Country_Summary_2019: The 2019 CME estimates
+#'new_cnames: the official country names: ISO3Code UNCode OfficialName
 #'
 #' @docType data
-#' @keywords dataset
-#' @references \url{https://childmortality.org/}
-"Rates_Deaths_Country_Summary_2019"
+#' @keywords OfficialName
+#'
+"new_cnames"
 
-#'CME.org_2019_all_data: The 2019 CME estimates with SE and all the survey data
+#'hiv.iso: the 17 hiv isos
+#'
+#' @docType data
+#' @keywords iso
+#'
+"hiv.iso"
+
+#'dir_list: useful dropbox dir list
+#'
+#' @docType data
+#' @keywords iso
+#'
+"dir_list"
+
+#'dt_sample: a 5-row sample data
+#'
+#' @docType data
+#' @keywords iso
+#'
+"dt_sample"
+
+#'Rates_Deaths_Country_Summary_2019: The 2019 CME estimates with SE and all the survey data
 #'
 #' @docType data
 #' @keywords dataset
 #' @references \url{https://childmortality.org/data}
-"CME.org_2019_all_data"
+"Rates_Deaths_Country_Summary_2019"
 
 
 #' some pre-stored labels, will update from time to time

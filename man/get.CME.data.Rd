@@ -2,10 +2,10 @@
 % Please edit documentation in R/data_engineering.R
 \name{get.CME.data}
 \alias{get.CME.data}
-\title{old and simpler version: get three types (Under-five Infant Neonatal) from
+\title{older and simpler version: get three types (Under-five Infant Neonatal) from
 Rates & Deaths summary using the wide format data source, without SE 2009/10}
 \usage{
-get.CME.data(year_range = c(2019:2030), get_what = "rate", dir_file = NULL)
+get.CME.data(year_range = c(1990:2018), get_what = "rate", dir_file = NULL)
 }
 \arguments{
 \item{year_range}{a vector of years we want, default to 2000:2018}
@@ -19,7 +19,7 @@ dt of ISO3, UNcode, year, Under-five, Infant, Neonatal, one row for
   each country each year in year_range
 }
 \description{
-old and simpler version: get three types (Under-five Infant Neonatal) from
+older and simpler version: get three types (Under-five Infant Neonatal) from
 Rates & Deaths summary using the wide format data source, without SE 2009/10
 }
 \examples{
