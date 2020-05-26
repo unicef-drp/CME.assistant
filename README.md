@@ -14,7 +14,7 @@ To install from github:
 * need to add INSTALL_opts to avoid Java problem according to [this post](https://github.com/salimk/Rcrawler/issues/1)
 
 ```{r}
-devtools::install_github("unicef-drp/CME.assistant", build_vignettes = TRUE, INSTALL_opts = "--no-multiarch")
+devtools::install_github("unicef-drp/CME.assistant", build_vignettes = TRUE, build_opts = "--no-multiarch")
 library(CME.assistant)
 ```
 It is also a good idea to download the repo, further revise and use 'Ctrl+Shift+B' to compile locally.

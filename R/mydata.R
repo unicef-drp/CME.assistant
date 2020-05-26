@@ -48,7 +48,7 @@
 #'dt_sample: a sample published dataset
 #'
 #' @docType data
-#' @keywords data
+#' @keywords dataset
 #'
 "dt_sample"
 
