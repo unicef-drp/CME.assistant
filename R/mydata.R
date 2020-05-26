@@ -41,14 +41,14 @@
 #'dir_list: useful dropbox dir list
 #'
 #' @docType data
-#' @keywords iso
+#' @keywords directory
 #'
 "dir_list"
 
-#'dt_sample: a 5-row sample data
+#'dt_sample: a sample published dataset
 #'
 #' @docType data
-#' @keywords iso
+#' @keywords data
 #'
 "dt_sample"
 
