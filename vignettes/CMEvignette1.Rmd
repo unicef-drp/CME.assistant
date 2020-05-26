@@ -30,7 +30,7 @@ str(UNICEF_colors)
 Choose out format among raw, long, wide_year and wide_ind, default to "long"
 
 **`get.CME.UI.data`**
-```{r}
+```{r, eval = FALSE}
 dt_1 <- get.CME.UI.data(c_iso = "AFG", year_range = 2015:2018, ind = "all", 
                         format = "wide_year", use_sample_data = TRUE)
 dt_2 <- get.CME.UI.data(c_iso = c("AFG", "ZWE"), 
@@ -48,6 +48,11 @@ dt_3 <- get.CME.UI.data(c_iso = c("AFG", "ZWE"),
 rmarkdown::paged_table(dt_1)
 rmarkdown::paged_table(dt_2)
 rmarkdown::paged_table(dt_3)
+```
+
+```{r}
+dt_4 <- get.CME.data(year_range = c(2016:2018))
+rmarkdown::paged_table(dt_4)
 ```
 
 
