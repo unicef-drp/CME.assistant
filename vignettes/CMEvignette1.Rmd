@@ -59,6 +59,7 @@ rmarkdown::paged_table(dt_3)
 # P.S. __SHAPforxgboost__ was my last package offering some simple ggplot visualization functions
 ggplot_sample <- ggplot2::qplot(data = iris, x = Sepal.Length, y = Petal.Length)
 ggsave.figs(ggplot_sample, file_name = "Iris_sample", folder_name = "figures")
+# to remove the file just saved
 unlink(here::here("figures"), recursive = TRUE)
 
 # Ads: if you wish to give a try, __SHAPforxgboost__ was my last package offering some ggplot visualization functions

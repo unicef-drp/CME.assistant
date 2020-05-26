@@ -131,7 +131,7 @@ get.CME.UI.data <- function(
 ){
   if(is.null(dir_file)) {
     if(use_sample_data) {
-      dt <- dt_sample
+      dt <- Rates_Deaths_Country_Summary_2019_UI
     } else {
       dt <- fread(dir_list$dir_total_2019)
       message("Data loaded (by default), supply dir_file if needed: ",

@@ -45,14 +45,15 @@
 #'
 "dir_list"
 
-#'dt_sample: a sample published dataset
+#'Rates_Deaths_Country_Summary_2019_UI: The 2019 CME estimates with UI
 #'
 #' @docType data
 #' @keywords dataset
-#'
-"dt_sample"
+#' @references \url{https://childmortality.org/data}
+"Rates_Deaths_Country_Summary_2019_UI"
 
-#'Rates_Deaths_Country_Summary_2019: The 2019 CME estimates with SE and all the survey data
+
+#'Rates_Deaths_Country_Summary_2019: The 2019 CME estimates alone
 #'
 #' @docType data
 #' @keywords dataset
