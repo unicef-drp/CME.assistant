@@ -10,13 +10,13 @@ All the information included were published thus this package wss made public
 
 ## Installation
 To install from github: 
-* All the examples are in the vignettes, set `build_vignettes = TRUE`
+* Examples in the vignettes, set `build_vignettes = TRUE`
 * May need to add `build_opts` to avoid potential Java problem according to [this post](https://github.com/salimk/Rcrawler/issues/1)
 
 ```{r}
 devtools::install_github("unicef-drp/CME.assistant")
 # or if needed,
-# devtools::install_github("unicef-drp/CME.assistant", build_vignettes = TRUE, build_opts = "--no-multiarch")
+devtools::install_github("unicef-drp/CME.assistant", build_vignettes = TRUE, build_opts = "--no-multiarch")
 library(CME.assistant)
 ```
 It is also a good idea to download the repo, further revise and use 'Ctrl+Shift+B' to compile locally.

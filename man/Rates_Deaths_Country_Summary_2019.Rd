@@ -4,7 +4,9 @@
 \name{Rates_Deaths_Country_Summary_2019}
 \alias{Rates_Deaths_Country_Summary_2019}
 \title{Rates_Deaths_Country_Summary_2019: The 2019 CME estimates alone}
-\format{An object of class \code{data.table} (inherits from \code{data.frame}) with 196 rows and 421 columns.}
+\format{
+An object of class \code{data.table} (inherits from \code{data.frame}) with 196 rows and 421 columns.
+}
 \usage{
 Rates_Deaths_Country_Summary_2019
 }

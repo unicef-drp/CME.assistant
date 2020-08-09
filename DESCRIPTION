@@ -20,8 +20,9 @@ Imports:
     here,
     scales,
     readr, 
-    XLConnect
-RoxygenNote: 7.0.2
+    XLConnect,
+    usethis
+RoxygenNote: 7.1.0
 Suggests: 
     knitr,
     rmarkdown,

@@ -90,6 +90,6 @@ Maybe not that useful... put in the end.
 **`xlsx.writeMultipleData`**
 ```{r}
 # Write several dataset into one xlsx file:
-save.xlsx.XLConnect(file_dir = "temp.xlsx", list_of_dt = list(mtcars[1:5,]))
-unlink("temp.xlsx")
+# save.xlsx.XLConnect(file_dir = "temp.xlsx", list_of_dt = list(mtcars[1:5,]))
+# unlink("temp.xlsx")
 ```

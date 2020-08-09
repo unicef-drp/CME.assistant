@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_save.R
 \name{save.xlsx.XLConnect}
 \alias{save.xlsx.XLConnect}
-\title{save a list of dts as one xlsx}
+\title{save a list of dts as one xlsx, filter at the top}
 \usage{
 save.xlsx.XLConnect(
   file_dir = NULL,
@@ -27,7 +27,7 @@ save.xlsx.XLConnect(
 \item{ColumnWidth0}{default to 4000}
 }
 \description{
-save a list of dts as one xlsx
+save a list of dts as one xlsx, filter at the top
 }
 \examples{
 save.xlsx.XLConnect(file_dir = "temp.xlsx", list_of_dt = list(mtcars[1:5,]))

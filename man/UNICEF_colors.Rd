@@ -5,7 +5,9 @@
 \alias{UNICEF_colors}
 \title{UNICEF_colors load UNICEF color palette Load UNICEF blue, Sequential, Diverging,
 Qualitative, and grays scheme into the global environment}
-\format{An object of class \code{list} of length 5.}
+\format{
+An object of class \code{list} of length 5.
+}
 \usage{
 UNICEF_colors
 }

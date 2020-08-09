@@ -45,6 +45,15 @@ roundoff <- function(#
 }
 
 
+#' captalize first letter of each word
+#' @param y str
+#' @export capstr
+capstr <- function(y) {
+  c <- strsplit(y, " ")[[1]]
+  paste(toupper(substring(c, 1, 1)), substring(c, 2),
+        sep="", collapse=" ")
+}
+
 #' a label function to relabel certain variable names
 #'
 #' You can provide a __new_list__ to define the labels. If any label is not
@@ -89,7 +98,7 @@ get.match <- function(x,
 
 
 #' return different format of data using the final aggregate results country
-#' summary
+#' summary. This is a simpler early version I wrote
 #'
 #' @param c_iso country iso, if NULL, returns all isos, default to NULL
 #' @param year_range a vector of years, default to 1990: 2018

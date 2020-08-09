@@ -1,6 +1,6 @@
 # Output data -------------------------------------------------------------
 
-#' save a list of dts as one xlsx
+#' save a list of dts as one xlsx, filter at the top
 #' @import XLConnect
 #' @export save.xlsx.XLConnect
 #'

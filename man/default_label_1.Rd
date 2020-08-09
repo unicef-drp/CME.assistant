@@ -4,7 +4,9 @@
 \name{default_label_1}
 \alias{default_label_1}
 \title{some pre-stored labels, will update from time to time}
-\format{An object of class \code{list} of length 21.}
+\format{
+An object of class \code{list} of length 21.
+}
 \usage{
 default_label_1
 }
