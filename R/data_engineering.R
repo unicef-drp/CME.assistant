@@ -106,8 +106,7 @@ get.match <- function(x,
 #' @param idvars default to "OfficialName, ISO3Code", what id vars you want to
 #'   include
 #' @param dir_file allow a different dataset to be read
-#' @param match_ind a different rules to create variable to read using
-#'   `get.match`
+#' @param match_ind a different rules to recode variable. by default it is "Under.five.Deaths", "Infant.Deaths" and "Neonatal.Deaths"
 #' @param format Choose format among raw, long, wide_year, wide_ind, and
 #'   wide_get, default to "long". All the wide-format just decasts the
 #'   long-format data
@@ -206,6 +205,7 @@ get.CME.UI.data <- function(
     # dt_long[, Indicator:= gsub( "\\..*", "", variable )] # remove anything after .
     dt_long[, Indicator:= substr(variable, 1, nchar(variable)-5)] # remove anything after .
     dt_long[, Year:= gsub( ".*\\.", "", variable )] # remove anything after the last dot
+    dt_long[, Year:= as.numeric(Year)]
     setnames(dt_long, "X", "UI")
     vars_kept <- c(idvars, "Indicator", "Year", "UI", "Value")
     dt_long <- dt_long[, ..vars_kept]
@@ -220,7 +220,7 @@ get.CME.UI.data <- function(
       # wide all the indicators (incl. rates, deaths, if all selected)
     } else if (format == "wide_ind") {
       # e.g. OfficialName ISO3Code      X Year      U5MR      NMR       IMR
-      dt_wide_ind <- dcast(dt_long, ISO3Code + OfficialName  + Year + UI ~ Indicator, value.var = "Value")
+      dt_wide_ind <- data.table::dcast(dt_long, ISO3Code + OfficialName  + Year + UI ~ Indicator, value.var = "Value")
       return(dt_wide_ind)
       # wide all the years, all the inds in one column
     } else if (format == "wide_year") {

@@ -32,8 +32,7 @@ include}
 
 \item{dir_file}{allow a different dataset to be read}
 
-\item{match_ind}{a different rules to create variable to read using
-`get.match`}
+\item{match_ind}{a different rules to recode variable. by default it is}
 
 \item{format}{Choose format among raw, long, wide_year, wide_ind, and
 wide_get, default to "long". All the wide-format just decasts the
