@@ -25,69 +25,37 @@ str(UNICEF_colors)
 
 ## Functions for data engineering
 
-### Get data in various form
-
-Choose out format among raw, long, wide_year and wide_ind, default to "long"
+### Read the final  aggregated file and output final IGME estimates in various forms
+Choose output format among raw, long, wide_year and wide_ind, default to "long"  
+* The long-format dataset contains __Official Name, ISO3Code, Indicator, Year, Quantile, Sex__
+* The function will output all available indicators in the dataset
+* Optional: subset by country ISO (`c_iso`) or year (`year_range`) 
 
 **`get.CME.UI.data`**
 ```{r, eval = FALSE}
-dt_1 <- get.CME.UI.data(c_iso = "AFG", year_range = 2015:2018, ind = "all", 
-                        format = "wide_year", use_sample_data = TRUE)
-dt_2 <- get.CME.UI.data(c_iso = c("AFG", "ZWE"), 
-                        year_range = 2000:2018, 
-                        ind = c("U5MR", "IMR"), 
-                        format = "wide_ind", 
-                        get = "both", 
-                        use_sample_data = TRUE)
-dt_3 <- get.CME.UI.data(c_iso = c("AFG", "ZWE"), 
-                        year_range = 2000:2018, 
-                        ind = "all", 
-                        format = "wide_get", 
-                        get = "both", 
-                        use_sample_data = TRUE)
+# without supplying dir_file, by default returns the published IGME 2020 final
+# results
+dt_1 <- get.CME.UI.data(use_IGME_year = 2020)
 rmarkdown::paged_table(dt_1)
+
+# can read final output file from Dropbox for any indicator
+dir_list <- load.dir_list()
+dt_2 <- get.CME.UI.data(dir_file = dir_list$dir_female_2020)
 rmarkdown::paged_table(dt_2)
-rmarkdown::paged_table(dt_3)
-```
-
-```{r}
-dt_4 <- get.CME.data(year_range = c(2016:2018))
-rmarkdown::paged_table(dt_4)
-```
-
-
-## Functions for making plots
-
-**`ggsave.figs`**
-```{r, fig.width = 8, fig.height = 6}
-# use `ggsave.figs` to save ggplot into both pdf and png
-# P.S. __SHAPforxgboost__ was my last package offering some simple ggplot visualization functions
-ggplot_sample <- ggplot2::qplot(data = iris, x = Sepal.Length, y = Petal.Length)
-ggsave.figs(ggplot_sample, file_name = "Iris_sample", folder_name = "figures")
-# to remove the file just saved
-unlink(here::here("figures"), recursive = TRUE)
-
-# Ads: if you wish to give a try, __SHAPforxgboost__ was my last package offering some ggplot visualization functions
-# install.packages("SHAPforxgboost")
-SHAPforxgboost::scatter.plot.diagonal(data = iris, x = "Sepal.Length", y = "Petal.Length")
 ```
 
 
 ## Extra  
 **`get.match`**
 ```{r}
-# a helpful function to revise labels, you can provide a __new_list__ to define the labels
+# a helpful function to revise variable, you can provide a __new_list__ to define the labels
 get.match(c("a","b", "c"), new_list = list("a" = "new label 1",
                                            "b" = "new label 2"))
-
 ```
 
 
-### Data output
-
-Maybe not that useful... put in the end. 
-
-**`xlsx.writeMultipleData`**
+### Save output
+**`save.xlsx.XLConnect`**
 ```{r}
 # Write several dataset into one xlsx file:
 # save.xlsx.XLConnect(file_dir = "temp.xlsx", list_of_dt = list(mtcars[1:5,]))

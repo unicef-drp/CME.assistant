@@ -45,7 +45,7 @@
 #'
 "dir_list"
 
-#'Rates_Deaths_Country_Summary_2019_UI: The 2019 CME estimates with UI
+#'Rates_Deaths_Country_Summary_2019_UI: The 2019 final estimates with UI
 #'
 #' @docType data
 #' @keywords dataset
@@ -53,12 +53,12 @@
 "Rates_Deaths_Country_Summary_2019_UI"
 
 
-#'Rates_Deaths_Country_Summary_2019: The 2019 CME estimates alone
+#'Rates_Deaths_Country_Summary_2020_UI: The 2020 final estimates with UI
 #'
 #' @docType data
 #' @keywords dataset
 #' @references \url{https://childmortality.org/data}
-"Rates_Deaths_Country_Summary_2019"
+"Rates_Deaths_Country_Summary_2020_UI"
 
 
 #' some pre-stored labels, will update from time to time

@@ -3,15 +3,15 @@
 \docType{data}
 \name{Rates_Deaths_Country_Summary_2019_UI}
 \alias{Rates_Deaths_Country_Summary_2019_UI}
-\title{Rates_Deaths_Country_Summary_2019_UI: The 2019 CME estimates with UI}
+\title{Rates_Deaths_Country_Summary_2019_UI: The 2019 final estimates with UI}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 588 rows and 421 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 588 rows and 491 columns.
 }
 \usage{
 Rates_Deaths_Country_Summary_2019_UI
 }
 \description{
-Rates_Deaths_Country_Summary_2019_UI: The 2019 CME estimates with UI
+Rates_Deaths_Country_Summary_2019_UI: The 2019 final estimates with UI
 }
 \references{
 \url{https://childmortality.org/data}

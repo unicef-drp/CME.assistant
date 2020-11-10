@@ -1,1291 +1,83 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
 
 <title>Example of Functions Part I</title>
 
-<style type="text/css">.pagedtable {
-overflow: auto;
-padding-left: 8px;
-padding-right: 8px;
-}
-.pagedtable-wrapper {
-border: 1px solid #ccc;
-border-radius: 4px;
-margin-bottom: 10px;
-}
-.pagedtable table {
-width: 100%;
-max-width: 100%;
-margin: 0;
-}
-.pagedtable th {
-padding: 0 5px 0 5px;
-border: none;
-border-bottom: 2px solid #dddddd;
-min-width: 45px;
-}
-.pagedtable-empty th {
-display: none;
-}
-.pagedtable td {
-padding: 0 4px 0 4px;
-}
-.pagedtable .even {
-background-color: rgba(140, 140, 140, 0.1);
-}
-.pagedtable-padding-col {
-display: none;
-}
-.pagedtable a {
--webkit-touch-callout: none;
--webkit-user-select: none;
--khtml-user-select: none;
--moz-user-select: none;
--ms-user-select: none;
-user-select: none;
-}
-.pagedtable-index-nav {
-cursor: pointer;
-padding: 0 5px 0 5px;
-float: right;
-border: 0;
-}
-.pagedtable-index-nav-disabled {
-cursor: default;
-text-decoration: none;
-color: #999;
-}
-a.pagedtable-index-nav-disabled:hover {
-text-decoration: none;
-color: #999;
-}
-.pagedtable-indexes {
-cursor: pointer;
-float: right;
-border: 0;
-}
-.pagedtable-index-current {
-cursor: default;
-text-decoration: none;
-font-weight: bold;
-color: #333;
-border: 0;
-}
-a.pagedtable-index-current:hover {
-text-decoration: none;
-font-weight: bold;
-color: #333;
-}
-.pagedtable-index {
-width: 30px;
-display: inline-block;
-text-align: center;
-border: 0;
-}
-.pagedtable-index-separator-left {
-display: inline-block;
-color: #333;
-font-size: 9px;
-padding: 0 0 0 0;
-cursor: default;
-}
-.pagedtable-index-separator-right {
-display: inline-block;
-color: #333;
-font-size: 9px;
-padding: 0 4px 0 0;
-cursor: default;
-}
-.pagedtable-footer {
-padding-top: 4px;
-padding-bottom: 5px;
-}
-.pagedtable-not-empty .pagedtable-footer {
-border-top: 2px solid #dddddd;
-}
-.pagedtable-info {
-overflow: hidden;
-color: #999;
-white-space: nowrap;
-text-overflow: ellipsis;
-}
-.pagedtable-header-name {
-overflow: hidden;
-text-overflow: ellipsis;
-}
-.pagedtable-header-type {
-color: #999;
-font-weight: 400;
-}
-.pagedtable-na-cell {
-font-style: italic;
-opacity: 0.3;
-}
-</style>
-<script>// Production steps of ECMA-262, Edition 5, 15.4.4.18
-// Reference: http://es5.github.io/#x15.4.4.18
-if (!Array.prototype.forEach) {
-
-  Array.prototype.forEach = function(callback, thisArg) {
-
-    var T, k;
-
-    if (this === null) {
-      throw new TypeError(' this is null or not defined');
-    }
-
-    // 1. Let O be the result of calling toObject() passing the
-    // |this| value as the argument.
-    var O = Object(this);
-
-    // 2. Let lenValue be the result of calling the Get() internal
-    // method of O with the argument "length".
-    // 3. Let len be toUint32(lenValue).
-    var len = O.length >>> 0;
-
-    // 4. If isCallable(callback) is false, throw a TypeError exception.
-    // See: http://es5.github.com/#x9.11
-    if (typeof callback !== "function") {
-      throw new TypeError(callback + ' is not a function');
-    }
-
-    // 5. If thisArg was supplied, let T be thisArg; else let
-    // T be undefined.
-    if (arguments.length > 1) {
-      T = thisArg;
-    }
-
-    // 6. Let k be 0
-    k = 0;
-
-    // 7. Repeat, while k < len
-    while (k < len) {
-
-      var kValue;
-
-      // a. Let Pk be ToString(k).
-      //    This is implicit for LHS operands of the in operator
-      // b. Let kPresent be the result of calling the HasProperty
-      //    internal method of O with argument Pk.
-      //    This step can be combined with c
-      // c. If kPresent is true, then
-      if (k in O) {
-
-        // i. Let kValue be the result of calling the Get internal
-        // method of O with argument Pk.
-        kValue = O[k];
-
-        // ii. Call the Call internal method of callback with T as
-        // the this value and argument list containing kValue, k, and O.
-        callback.call(T, kValue, k, O);
-      }
-      // d. Increase k by 1.
-      k++;
-    }
-    // 8. return undefined
-  };
-}
-
-// Production steps of ECMA-262, Edition 5, 15.4.4.19
-// Reference: http://es5.github.io/#x15.4.4.19
-if (!Array.prototype.map) {
-
-  Array.prototype.map = function(callback, thisArg) {
-
-    var T, A, k;
-
-    if (this == null) {
-      throw new TypeError(' this is null or not defined');
-    }
-
-    // 1. Let O be the result of calling ToObject passing the |this|
-    //    value as the argument.
-    var O = Object(this);
-
-    // 2. Let lenValue be the result of calling the Get internal
-    //    method of O with the argument "length".
-    // 3. Let len be ToUint32(lenValue).
-    var len = O.length >>> 0;
-
-    // 4. If IsCallable(callback) is false, throw a TypeError exception.
-    // See: http://es5.github.com/#x9.11
-    if (typeof callback !== 'function') {
-      throw new TypeError(callback + ' is not a function');
-    }
-
-    // 5. If thisArg was supplied, let T be thisArg; else let T be undefined.
-    if (arguments.length > 1) {
-      T = thisArg;
-    }
-
-    // 6. Let A be a new array created as if by the expression new Array(len)
-    //    where Array is the standard built-in constructor with that name and
-    //    len is the value of len.
-    A = new Array(len);
-
-    // 7. Let k be 0
-    k = 0;
-
-    // 8. Repeat, while k < len
-    while (k < len) {
-
-      var kValue, mappedValue;
-
-      // a. Let Pk be ToString(k).
-      //   This is implicit for LHS operands of the in operator
-      // b. Let kPresent be the result of calling the HasProperty internal
-      //    method of O with argument Pk.
-      //   This step can be combined with c
-      // c. If kPresent is true, then
-      if (k in O) {
-
-        // i. Let kValue be the result of calling the Get internal
-        //    method of O with argument Pk.
-        kValue = O[k];
-
-        // ii. Let mappedValue be the result of calling the Call internal
-        //     method of callback with T as the this value and argument
-        //     list containing kValue, k, and O.
-        mappedValue = callback.call(T, kValue, k, O);
-
-        // iii. Call the DefineOwnProperty internal method of A with arguments
-        // Pk, Property Descriptor
-        // { Value: mappedValue,
-        //   Writable: true,
-        //   Enumerable: true,
-        //   Configurable: true },
-        // and false.
-
-        // In browsers that support Object.defineProperty, use the following:
-        // Object.defineProperty(A, k, {
-        //   value: mappedValue,
-        //   writable: true,
-        //   enumerable: true,
-        //   configurable: true
-        // });
-
-        // For best browser support, use the following:
-        A[k] = mappedValue;
-      }
-      // d. Increase k by 1.
-      k++;
-    }
-
-    // 9. return A
-    return A;
-  };
-}
-
-var PagedTable = function (pagedTable) {
-  var me = this;
-
-  var source = function(pagedTable) {
-    var sourceElems = [].slice.call(pagedTable.children).filter(function(e) {
-      return e.hasAttribute("data-pagedtable-source");
-    });
-
-    if (sourceElems === null || sourceElems.length !== 1) {
-      throw("A single data-pagedtable-source was not found");
-    }
-
-    return JSON.parse(sourceElems[0].innerHTML);
-  }(pagedTable);
-
-  var options = function(source) {
-    var options = typeof(source.options) !== "undefined" &&
-      source.options !== null ? source.options : {};
-
-    var columns = typeof(options.columns) !== "undefined" ? options.columns : {};
-    var rows = typeof(options.rows) !== "undefined" ? options.rows : {};
-
-    var positiveIntOrNull = function(value) {
-      return parseInt(value) >= 0 ? parseInt(value) : null;
-    };
-
-    return {
-      pages: positiveIntOrNull(options.pages),
-      rows: {
-        min: positiveIntOrNull(rows.min),
-        max: positiveIntOrNull(rows.max),
-        total: positiveIntOrNull(rows.total)
-      },
-      columns: {
-        min: positiveIntOrNull(columns.min),
-        max: positiveIntOrNull(columns.max),
-        total: positiveIntOrNull(columns.total)
-      }
-    };
-  }(source);
-
-  var Measurer = function() {
-
-    // set some default initial values that will get adjusted in runtime
-    me.measures = {
-      padding: 12,
-      character: 8,
-      height: 15,
-      defaults: true
-    };
-
-    me.calculate = function(measuresCell) {
-      if (!me.measures.defaults)
-        return;
-
-      var measuresCellStyle = window.getComputedStyle(measuresCell, null);
-
-      var newPadding = parsePadding(measuresCellStyle.paddingLeft) +
-            parsePadding(measuresCellStyle.paddingRight);
-
-      var sampleString = "ABCDEFGHIJ0123456789";
-      var newCharacter = Math.ceil(measuresCell.clientWidth / sampleString.length);
-
-      if (newPadding <= 0 || newCharacter <= 0)
-        return;
-
-      me.measures.padding = newPadding;
-      me.measures.character = newCharacter;
-      me.measures.height = measuresCell.clientHeight;
-      me.measures.defaults = false;
-    };
-
-    return me;
-  };
-
-  var Page = function(data, options) {
-    var me = this;
-
-    var defaults = {
-      max: 7,
-      rows: 10
-    };
-
-    var totalPages = function() {
-      return Math.ceil(data.length / me.rows);
-    };
-
-    me.number = 0;
-    me.max = options.pages !== null ? options.pages : defaults.max;
-    me.visible = me.max;
-    me.rows = options.rows.min !== null ? options.rows.min : defaults.rows;
-    me.total = totalPages();
-
-    me.setRows = function(newRows) {
-      me.rows = newRows;
-      me.total = totalPages();
-    };
-
-    me.setPageNumber = function(newPageNumber) {
-      if (newPageNumber < 0) newPageNumber = 0;
-      if (newPageNumber >= me.total) newPageNumber = me.total - 1;
-
-      me.number = newPageNumber;
-    };
-
-    me.setVisiblePages = function(visiblePages) {
-      me.visible = Math.min(me.max, visiblePages);
-      me.setPageNumber(me.number);
-    };
-
-    me.getVisiblePageRange = function() {
-      var start = me.number - Math.max(Math.floor((me.visible - 1) / 2), 0);
-      var end = me.number + Math.floor(me.visible / 2) + 1;
-      var pageCount = me.total;
-
-      if (start < 0) {
-        var diffToStart = 0 - start;
-        start += diffToStart;
-        end += diffToStart;
-      }
-
-      if (end > pageCount) {
-        var diffToEnd = end - pageCount;
-        start -= diffToEnd;
-        end -= diffToEnd;
-      }
-
-      start = start < 0 ? 0 : start;
-      end = end >= pageCount ? pageCount : end;
-
-      var first = false;
-      var last = false;
-
-      if (start > 0 && me.visible > 1) {
-        start = start + 1;
-        first = true;
-      }
-
-      if (end < pageCount && me.visible > 2) {
-        end = end - 1;
-        last = true;
-      }
-
-      return {
-        first: first,
-        start: start,
-        end: end,
-        last: last
-      };
-    };
-
-    me.getRowStart = function() {
-      var rowStart = page.number * page.rows;
-      if (rowStart < 0)
-        rowStart = 0;
-
-      return rowStart;
-    };
-
-    me.getRowEnd = function() {
-      var rowStart = me.getRowStart();
-      return Math.min(rowStart + me.rows, data.length);
-    };
-
-    me.getPaddingRows = function() {
-      var rowStart = me.getRowStart();
-      var rowEnd = me.getRowEnd();
-      return data.length > me.rows ? me.rows - (rowEnd - rowStart) : 0;
-    };
-  };
-
-  var Columns = function(data, columns, options) {
-    var me = this;
-
-    me.defaults = {
-      min: 5
-    };
-
-    me.number = 0;
-    me.visible = 0;
-    me.total = columns.length;
-    me.subset = [];
-    me.padding = 0;
-    me.min = options.columns.min !== null ? options.columns.min : me.defaults.min;
-    me.max = options.columns.max !== null ? options.columns.max : null;
-    me.widths = {};
-
-    var widthsLookAhead = Math.max(100, options.rows.min);
-    var paddingColChars = 10;
-
-    me.emptyNames = function() {
-      columns.forEach(function(column) {
-        if (columns.label !== null && columns.label !== "")
-          return false;
-      });
-
-      return true;
-    };
-
-    var parsePadding = function(value) {
-      return parseInt(value) >= 0 ? parseInt(value) : 0;
-    };
-
-    me.calculateWidths = function(measures) {
-      columns.forEach(function(column) {
-        var maxChars = Math.max(
-          column.label.toString().length,
-          column.type.toString().length
-        );
-
-        for (var idxRow = 0; idxRow < Math.min(widthsLookAhead, data.length); idxRow++) {
-          maxChars = Math.max(maxChars, data[idxRow][column.name.toString()].length);
-        }
-
-        me.widths[column.name] = {
-          // width in characters
-          chars: maxChars,
-          // width for the inner html columns
-          inner: maxChars * measures.character,
-          // width adding outer styles like padding
-          outer: maxChars * measures.character + measures.padding
-        };
-      });
-    };
-
-    me.getWidth = function() {
-      var widthOuter = 0;
-      for (var idxCol = 0; idxCol < me.subset.length; idxCol++) {
-        var columnName = me.subset[idxCol].name;
-        widthOuter = widthOuter + me.widths[columnName].outer;
-      }
-
-      widthOuter = widthOuter + me.padding * paddingColChars * measurer.measures.character;
-
-      if (me.hasMoreLeftColumns()) {
-        widthOuter = widthOuter + columnNavigationWidthPX + measurer.measures.padding;
-      }
-
-      if (me.hasMoreRightColumns()) {
-        widthOuter = widthOuter + columnNavigationWidthPX + measurer.measures.padding;
-      }
-
-      return widthOuter;
-    };
-
-    me.updateSlice = function() {
-      if (me.number + me.visible >= me.total)
-        me.number = me.total - me.visible;
-
-      if (me.number < 0) me.number = 0;
-
-      me.subset = columns.slice(me.number, Math.min(me.number + me.visible, me.total));
-
-      me.subset = me.subset.map(function(column) {
-        Object.keys(column).forEach(function(colKey) {
-          column[colKey] = column[colKey] === null ? "" : column[colKey].toString();
-        });
-
-        column.width = null;
-        return column;
-      });
-    };
-
-    me.setVisibleColumns = function(columnNumber, newVisibleColumns, paddingCount) {
-      me.number = columnNumber;
-      me.visible = newVisibleColumns;
-      me.padding = paddingCount;
-
-      me.updateSlice();
-    };
-
-    me.incColumnNumber = function(increment) {
-      me.number = me.number + increment;
-    };
-
-    me.setColumnNumber = function(newNumber) {
-      me.number = newNumber;
-    };
-
-    me.setPaddingCount = function(newPadding) {
-      me.padding = newPadding;
-    };
-
-    me.getPaddingCount = function() {
-      return me.padding;
-    };
-
-    me.hasMoreLeftColumns = function() {
-      return me.number > 0;
-    };
-
-    me.hasMoreRightColumns = function() {
-      return me.number + me.visible < me.total;
-    };
-
-    me.updateSlice(0);
-    return me;
-  };
-
-  var data = source.data;
-  var page = new Page(data, options);
-  var measurer = new Measurer(data, options);
-  var columns = new Columns(data, source.columns, options);
-
-  var table = null;
-  var tableDiv = null;
-  var header = null;
-  var footer = null;
-  var tbody = null;
-
-  // Caches pagedTable.clientWidth, specially for webkit
-  var cachedPagedTableClientWidth = null;
-
-  var onChangeCallbacks = [];
-
-  var clearSelection = function() {
-    if(document.selection && document.selection.empty) {
-      document.selection.empty();
-    } else if(window.getSelection) {
-      var sel = window.getSelection();
-      sel.removeAllRanges();
-    }
-  };
-
-  var columnNavigationWidthPX = 5;
-
-  var renderColumnNavigation = function(increment, backwards) {
-    var arrow = document.createElement("div");
-    arrow.setAttribute("style",
-      "border-top: " + columnNavigationWidthPX + "px solid transparent;" +
-      "border-bottom: " + columnNavigationWidthPX + "px solid transparent;" +
-      "border-" + (backwards ? "right" : "left") + ": " + columnNavigationWidthPX + "px solid;");
-
-    var header = document.createElement("th");
-    header.appendChild(arrow);
-    header.setAttribute("style",
-      "cursor: pointer;" +
-      "vertical-align: middle;" +
-      "min-width: " + columnNavigationWidthPX + "px;" +
-      "width: " + columnNavigationWidthPX + "px;");
-
-    header.onclick = function() {
-      columns.incColumnNumber(backwards ? -1 : increment);
-
-      me.animateColumns(backwards);
-      renderFooter();
-
-      clearSelection();
-      triggerOnChange();
-    };
-
-    return header;
-  };
-
-  var maxColumnWidth = function(width) {
-    var padding = 80;
-    var columnMax = Math.max(cachedPagedTableClientWidth - padding, 0);
-
-    return parseInt(width) > 0 ?
-      Math.min(columnMax, parseInt(width)) + "px" :
-      columnMax + "px";
-  };
-
-  var clearHeader = function() {
-    var thead = pagedTable.querySelectorAll("thead")[0];
-    thead.innerHTML = "";
-  };
-
-  var renderHeader = function(clear) {
-    cachedPagedTableClientWidth = pagedTable.clientWidth;
-
-    var fragment = document.createDocumentFragment();
-
-    header = document.createElement("tr");
-    fragment.appendChild(header);
-
-    if (columns.number > 0)
-      header.appendChild(renderColumnNavigation(-columns.visible, true));
-
-    columns.subset = columns.subset.map(function(columnData) {
-      var column = document.createElement("th");
-      column.setAttribute("align", columnData.align);
-      column.style.textAlign = columnData.align;
-
-      column.style.maxWidth = maxColumnWidth(null);
-      if (columnData.width) {
-        column.style.minWidth =
-          column.style.maxWidth = maxColumnWidth(columnData.width);
-      }
-
-      var columnName = document.createElement("div");
-      columnName.setAttribute("class", "pagedtable-header-name");
-      if (columnData.label === "") {
-        columnName.innerHTML = "&nbsp;";
-      }
-      else {
-        columnName.appendChild(document.createTextNode(columnData.label));
-      }
-      column.appendChild(columnName);
-
-      var columnType = document.createElement("div");
-      columnType.setAttribute("class", "pagedtable-header-type");
-      if (columnData.type === "") {
-        columnType.innerHTML = "&nbsp;";
-      }
-      else {
-        columnType.appendChild(document.createTextNode("<" + columnData.type + ">"));
-      }
-      column.appendChild(columnType);
-
-      header.appendChild(column);
-
-      columnData.element = column;
-
-      return columnData;
-    });
-
-    for (var idx = 0; idx < columns.getPaddingCount(); idx++) {
-      var paddingCol = document.createElement("th");
-      paddingCol.setAttribute("class", "pagedtable-padding-col");
-      header.appendChild(paddingCol);
-    }
-
-    if (columns.number + columns.visible < columns.total)
-      header.appendChild(renderColumnNavigation(columns.visible, false));
-
-    if (typeof(clear) == "undefined" || clear) clearHeader();
-    var thead = pagedTable.querySelectorAll("thead")[0];
-    thead.appendChild(fragment);
-  };
-
-  me.animateColumns = function(backwards) {
-    var thead = pagedTable.querySelectorAll("thead")[0];
-
-    var headerOld = thead.querySelectorAll("tr")[0];
-    var tbodyOld = table.querySelectorAll("tbody")[0];
-
-    me.fitColumns(backwards);
-
-    renderHeader(false);
-
-    header.style.opacity = "0";
-    header.style.transform = backwards ? "translateX(-30px)" : "translateX(30px)";
-    header.style.transition = "transform 200ms linear, opacity 200ms";
-    header.style.transitionDelay = "0";
-
-    renderBody(false);
-
-    if (headerOld) {
-      headerOld.style.position = "absolute";
-      headerOld.style.transform = "translateX(0px)";
-      headerOld.style.opacity = "1";
-      headerOld.style.transition = "transform 100ms linear, opacity 100ms";
-      headerOld.setAttribute("class", "pagedtable-remove-head");
-      if (headerOld.style.transitionEnd) {
-        headerOld.addEventListener("transitionend", function() {
-          var headerOldByClass = thead.querySelector(".pagedtable-remove-head");
-          if (headerOldByClass) thead.removeChild(headerOldByClass);
-        });
-      }
-      else {
-        thead.removeChild(headerOld);
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
       }
     }
-
-    if (tbodyOld) table.removeChild(tbodyOld);
-
-    tbody.style.opacity = "0";
-    tbody.style.transition = "transform 200ms linear, opacity 200ms";
-    tbody.style.transitionDelay = "0ms";
-
-    // force relayout
-    window.getComputedStyle(header).opacity;
-    window.getComputedStyle(tbody).opacity;
-
-    if (headerOld) {
-      headerOld.style.transform = backwards ? "translateX(20px)" : "translateX(-30px)";
-      headerOld.style.opacity = "0";
-    }
-
-    header.style.transform = "translateX(0px)";
-    header.style.opacity = "1";
-
-    tbody.style.opacity = "1";
   }
-
-  me.onChange = function(callback) {
-    onChangeCallbacks.push(callback);
-  };
-
-  var triggerOnChange = function() {
-    onChangeCallbacks.forEach(function(onChange) {
-      onChange();
-    });
-  };
-
-  var clearBody = function() {
-    if (tbody) {
-      table.removeChild(tbody);
-      tbody = null;
-    }
-  };
-
-  var renderBody = function(clear) {
-    cachedPagedTableClientWidth = pagedTable.clientWidth
-
-    var fragment = document.createDocumentFragment();
-
-    var pageData = data.slice(page.getRowStart(), page.getRowEnd());
-
-    pageData.forEach(function(dataRow, idxRow) {
-      var htmlRow = document.createElement("tr");
-      htmlRow.setAttribute("class", (idxRow % 2 !==0) ? "even" : "odd");
-
-      if (columns.hasMoreLeftColumns())
-        htmlRow.appendChild(document.createElement("td"));
-
-      columns.subset.forEach(function(columnData) {
-        var cellName = columnData.name;
-        var dataCell = dataRow[cellName];
-        var htmlCell = document.createElement("td");
-
-        if (dataCell === "NA") htmlCell.setAttribute("class", "pagedtable-na-cell");
-        if (dataCell === "__NA__") dataCell = "NA";
-
-        var cellText = document.createTextNode(dataCell);
-        htmlCell.appendChild(cellText);
-        if (dataCell.length > 50) {
-          htmlCell.setAttribute("title", dataCell);
-        }
-        htmlCell.setAttribute("align", columnData.align);
-        htmlCell.style.textAlign = columnData.align;
-        htmlCell.style.maxWidth = maxColumnWidth(null);
-        if (columnData.width) {
-          htmlCell.style.minWidth = htmlCell.style.maxWidth = maxColumnWidth(columnData.width);
-        }
-        htmlRow.appendChild(htmlCell);
-      });
-
-      for (var idx = 0; idx < columns.getPaddingCount(); idx++) {
-        var paddingCol = document.createElement("td");
-        paddingCol.setAttribute("class", "pagedtable-padding-col");
-        htmlRow.appendChild(paddingCol);
-      }
-
-      if (columns.hasMoreRightColumns())
-        htmlRow.appendChild(document.createElement("td"));
-
-      fragment.appendChild(htmlRow);
-    });
-
-    for (var idxPadding = 0; idxPadding < page.getPaddingRows(); idxPadding++) {
-      var paddingRow = document.createElement("tr");
-
-      var paddingCellRow = document.createElement("td");
-      paddingCellRow.innerHTML = "&nbsp;";
-      paddingCellRow.setAttribute("colspan", "100%");
-      paddingRow.appendChild(paddingCellRow);
-
-      fragment.appendChild(paddingRow);
-    }
-
-    if (typeof(clear) == "undefined" || clear) clearBody();
-    tbody = document.createElement("tbody");
-    tbody.appendChild(fragment);
-
-    table.appendChild(tbody);
-  };
-
-  var getLabelInfo = function() {
-    var pageStart = page.getRowStart();
-    var pageEnd = page.getRowEnd();
-    var totalRows = data.length;
-
-    var totalRowsLabel = options.rows.total ? options.rows.total : totalRows;
-    var totalRowsLabelFormat = totalRowsLabel.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
-
-    var infoText = (pageStart + 1) + "-" + pageEnd + " of " + totalRowsLabelFormat + " rows";
-    if (totalRows < page.rows) {
-      infoText = totalRowsLabel + " row" + (totalRows != 1 ? "s" : "");
-    }
-    if (columns.total > columns.visible) {
-      var totalColumnsLabel = options.columns.total ? options.columns.total : columns.total;
-
-      infoText = infoText + " | " + (columns.number + 1) + "-" +
-        (Math.min(columns.number + columns.visible, columns.total)) +
-        " of " + totalColumnsLabel + " columns";
-    }
-
-    return infoText;
-  };
-
-  var clearFooter = function() {
-    footer = pagedTable.querySelectorAll("div.pagedtable-footer")[0];
-    footer.innerHTML = "";
-
-    return footer;
-  };
-
-  var createPageLink = function(idxPage) {
-    var pageLink = document.createElement("a");
-    pageLinkClass = idxPage === page.number ? "pagedtable-index pagedtable-index-current" : "pagedtable-index";
-    pageLink.setAttribute("class", pageLinkClass);
-    pageLink.setAttribute("data-page-index", idxPage);
-    pageLink.onclick = function() {
-      page.setPageNumber(parseInt(this.getAttribute("data-page-index")));
-      renderBody();
-      renderFooter();
-
-      triggerOnChange();
-    };
-
-    pageLink.appendChild(document.createTextNode(idxPage + 1));
-
-    return pageLink;
-  }
-
-  var renderFooter = function() {
-    footer = clearFooter();
-
-    var next = document.createElement("a");
-    next.appendChild(document.createTextNode("Next"));
-    next.onclick = function() {
-      page.setPageNumber(page.number + 1);
-      renderBody();
-      renderFooter();
-
-      triggerOnChange();
-    };
-    if (data.length > page.rows) footer.appendChild(next);
-
-    var pageNumbers = document.createElement("div");
-    pageNumbers.setAttribute("class", "pagedtable-indexes");
-
-    var pageRange = page.getVisiblePageRange();
-
-    if (pageRange.first) {
-      var pageLink = createPageLink(0);
-      pageNumbers.appendChild(pageLink);
-
-      var pageSeparator = document.createElement("div");
-      pageSeparator.setAttribute("class", "pagedtable-index-separator-left");
-      pageSeparator.appendChild(document.createTextNode("..."))
-      pageNumbers.appendChild(pageSeparator);
-    }
-
-    for (var idxPage = pageRange.start; idxPage < pageRange.end; idxPage++) {
-      var pageLink = createPageLink(idxPage);
-
-      pageNumbers.appendChild(pageLink);
-    }
-
-    if (pageRange.last) {
-      var pageSeparator = document.createElement("div");
-      pageSeparator.setAttribute("class", "pagedtable-index-separator-right");
-      pageSeparator.appendChild(document.createTextNode("..."))
-      pageNumbers.appendChild(pageSeparator);
-
-      var pageLink = createPageLink(page.total - 1);
-      pageNumbers.appendChild(pageLink);
-    }
-
-    if (data.length > page.rows) footer.appendChild(pageNumbers);
-
-    var previous = document.createElement("a");
-    previous.appendChild(document.createTextNode("Previous"));
-    previous.onclick = function() {
-      page.setPageNumber(page.number - 1);
-      renderBody();
-      renderFooter();
-
-      triggerOnChange();
-    };
-    if (data.length > page.rows) footer.appendChild(previous);
-
-    var infoLabel = document.createElement("div");
-    infoLabel.setAttribute("class", "pagedtable-info");
-    infoLabel.setAttribute("title", getLabelInfo());
-    infoLabel.appendChild(document.createTextNode(getLabelInfo()));
-    footer.appendChild(infoLabel);
-
-    var enabledClass = "pagedtable-index-nav";
-    var disabledClass = "pagedtable-index-nav pagedtable-index-nav-disabled";
-    previous.setAttribute("class", page.number <= 0 ? disabledClass : enabledClass);
-    next.setAttribute("class", (page.number + 1) * page.rows >= data.length ? disabledClass : enabledClass);
-  };
-
-  var measuresCell = null;
-
-  var renderMeasures = function() {
-    var measuresTable = document.createElement("table");
-    measuresTable.style.visibility = "hidden";
-    measuresTable.style.position = "absolute";
-    measuresTable.style.whiteSpace = "nowrap";
-    measuresTable.style.height = "auto";
-    measuresTable.style.width = "auto";
-
-    var measuresRow = document.createElement("tr");
-    measuresTable.appendChild(measuresRow);
-
-    measuresCell = document.createElement("td");
-    var sampleString = "ABCDEFGHIJ0123456789";
-    measuresCell.appendChild(document.createTextNode(sampleString));
-
-    measuresRow.appendChild(measuresCell);
-
-    tableDiv.appendChild(measuresTable);
-  }
-
-  me.init = function() {
-    tableDiv = document.createElement("div");
-    pagedTable.appendChild(tableDiv);
-    var pagedTableClass = data.length > 0 ?
-      "pagedtable pagedtable-not-empty" :
-      "pagedtable pagedtable-empty";
-
-    if (columns.total == 0 || (columns.emptyNames() && data.length == 0)) {
-      pagedTableClass = pagedTableClass + " pagedtable-empty-columns";
-    }
-
-    tableDiv.setAttribute("class", pagedTableClass);
-
-    renderMeasures();
-    measurer.calculate(measuresCell);
-    columns.calculateWidths(measurer.measures);
-
-    table = document.createElement("table");
-    table.setAttribute("cellspacing", "0");
-    table.setAttribute("class", "table table-condensed");
-    tableDiv.appendChild(table);
-
-    table.appendChild(document.createElement("thead"));
-
-    var footerDiv = document.createElement("div");
-    footerDiv.setAttribute("class", "pagedtable-footer");
-    tableDiv.appendChild(footerDiv);
-
-    // if the host has not yet provided horizontal space, render hidden
-    if (tableDiv.clientWidth <= 0) {
-      tableDiv.style.opacity = "0";
-    }
-
-    me.render();
-
-    // retry seizing columns later if the host has not provided space
-    function retryFit() {
-      if (tableDiv.clientWidth <= 0) {
-        setTimeout(retryFit, 100);
-      } else {
-        me.render();
-        triggerOnChange();
-      }
-    }
-    if (tableDiv.clientWidth <= 0) {
-      retryFit();
-    }
-  };
-
-  var registerWidths = function() {
-    columns.subset = columns.subset.map(function(column) {
-      column.width = columns.widths[column.name].inner;
-      return column;
-    });
-  };
-
-  var parsePadding = function(value) {
-    return parseInt(value) >= 0 ? parseInt(value) : 0;
-  };
-
-  me.fixedHeight = function() {
-    return options.rows.max != null;
-  }
-
-  me.fitRows = function() {
-    if (me.fixedHeight())
-      return;
-
-    measurer.calculate(measuresCell);
-
-    var rows = options.rows.min !== null ? options.rows.min : 0;
-    var headerHeight = header !== null && header.offsetHeight > 0 ? header.offsetHeight : 0;
-    var footerHeight = footer !== null && footer.offsetHeight > 0 ? footer.offsetHeight : 0;
-
-    if (pagedTable.offsetHeight > 0) {
-      var availableHeight = pagedTable.offsetHeight - headerHeight - footerHeight;
-      rows = Math.floor((availableHeight) / measurer.measures.height);
-    }
-
-    rows = options.rows.min !== null ? Math.max(options.rows.min, rows) : rows;
-
-    page.setRows(rows);
-  }
-
-  // The goal of this function is to add as many columns as possible
-  // starting from left-to-right, when the right most limit is reached
-  // it tries to add columns from the left as well.
-  //
-  // When startBackwards is true columns are added from right-to-left
-  me.fitColumns = function(startBackwards) {
-    measurer.calculate(measuresCell);
-    columns.calculateWidths(measurer.measures);
-
-    if (tableDiv.clientWidth > 0) {
-      tableDiv.style.opacity = 1;
-    }
-
-    var visibleColumns = tableDiv.clientWidth <= 0 ? Math.max(columns.min, 1) : 1;
-    var columnNumber = columns.number;
-    var paddingCount = 0;
-
-    // track a list of added columns as we build the visible ones to allow us
-    // to remove columns when they don't fit anymore.
-    var columnHistory = [];
-
-    var lastTableHeight = 0;
-    var backwards = startBackwards;
-
-    var tableDivStyle = window.getComputedStyle(tableDiv, null);
-    var tableDivPadding = parsePadding(tableDivStyle.paddingLeft) +
-      parsePadding(tableDivStyle.paddingRight);
-
-    var addPaddingCol = false;
-    var currentWidth = 0;
-
-    while (true) {
-      columns.setVisibleColumns(columnNumber, visibleColumns, paddingCount);
-      currentWidth = columns.getWidth();
-
-      if (tableDiv.clientWidth - tableDivPadding < currentWidth) {
-        break;
-      }
-
-      columnHistory.push({
-        columnNumber: columnNumber,
-        visibleColumns: visibleColumns,
-        paddingCount: paddingCount
-      });
-
-      if (columnHistory.length > 100) {
-        console.error("More than 100 tries to fit columns, aborting");
-        break;
-      }
-
-      if (columns.max !== null &&
-        columns.visible + columns.getPaddingCount() >= columns.max) {
-        break;
-      }
-
-      // if we run out of right-columns
-      if (!backwards && columnNumber + columns.visible >= columns.total) {
-        // if we started adding right-columns, try adding left-columns
-        if (!startBackwards && columnNumber > 0) {
-          backwards = true;
-        }
-        else if (columns.min === null || visibleColumns + columns.getPaddingCount() >= columns.min) {
-          break;
-        }
-        else {
-          paddingCount = paddingCount + 1;
-        }
-      }
-
-      // if we run out of left-columns
-      if (backwards && columnNumber == 0) {
-        // if we started adding left-columns, try adding right-columns
-        if (startBackwards && columnNumber + columns.visible < columns.total) {
-          backwards = false;
-        }
-        else if (columns.min === null || visibleColumns + columns.getPaddingCount() >= columns.min) {
-          break;
-        }
-        else {
-          paddingCount = paddingCount + 1;
-        }
-      }
-
-      // when moving backwards try fitting left columns first
-      if (backwards && columnNumber > 0) {
-        columnNumber = columnNumber - 1;
-      }
-
-      if (columnNumber + visibleColumns < columns.total) {
-        visibleColumns = visibleColumns + 1;
-      }
-    }
-
-    var lastRenderableColumn = {
-        columnNumber: columnNumber,
-        visibleColumns: visibleColumns,
-        paddingCount: paddingCount
-    };
-
-    if (columnHistory.length > 0) {
-      lastRenderableColumn = columnHistory[columnHistory.length - 1];
-    }
-
-    columns.setVisibleColumns(
-      lastRenderableColumn.columnNumber,
-      lastRenderableColumn.visibleColumns,
-      lastRenderableColumn.paddingCount);
-
-    if (pagedTable.offsetWidth > 0) {
-      page.setVisiblePages(Math.max(Math.ceil(1.0 * (pagedTable.offsetWidth - 250) / 40), 2));
-    }
-
-    registerWidths();
-  };
-
-  me.fit = function(startBackwards) {
-    me.fitRows();
-    me.fitColumns(startBackwards);
-  }
-
-  me.render = function() {
-    me.fitColumns(false);
-
-    // render header/footer to measure height accurately
-    renderHeader();
-    renderFooter();
-
-    me.fitRows();
-    renderBody();
-
-    // re-render footer to match new rows
-    renderFooter();
-  }
-
-  var resizeLastWidth = -1;
-  var resizeLastHeight = -1;
-  var resizeNewWidth = -1;
-  var resizeNewHeight = -1;
-  var resizePending = false;
-
-  me.resize = function(newWidth, newHeight) {
-
-    function resizeDelayed() {
-      resizePending = false;
-
-      if (
-        (resizeNewWidth !== resizeLastWidth) ||
-        (!me.fixedHeight() && resizeNewHeight !== resizeLastHeight)
-      ) {
-        resizeLastWidth = resizeNewWidth;
-        resizeLastHeight = resizeNewHeight;
-
-        setTimeout(resizeDelayed, 200);
-        resizePending = true;
-      } else {
-        me.render();
-        triggerOnChange();
-
-        resizeLastWidth = -1;
-        resizeLastHeight = -1;
-      }
-    }
-
-    resizeNewWidth = newWidth;
-    resizeNewHeight = newHeight;
-
-    if (!resizePending) resizeDelayed();
-  };
-};
-
-var PagedTableDoc;
-(function (PagedTableDoc) {
-  var allPagedTables = [];
-
-  PagedTableDoc.initAll = function() {
-    allPagedTables = [];
-
-    var pagedTables = [].slice.call(document.querySelectorAll('[data-pagedtable="false"],[data-pagedtable=""]'));
-    pagedTables.forEach(function(pagedTable, idx) {
-      pagedTable.setAttribute("data-pagedtable", "true");
-      pagedTable.setAttribute("pagedtable-page", 0);
-      pagedTable.setAttribute("class", "pagedtable-wrapper");
-
-      var pagedTableInstance = new PagedTable(pagedTable);
-      pagedTableInstance.init();
-
-      allPagedTables.push(pagedTableInstance);
-    });
-  };
-
-  PagedTableDoc.resizeAll = function() {
-    allPagedTables.forEach(function(pagedTable) {
-      pagedTable.render();
-    });
-  };
-
-  window.addEventListener("resize", PagedTableDoc.resizeAll);
-
-  return PagedTableDoc;
-})(PagedTableDoc || (PagedTableDoc = {}));
-
-window.onload = function() {
-  PagedTableDoc.initAll();
-};
+});
 </script>
+<style type="text/css">
+a.anchor-section {margin-left: 10px; visibility: hidden; color: inherit;}
+a.anchor-section::before {content: '#';}
+.hasAnchor:hover a.anchor-section {visibility: visible;}
+</style>
+<script>// Anchor sections v1.0 written by Atsushi Yasumoto on Oct 3rd, 2020.
+document.addEventListener('DOMContentLoaded', function() {
+  // Do nothing if AnchorJS is used
+  if (typeof window.anchors === 'object' && anchors.hasOwnProperty('hasAnchorJSLink')) {
+    return;
+  }
+
+  const h = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+
+  // Do nothing if sections are already anchored
+  if (Array.from(h).some(x => x.classList.contains('hasAnchor'))) {
+    return null;
+  }
+
+  // Use section id when pandoc runs with --section-divs
+  const section_id = function(x) {
+    return ((x.classList.contains('section') || (x.tagName === 'SECTION'))
+            ? x.id : '');
+  };
+
+  // Add anchors
+  h.forEach(function(x) {
+    const id = x.id || section_id(x.parentElement);
+    if (id === '') {
+      return null;
+    }
+    let anchor = document.createElement('a');
+    anchor.href = '#' + id;
+    anchor.classList = ['anchor-section'];
+    x.classList.add('hasAnchor');
+    x.appendChild(anchor);
+  });
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -1389,9 +181,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -1560,7 +349,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -1581,70 +371,47 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="unicef-color-scheme-unicef_colors" class="section level2">
 <h2>UNICEF color scheme: <code>UNICEF_colors</code></h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(CME.assistant)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">str</span>(UNICEF_colors)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#&gt; List of 5</span></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt;  $ UNICEF_blue    : chr &quot;#1CABE2&quot;</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt;  $ cp_UNICEF_seq  : chr [1:8] &quot;#002759&quot; &quot;#00377D&quot; &quot;#0058AB&quot; &quot;#0083CF&quot; ...</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt;  $ cp_UNICEF_div  : chr [1:10] &quot;#002759&quot; &quot;#0058AB&quot; &quot;#1CABE2&quot; &quot;#69DBFF&quot; ...</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt;  $ cp_UNICEF_qua  : chr [1:10] &quot;#0058AB&quot; &quot;#1CABE2&quot; &quot;#00833D&quot; &quot;#80BD41&quot; ...</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt;  $ cp_UNICEF_grays: chr [1:5] &quot;#333333&quot; &quot;#6B6B6B&quot; &quot;#B3B3B3&quot; &quot;#D7D7D7&quot; ...</span></span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co">#&gt; Loading required package: data.table</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">str</span>(UNICEF_colors)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; List of 5</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt;  $ UNICEF_blue    : chr &quot;#1CABE2&quot;</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt;  $ cp_UNICEF_seq  : chr [1:8] &quot;#002759&quot; &quot;#00377D&quot; &quot;#0058AB&quot; &quot;#0083CF&quot; ...</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt;  $ cp_UNICEF_div  : chr [1:10] &quot;#002759&quot; &quot;#0058AB&quot; &quot;#1CABE2&quot; &quot;#69DBFF&quot; ...</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt;  $ cp_UNICEF_qua  : chr [1:10] &quot;#0058AB&quot; &quot;#1CABE2&quot; &quot;#00833D&quot; &quot;#80BD41&quot; ...</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt;  $ cp_UNICEF_grays: chr [1:5] &quot;#333333&quot; &quot;#6B6B6B&quot; &quot;#B3B3B3&quot; &quot;#D7D7D7&quot; ...</span></span></code></pre></div>
 </div>
 <div id="functions-for-data-engineering" class="section level2">
 <h2>Functions for data engineering</h2>
-<div id="data-input" class="section level3">
-<h3>Data input</h3>
-<p><strong><code>get.CME.estimates.long</code> and <code>get.dt.wide</code></strong></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>dt_cme_long &lt;-<span class="st"> </span><span class="kw">get.CME.estimates.long</span>(<span class="dt">ind =</span> <span class="st">&quot;U5MR&quot;</span>, <span class="dt">c_name =</span> <span class="st">&quot;Mozambique&quot;</span>,</span>
-<span id="cb2-2"><a href="#cb2-2"></a>                                      <span class="dt">year_range =</span> <span class="dv">2000</span><span class="op">:</span><span class="dv">2018</span>)</span>
-<span id="cb2-3"><a href="#cb2-3"></a>dt_cme_wide &lt;-<span class="st"> </span><span class="kw">get.dt.wide</span>(dt_cme_long)</span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a>rmarkdown<span class="op">::</span><span class="kw">paged_table</span>(dt_cme_long[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>])</span></code></pre></div>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Country"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Year"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Indicator"],"name":[3],"type":["chr"],"align":["left"]},{"label":["Unit"],"name":[4],"type":["chr"],"align":["left"]},{"label":["Estimate"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Lower_Bound"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Upper_Bound"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"Mozambique","2":"2018","3":"Under-five mortality rate","4":"Deaths per 1000 live births","5":"73.22","6":"53.03","7":"103.92"},{"1":"Mozambique","2":"2017","3":"Under-five mortality rate","4":"Deaths per 1000 live births","5":"75.53","6":"56.46","7":"103.78"},{"1":"Mozambique","2":"2016","3":"Under-five mortality rate","4":"Deaths per 1000 live births","5":"78.08","6":"60.23","7":"103.93"},{"1":"Mozambique","2":"2015","3":"Under-five mortality rate","4":"Deaths per 1000 live births","5":"81.83","6":"65.01","7":"105.64"},{"1":"Mozambique","2":"2014","3":"Under-five mortality rate","4":"Deaths per 1000 live births","5":"86.15","6":"70.40","7":"107.70"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
+<div id="read-the-final-aggregated-file-and-output-final-igme-estimates-in-various-forms" class="section level3">
+<h3>Read the final aggregated file and output final IGME estimates in various forms</h3>
+<p>Choose output format among raw, long, wide_year and wide_ind, default to “long”<br />
+* The long-format dataset contains <strong>Official Name, ISO3Code, Indicator, Year, Quantile, Sex</strong> * The function will output all available indicators in the dataset * Optional: subset by country ISO (<code>c_iso</code>) or year (<code>year_range</code>)</p>
+<p><strong><code>get.CME.UI.data</code></strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># without supplying dir_file, by default returns the published IGME 2020 final</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="co"># results</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>dt_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">get.CME.UI.data</span>(<span class="dt">use_IGME_year =</span> <span class="dv">2020</span>)</span>
+<span id="cb2-4"><a href="#cb2-4"></a>rmarkdown<span class="op">::</span><span class="kw">paged_table</span>(dt_<span class="dv">1</span>)</span>
+<span id="cb2-5"><a href="#cb2-5"></a></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co"># can read final output file from Dropbox for any indicator</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>dir_list &lt;-<span class="st"> </span><span class="kw">load.dir_list</span>()</span>
+<span id="cb2-8"><a href="#cb2-8"></a>dt_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">get.CME.UI.data</span>(<span class="dt">dir_file =</span> dir_list<span class="op">$</span>dir_female_<span class="dv">2020</span>)</span>
+<span id="cb2-9"><a href="#cb2-9"></a>rmarkdown<span class="op">::</span><span class="kw">paged_table</span>(dt_<span class="dv">2</span>)</span></code></pre></div>
 </div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>rmarkdown<span class="op">::</span><span class="kw">paged_table</span>(dt_cme_wide[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>])</span></code></pre></div>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Country"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Year"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Under-five mortality rate"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Lower_Bound_Under-five mortality rate"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Upper_Bound_Under-five mortality rate"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Under-five deaths"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Lower_Bound_Under-five deaths"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Upper_Bound_Under-five deaths"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"Mozambique","2":"2018","3":"73.22","4":"53.03","5":"103.92","6":"78860","7":"57223","8":"111621"},{"1":"Mozambique","2":"2017","3":"75.53","4":"56.46","5":"103.78","6":"79780","7":"59756","8":"109458"},{"1":"Mozambique","2":"2016","3":"78.08","4":"60.23","5":"103.93","6":"80907","7":"62554","8":"107579"},{"1":"Mozambique","2":"2015","3":"81.83","4":"65.01","5":"105.64","6":"83177","7":"66175","8":"107249"},{"1":"Mozambique","2":"2014","3":"86.15","4":"70.40","5":"107.70","6":"85928","7":"70308","8":"107313"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</div>
-<div id="data-output" class="section level3">
-<h3>Data output</h3>
-<p><strong><code>xlsx.writeMultipleData</code></strong></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Write several dataset into one xlsx file:</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">save.xlsx.XLConnect</span>(<span class="dt">file_dir =</span> <span class="st">&quot;temp.xlsx&quot;</span>, <span class="dt">list_of_dt =</span> <span class="kw">list</span>(mtcars[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,]))</span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt; dim dt is 511</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt; Xlsx file saved as: temp.xlsx</span></span></code></pre></div>
-</div>
-</div>
-<div id="functions-for-making-plots" class="section level2">
-<h2>Functions for making plots</h2>
-<p><strong><code>ggsave.figs</code></strong></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># use `ggsave.figs` to save ggplot into both pdf and png</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co"># P.S. __SHAPforxgboost__ was my last package offering some simple ggplot visualization functions</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>ggplot_sample &lt;-<span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">qplot</span>(<span class="dt">data =</span> iris, <span class="dt">x =</span> Sepal.Length, <span class="dt">y =</span> Petal.Length)</span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="kw">ggsave.figs</span>(ggplot_sample, <span class="dt">file_name =</span> <span class="st">&quot;Iris_sample&quot;</span>, <span class="dt">folder_name =</span> <span class="st">&quot;figures&quot;</span>)</span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="co"># to remove the file just saved</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="kw">unlink</span>(here<span class="op">::</span><span class="kw">here</span>(<span class="st">&quot;figures&quot;</span>), <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb5-7"><a href="#cb5-7"></a></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="co"># Ads: if you wish to give a try, __SHAPforxgboost__ was my last package offering some ggplot visualization functions</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="co"># install.packages(&quot;SHAPforxgboost&quot;)</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a>SHAPforxgboost<span class="op">::</span><span class="kw">scatter.plot.diagonal</span>(<span class="dt">data =</span> iris, <span class="dt">x =</span> <span class="st">&quot;Sepal.Length&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Petal.Length&quot;</span>)</span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="co">#&gt; [1] &quot;R2 is 0.76 .&quot;</span></span></code></pre></div>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
 </div>
 <div id="extra" class="section level2">
 <h2>Extra</h2>
 <p><strong><code>get.match</code></strong></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># a helpful function to revise labels, you can provide a __new_list__ to define the labels</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">get.match</span>(<span class="kw">c</span>(<span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>))</span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="co">#&gt; [1] &quot;HIV/AIDS&quot;  &quot;Diarrhoea&quot;</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="kw">get.match</span>(<span class="kw">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>), <span class="dt">new_list =</span> <span class="kw">list</span>(<span class="st">&quot;a&quot;</span> =<span class="st"> &quot;new label 1&quot;</span>,</span>
-<span id="cb6-5"><a href="#cb6-5"></a>                                           <span class="st">&quot;b&quot;</span> =<span class="st"> &quot;new label 2&quot;</span>))</span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt; [1] &quot;new label 1&quot; &quot;new label 2&quot; &quot;c&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># a helpful function to revise variable, you can provide a __new_list__ to define the labels</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">get.match</span>(<span class="kw">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>), <span class="dt">new_list =</span> <span class="kw">list</span>(<span class="st">&quot;a&quot;</span> =<span class="st"> &quot;new label 1&quot;</span>,</span>
+<span id="cb3-3"><a href="#cb3-3"></a>                                           <span class="st">&quot;b&quot;</span> =<span class="st"> &quot;new label 2&quot;</span>))</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; [1] &quot;new label 1&quot; &quot;new label 2&quot; &quot;c&quot;</span></span></code></pre></div>
+<div id="save-output" class="section level3">
+<h3>Save output</h3>
+<p><strong><code>save.xlsx.XLConnect</code></strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Write several dataset into one xlsx file:</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co"># save.xlsx.XLConnect(file_dir = &quot;temp.xlsx&quot;, list_of_dt = list(mtcars[1:5,]))</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co"># unlink(&quot;temp.xlsx&quot;)</span></span></code></pre></div>
+</div>
 </div>
 
 
