@@ -1,6 +1,6 @@
 Package: CME.assistant
 Title: Reusable Helper Functions for CME
-Version: 0.1.1
+Version: 1.1.0
 Authors@R: 
     person(given = "Yang",
            family = "Liu",
@@ -21,7 +21,9 @@ Imports:
     scales,
     readr, 
     XLConnect,
-    usethis
+    usethis,
+    lubridate,
+    stringr
 RoxygenNote: 7.1.1
 Suggests: 
     knitr,

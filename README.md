@@ -2,13 +2,12 @@
 
 <!-- badges: start -->
 <!-- badges: end -->
-__Under development__
 
-The goal of CME.assistant is to store and maintain most frequently used reusable functions
+The goal of CME.assistant is to share some frequently used functions
+All the data attached were published thus this package is non-private
 
-All the data included were published thus this package is non-private
+## Installation  
 
-## Installation
 To install from github: 
 * Examples in the vignettes, set `build_vignettes = TRUE`
 * May need to add `build_opts` to avoid potential Java problem according to [this post](https://github.com/salimk/Rcrawler/issues/1)
