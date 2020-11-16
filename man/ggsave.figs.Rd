@@ -2,7 +2,7 @@
 % Please edit documentation in R/2.plots.R
 \name{ggsave.figs}
 \alias{ggsave.figs}
-\title{use ggsave to save figs in both png and pdf}
+\title{Use `ggsave` to save figs in both png and pdf}
 \usage{
 ggsave.figs(
   myplot,
@@ -25,6 +25,6 @@ ggsave.figs(
 directory will be created if not there}
 }
 \description{
-use ggsave to save figs in both png and pdf, default to 600dpi, store in working
+Use `ggsave` to save figs in both png and pdf, default to 600dpi, store in working
 folder unless `folder_name` is named.
 }

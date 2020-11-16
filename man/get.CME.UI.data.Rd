@@ -2,8 +2,7 @@
 % Please edit documentation in R/1.data_engineering.R
 \name{get.CME.UI.data}
 \alias{get.CME.UI.data}
-\title{return different format of data using the final aggregate results country
-summary.}
+\title{Return different format of the final aggregate results country summary}
 \usage{
 get.CME.UI.data(
   dir_file = NULL,
@@ -26,7 +25,7 @@ final}
 
 \item{year_range}{a vector of years, default to 1990: 2019}
 
-\item{get}{get either "rate", "death", or "both", default to "rate"}
+\item{get}{default to "rate". Choose among "rate", "death", or "both"}
 
 \item{idvars}{default to "`OfficialName`, `ISO3Code`", what id vars you want
 to include}
@@ -38,7 +37,7 @@ default will be determined from directory of `dir_file`}
 wide_get, default to "long". All the wide-format just `dcasts` the
 long-format data, wide_get means two columns: rate and death}
 
-\item{round_digit}{round estimates, default to 1}
+\item{round_digit}{digits to round estimates, default to 1}
 
 \item{use_IGME_year}{load the saved IGME final aggregated results (final):
 2019 or 2020}
@@ -49,8 +48,11 @@ long-format data, wide_get means two columns: rate and death}
 a data.table
 }
 \description{
-return different format of data using the final aggregate results country
-summary.
+`get.CME.UI.data` can read in "Rates & Deaths_Country Summary.csv" for any
+indicators published so far and include Sex, Quantile in the output. A
+pre-saved list of summary.csv files directories could be obtained by
+\code{\link{load.final_dir}}. Output dataset in either long, wide year, wide
+indicator, or wide `get` (one column for rate and one column for death)
 }
 \examples{
 dt_1 <- get.CME.UI.data(use_IGME_year = 2020, format = "wide_year")

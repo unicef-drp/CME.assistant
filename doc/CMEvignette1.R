@@ -34,7 +34,3 @@ get.match(c("a","b", "c"), new_list = list("a" = "new label 1",
 ## -----------------------------------------------------------------------------
 str(UNICEF_colors)
 
-## ---- eval = FALSE------------------------------------------------------------
-#  # Write several dataset into one xlsx file:
-#  save.xlsx.XLConnect(file_dir = "temp.xlsx", list_of_dt = list(mtcars[1:5,]))
-

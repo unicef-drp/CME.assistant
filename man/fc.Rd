@@ -2,7 +2,7 @@
 % Please edit documentation in R/2.plots.R
 \name{fc}
 \alias{fc}
-\title{format by comma}
+\title{Format number by comma}
 \usage{
 fc(x)
 }
@@ -13,5 +13,5 @@ fc(x)
 charactor
 }
 \description{
-format by comma
+Format number by comma
 }

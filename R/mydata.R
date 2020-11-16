@@ -38,12 +38,13 @@
 #'
 "hiv.iso"
 
-#'dir_list: useful dropbox dir list
+#' final_dir_list: saved dir list of final results, could also be obtained using
+#' `load.final_dir()`
 #'
 #' @docType data
 #' @keywords directory
 #'
-"dir_list"
+"final_dir_list"
 
 #'Rates_Deaths_Country_Summary_2019_UI: The 2019 final estimates with UI
 #'

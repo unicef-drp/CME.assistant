@@ -2,7 +2,7 @@
 % Please edit documentation in R/1.data_engineering.R
 \name{check.and.install.pkgs}
 \alias{check.and.install.pkgs}
-\title{check and install pkgs if missing}
+\title{Check and install packages if missing}
 \usage{
 check.and.install.pkgs(pkgs)
 }
@@ -10,5 +10,5 @@ check.and.install.pkgs(pkgs)
 \item{pkgs}{vector of packages}
 }
 \description{
-check and install pkgs if missing
+Check and install packages if missing
 }

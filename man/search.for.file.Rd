@@ -2,7 +2,7 @@
 % Please edit documentation in R/1.data_engineering.R
 \name{search.for.file}
 \alias{search.for.file}
-\title{search all the folders in `target.dir`, and list files containing the `file_name_string`}
+\title{Search for file paths matched by part of the file name}
 \usage{
 search.for.file(target.dir, file_name_string, full_path = FALSE)
 }
@@ -14,5 +14,6 @@ search.for.file(target.dir, file_name_string, full_path = FALSE)
 \item{full_path}{full path or not}
 }
 \description{
-search all the folders in `target.dir`, and list files containing the `file_name_string`
+Search for files containing the `file_name_string` in all sub-folders in
+`target.dir`, and list files containing the `file_name_string`
 }
