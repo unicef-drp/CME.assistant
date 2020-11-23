@@ -11,9 +11,6 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 588 
 Rates_Deaths_Country_Summary_2019_UI
 }
 \description{
-Rates_Deaths_Country_Summary_2019_UI: The 2019 final estimates with UI
-}
-\references{
-\url{https://childmortality.org/data}
+Please refer to childmortality.org for details
 }
 \keyword{dataset}

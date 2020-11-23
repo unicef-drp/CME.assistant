@@ -48,17 +48,18 @@
 
 #'Rates_Deaths_Country_Summary_2019_UI: The 2019 final estimates with UI
 #'
+#'Please refer to childmortality.org for details
+#'
 #' @docType data
 #' @keywords dataset
-#' @references \url{https://childmortality.org/data}
 "Rates_Deaths_Country_Summary_2019_UI"
 
 
 #'Rates_Deaths_Country_Summary_2020_UI: The 2020 final estimates with UI
+#'Please refer to childmortality.org for details
 #'
 #' @docType data
 #' @keywords dataset
-#' @references \url{https://childmortality.org/data}
 "Rates_Deaths_Country_Summary_2020_UI"
 
 
