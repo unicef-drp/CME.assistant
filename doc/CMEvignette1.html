@@ -380,7 +380,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># without supplying dir_file, by default returns the published IGME 2020 final</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="co"># results</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a>dt_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">get.CME.UI.data</span>(<span class="dt">use_IGME_year =</span> <span class="dv">2020</span>)</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt; Indicators: U5MR, IMR, NMR, Under.five.Deaths, Infant.Deaths, Neonatal.Deaths</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt; Indicators:U5MR, IMR, NMR, Under.five.Deaths, Infant.Deaths, Neonatal.Deaths</span></span>
 <span id="cb2-5"><a href="#cb2-5"></a><span class="kw">head</span>(dt_<span class="dv">1</span>)</span>
 <span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt;    OfficialName ISO3Code Indicator Year Quantile   Sex Value</span></span>
 <span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt; 1:  Afghanistan      AFG       IMR 1990    Lower Total 111.2</span></span>
@@ -388,47 +388,38 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt; 3:  Afghanistan      AFG       IMR 1990    Upper Total 130.9</span></span>
 <span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt; 4:  Afghanistan      AFG       IMR 1991    Lower Total 108.2</span></span>
 <span id="cb2-11"><a href="#cb2-11"></a><span class="co">#&gt; 5:  Afghanistan      AFG       IMR 1991   Median Total 116.8</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt; 6:  Afghanistan      AFG       IMR 1991    Upper Total 126.2</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="co"># can read final output file from Dropbox for any indicator</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a>dir_list &lt;-<span class="st"> </span><span class="kw">load.final_dir</span>()</span>
-<span id="cb2-16"><a href="#cb2-16"></a>dt_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">get.CME.UI.data</span>(<span class="dt">dir_file =</span> dir_list<span class="op">$</span>dir_female_<span class="dv">2020</span>)</span>
-<span id="cb2-17"><a href="#cb2-17"></a><span class="co">#&gt; Data loaded:  C:\Users\lyhel//Dropbox/UN IGME Data/2020 Round Estimation/Code/Aggregate results (final) 2020-08-16 (female)/Rates &amp; Deaths(ADJUSTED)_female_Country Summary.csv </span></span>
-<span id="cb2-18"><a href="#cb2-18"></a><span class="co">#&gt; Indicators: U5MR, IMR, Under.five.Deaths, Infant.Deaths</span></span>
-<span id="cb2-19"><a href="#cb2-19"></a><span class="kw">head</span>(dt_<span class="dv">2</span>)</span>
-<span id="cb2-20"><a href="#cb2-20"></a><span class="co">#&gt;    OfficialName ISO3Code Indicator Year Quantile    Sex Value</span></span>
-<span id="cb2-21"><a href="#cb2-21"></a><span class="co">#&gt; 1:  Afghanistan      AFG       IMR 1990    Lower Female 105.1</span></span>
-<span id="cb2-22"><a href="#cb2-22"></a><span class="co">#&gt; 2:  Afghanistan      AFG       IMR 1990   Median Female 114.2</span></span>
-<span id="cb2-23"><a href="#cb2-23"></a><span class="co">#&gt; 3:  Afghanistan      AFG       IMR 1990    Upper Female 124.7</span></span>
-<span id="cb2-24"><a href="#cb2-24"></a><span class="co">#&gt; 4:  Afghanistan      AFG       IMR 1991    Lower Female 102.1</span></span>
-<span id="cb2-25"><a href="#cb2-25"></a><span class="co">#&gt; 5:  Afghanistan      AFG       IMR 1991   Median Female 110.7</span></span>
-<span id="cb2-26"><a href="#cb2-26"></a><span class="co">#&gt; 6:  Afghanistan      AFG       IMR 1991    Upper Female 120.4</span></span></code></pre></div>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt; 6:  Afghanistan      AFG       IMR 1991    Upper Total 126.2</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># can read final output file from Dropbox for any indicator</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co"># loading Dropbox files requires access to corresponding files</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>dir_list &lt;-<span class="st"> </span><span class="kw">load.final_dir</span>()</span>
+<span id="cb3-4"><a href="#cb3-4"></a>dt_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">get.CME.UI.data</span>(<span class="dt">dir_file =</span> dir_list<span class="op">$</span>dir_female_<span class="dv">2020</span>)</span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="kw">head</span>(dt_<span class="dv">2</span>)</span></code></pre></div>
 </div>
 <div id="locate-the-latest-master-datasets-directories" class="section level3">
 <h3>Locate the latest master datasets directories</h3>
 <p>Automatically point to the latest file using the date in file names</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>input_dirs &lt;-<span class="st"> </span><span class="kw">load.IGMEinput.dir</span>()</span>
-<span id="cb3-2"><a href="#cb3-2"></a>dir_U5MR   &lt;-<span class="st"> </span><span class="kw">get.dir_U5MR</span>(input_dirs<span class="op">$</span>dir_IGME_<span class="dv">20</span>)</span>
-<span id="cb3-3"><a href="#cb3-3"></a>dir_IMR    &lt;-<span class="st"> </span><span class="kw">get.dir_IMR</span>(input_dirs<span class="op">$</span>dir_IGME_<span class="dv">20</span>)</span>
-<span id="cb3-4"><a href="#cb3-4"></a>dir_NMR    &lt;-<span class="st"> </span><span class="kw">get.dir_NMR</span>(<span class="dt">y5 =</span> <span class="ot">TRUE</span>) <span class="co"># either 5-year or not</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a>dir_gender &lt;-<span class="st"> </span><span class="kw">get.dir_gender</span>(<span class="dt">plotting =</span> <span class="ot">TRUE</span>) <span class="co"># either dataset for plotting or modeling</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>input_dirs &lt;-<span class="st"> </span><span class="kw">load.IGMEinput.dir</span>()</span>
+<span id="cb4-2"><a href="#cb4-2"></a>dir_U5MR   &lt;-<span class="st"> </span><span class="kw">get.dir_U5MR</span>(input_dirs<span class="op">$</span>dir_IGME_<span class="dv">20</span>)</span>
+<span id="cb4-3"><a href="#cb4-3"></a>dir_IMR    &lt;-<span class="st"> </span><span class="kw">get.dir_IMR</span>(input_dirs<span class="op">$</span>dir_IGME_<span class="dv">20</span>)</span>
+<span id="cb4-4"><a href="#cb4-4"></a>dir_NMR    &lt;-<span class="st"> </span><span class="kw">get.dir_NMR</span>(<span class="dt">y5 =</span> <span class="ot">TRUE</span>) <span class="co"># either 5-year or not</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a>dir_gender &lt;-<span class="st"> </span><span class="kw">get.dir_gender</span>(<span class="dt">plotting =</span> <span class="ot">TRUE</span>) <span class="co"># either dataset for plotting or modeling</span></span></code></pre></div>
 </div>
 </div>
 <div id="extra" class="section level2">
 <h2>Extra</h2>
 <p><strong><code>get.match</code></strong></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># a helpful function to revise variable, you can provide a __new_list__ to define the labels</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">get.match</span>(<span class="kw">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>), <span class="dt">new_list =</span> <span class="kw">list</span>(<span class="st">&quot;a&quot;</span> =<span class="st"> &quot;new label 1&quot;</span>,</span>
-<span id="cb4-3"><a href="#cb4-3"></a>                                           <span class="st">&quot;b&quot;</span> =<span class="st"> &quot;new label 2&quot;</span>))</span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt; [1] &quot;new label 1&quot; &quot;new label 2&quot; &quot;c&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># a helpful function to revise variable, you can provide a __new_list__ to define the labels</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">get.match</span>(<span class="kw">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>), <span class="dt">new_list =</span> <span class="kw">list</span>(<span class="st">&quot;a&quot;</span> =<span class="st"> &quot;new label 1&quot;</span>,</span>
+<span id="cb5-3"><a href="#cb5-3"></a>                                           <span class="st">&quot;b&quot;</span> =<span class="st"> &quot;new label 2&quot;</span>))</span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt; [1] &quot;new label 1&quot; &quot;new label 2&quot; &quot;c&quot;</span></span></code></pre></div>
 <p><strong><code>UNICEF_colors</code></strong></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">str</span>(UNICEF_colors)</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#&gt; List of 5</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co">#&gt;  $ UNICEF_blue    : chr &quot;#1CABE2&quot;</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt;  $ cp_UNICEF_seq  : chr [1:8] &quot;#002759&quot; &quot;#00377D&quot; &quot;#0058AB&quot; &quot;#0083CF&quot; ...</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#&gt;  $ cp_UNICEF_div  : chr [1:10] &quot;#002759&quot; &quot;#0058AB&quot; &quot;#1CABE2&quot; &quot;#69DBFF&quot; ...</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#&gt;  $ cp_UNICEF_qua  : chr [1:10] &quot;#0058AB&quot; &quot;#1CABE2&quot; &quot;#00833D&quot; &quot;#80BD41&quot; ...</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="co">#&gt;  $ cp_UNICEF_grays: chr [1:5] &quot;#333333&quot; &quot;#6B6B6B&quot; &quot;#B3B3B3&quot; &quot;#D7D7D7&quot; ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">str</span>(UNICEF_colors)</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="co">#&gt; List of 5</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="co">#&gt;  $ UNICEF_blue    : chr &quot;#1CABE2&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt;  $ cp_UNICEF_seq  : chr [1:8] &quot;#002759&quot; &quot;#00377D&quot; &quot;#0058AB&quot; &quot;#0083CF&quot; ...</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt;  $ cp_UNICEF_div  : chr [1:10] &quot;#002759&quot; &quot;#0058AB&quot; &quot;#1CABE2&quot; &quot;#69DBFF&quot; ...</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt;  $ cp_UNICEF_qua  : chr [1:10] &quot;#0058AB&quot; &quot;#1CABE2&quot; &quot;#00833D&quot; &quot;#80BD41&quot; ...</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt;  $ cp_UNICEF_grays: chr [1:5] &quot;#333333&quot; &quot;#6B6B6B&quot; &quot;#B3B3B3&quot; &quot;#D7D7D7&quot; ...</span></span></code></pre></div>
 </div>
 
 

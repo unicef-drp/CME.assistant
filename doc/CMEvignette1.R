@@ -13,10 +13,12 @@ library(CME.assistant)
 dt_1 <- get.CME.UI.data(use_IGME_year = 2020)
 head(dt_1)
 
-# can read final output file from Dropbox for any indicator
-dir_list <- load.final_dir()
-dt_2 <- get.CME.UI.data(dir_file = dir_list$dir_female_2020)
-head(dt_2)
+## ---- eval = FALSE------------------------------------------------------------
+#  # can read final output file from Dropbox for any indicator
+#  # loading Dropbox files requires access to corresponding files
+#  dir_list <- load.final_dir()
+#  dt_2 <- get.CME.UI.data(dir_file = dir_list$dir_female_2020)
+#  head(dt_2)
 
 ## ---- eval = FALSE------------------------------------------------------------
 #  input_dirs <- load.IGMEinput.dir()
