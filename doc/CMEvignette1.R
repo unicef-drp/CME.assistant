@@ -5,6 +5,7 @@ knitr::opts_chunk$set(
 )
 
 ## -----------------------------------------------------------------------------
+options(rmarkdown.html_vignette.check_title = FALSE)
 library(CME.assistant)
 
 ## ---- eval = TRUE-------------------------------------------------------------
@@ -19,6 +20,15 @@ head(dt_1)
 #  dir_list <- load.final_dir()
 #  dt_2 <- get.CME.UI.data(dir_file = dir_list$dir_female_2020)
 #  head(dt_2)
+
+## ---- eval = FALSE------------------------------------------------------------
+#  dir_cqt_files <- file.path(CME.assistant::get.IGME.dir(2020),
+#                             "figData/cqt_backup")
+#  list.files(dir_cqt_files)
+#  dt_cqt <- get.dt.cqt(dir_cqt_files)
+#  dt_cqt[, table(Shortind, Sex)]
+#  # table to be added into the profile by country:
+#  dt1 <- get.table.by.iso(iso0 = "AFG")
 
 ## ---- eval = FALSE------------------------------------------------------------
 #  input_dirs <- load.IGMEinput.dir()

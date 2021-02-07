@@ -134,13 +134,13 @@ get.match <- function(x,
                       new_list = NULL,
                       no_line_break = FALSE){
   if(is.null(new_list)){
-    labs <- default_label_1
+    labs <- default_label
   } else {
     if(is.list(new_list)){
       labs <- new_list
     } else {
       message("new_list must be a list. Still use the default list.")
-      labs <- default_label_1
+      labs <- default_label
     }
   }
   if(!is.character(x)){

@@ -368,8 +368,9 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 <p>The goal of CME.assistant is to share reusable helper functions within the CME team. Also feel free to download, further revise and compile locally.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(CME.assistant)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="co">#&gt; Loading required package: data.table</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">options</span>(<span class="dt">rmarkdown.html_vignette.check_title =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(CME.assistant)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#&gt; Loading required package: data.table</span></span></code></pre></div>
 <div id="functions-for-data-engineering" class="section level2">
 <h2>Functions for data engineering</h2>
 <div id="read-the-final-aggregated-file-and-output-final-igme-estimates-in-various-forms" class="section level3">
@@ -395,31 +396,41 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb3-4"><a href="#cb3-4"></a>dt_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">get.CME.UI.data</span>(<span class="dt">dir_file =</span> dir_list<span class="op">$</span>dir_female_<span class="dv">2020</span>)</span>
 <span id="cb3-5"><a href="#cb3-5"></a><span class="kw">head</span>(dt_<span class="dv">2</span>)</span></code></pre></div>
 </div>
+</div>
+<div id="make-cc-profiles" class="section level2">
+<h2>Make CC profiles</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>dir_cqt_files &lt;-<span class="st"> </span><span class="kw">file.path</span>(CME.assistant<span class="op">::</span><span class="kw">get.IGME.dir</span>(<span class="dv">2020</span>),</span>
+<span id="cb4-2"><a href="#cb4-2"></a>                           <span class="st">&quot;figData/cqt_backup&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="kw">list.files</span>(dir_cqt_files)</span>
+<span id="cb4-4"><a href="#cb4-4"></a>dt_cqt &lt;-<span class="st"> </span><span class="kw">get.dt.cqt</span>(dir_cqt_files)</span>
+<span id="cb4-5"><a href="#cb4-5"></a>dt_cqt[, <span class="kw">table</span>(Shortind, Sex)]</span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co"># table to be added into the profile by country: </span></span>
+<span id="cb4-7"><a href="#cb4-7"></a>dt1 &lt;-<span class="st"> </span><span class="kw">get.table.by.iso</span>(<span class="dt">iso0 =</span> <span class="st">&quot;AFG&quot;</span>)</span></code></pre></div>
 <div id="locate-the-latest-master-datasets-directories" class="section level3">
 <h3>Locate the latest master datasets directories</h3>
 <p>Automatically point to the latest file using the date in file names</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>input_dirs &lt;-<span class="st"> </span><span class="kw">load.IGMEinput.dir</span>()</span>
-<span id="cb4-2"><a href="#cb4-2"></a>dir_U5MR   &lt;-<span class="st"> </span><span class="kw">get.dir_U5MR</span>(input_dirs<span class="op">$</span>dir_IGME_<span class="dv">20</span>)</span>
-<span id="cb4-3"><a href="#cb4-3"></a>dir_IMR    &lt;-<span class="st"> </span><span class="kw">get.dir_IMR</span>(input_dirs<span class="op">$</span>dir_IGME_<span class="dv">20</span>)</span>
-<span id="cb4-4"><a href="#cb4-4"></a>dir_NMR    &lt;-<span class="st"> </span><span class="kw">get.dir_NMR</span>(<span class="dt">y5 =</span> <span class="ot">TRUE</span>) <span class="co"># either 5-year or not</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a>dir_gender &lt;-<span class="st"> </span><span class="kw">get.dir_gender</span>(<span class="dt">plotting =</span> <span class="ot">TRUE</span>) <span class="co"># either dataset for plotting or modeling</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>input_dirs &lt;-<span class="st"> </span><span class="kw">load.IGMEinput.dir</span>()</span>
+<span id="cb5-2"><a href="#cb5-2"></a>dir_U5MR   &lt;-<span class="st"> </span><span class="kw">get.dir_U5MR</span>(input_dirs<span class="op">$</span>dir_IGME_<span class="dv">20</span>)</span>
+<span id="cb5-3"><a href="#cb5-3"></a>dir_IMR    &lt;-<span class="st"> </span><span class="kw">get.dir_IMR</span>(input_dirs<span class="op">$</span>dir_IGME_<span class="dv">20</span>)</span>
+<span id="cb5-4"><a href="#cb5-4"></a>dir_NMR    &lt;-<span class="st"> </span><span class="kw">get.dir_NMR</span>(<span class="dt">y5 =</span> <span class="ot">TRUE</span>) <span class="co"># either 5-year or not</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a>dir_gender &lt;-<span class="st"> </span><span class="kw">get.dir_gender</span>(<span class="dt">plotting =</span> <span class="ot">TRUE</span>) <span class="co"># either dataset for plotting or modeling</span></span></code></pre></div>
 </div>
 </div>
 <div id="extra" class="section level2">
 <h2>Extra</h2>
 <p><strong><code>get.match</code></strong></p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># a helpful function to revise variable, you can provide a __new_list__ to define the labels</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">get.match</span>(<span class="kw">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>), <span class="dt">new_list =</span> <span class="kw">list</span>(<span class="st">&quot;a&quot;</span> =<span class="st"> &quot;new label 1&quot;</span>,</span>
-<span id="cb5-3"><a href="#cb5-3"></a>                                           <span class="st">&quot;b&quot;</span> =<span class="st"> &quot;new label 2&quot;</span>))</span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt; [1] &quot;new label 1&quot; &quot;new label 2&quot; &quot;c&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># a helpful function to revise variable, you can provide a __new_list__ to define the labels</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">get.match</span>(<span class="kw">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>), <span class="dt">new_list =</span> <span class="kw">list</span>(<span class="st">&quot;a&quot;</span> =<span class="st"> &quot;new label 1&quot;</span>,</span>
+<span id="cb6-3"><a href="#cb6-3"></a>                                           <span class="st">&quot;b&quot;</span> =<span class="st"> &quot;new label 2&quot;</span>))</span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt; [1] &quot;new label 1&quot; &quot;new label 2&quot; &quot;c&quot;</span></span></code></pre></div>
 <p><strong><code>UNICEF_colors</code></strong></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">str</span>(UNICEF_colors)</span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="co">#&gt; List of 5</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="co">#&gt;  $ UNICEF_blue    : chr &quot;#1CABE2&quot;</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt;  $ cp_UNICEF_seq  : chr [1:8] &quot;#002759&quot; &quot;#00377D&quot; &quot;#0058AB&quot; &quot;#0083CF&quot; ...</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt;  $ cp_UNICEF_div  : chr [1:10] &quot;#002759&quot; &quot;#0058AB&quot; &quot;#1CABE2&quot; &quot;#69DBFF&quot; ...</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt;  $ cp_UNICEF_qua  : chr [1:10] &quot;#0058AB&quot; &quot;#1CABE2&quot; &quot;#00833D&quot; &quot;#80BD41&quot; ...</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt;  $ cp_UNICEF_grays: chr [1:5] &quot;#333333&quot; &quot;#6B6B6B&quot; &quot;#B3B3B3&quot; &quot;#D7D7D7&quot; ...</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">str</span>(UNICEF_colors)</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="co">#&gt; List of 5</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="co">#&gt;  $ UNICEF_blue    : chr &quot;#1CABE2&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="co">#&gt;  $ cp_UNICEF_seq  : chr [1:8] &quot;#002759&quot; &quot;#00377D&quot; &quot;#0058AB&quot; &quot;#0083CF&quot; ...</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt;  $ cp_UNICEF_div  : chr [1:10] &quot;#002759&quot; &quot;#0058AB&quot; &quot;#1CABE2&quot; &quot;#69DBFF&quot; ...</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt;  $ cp_UNICEF_qua  : chr [1:10] &quot;#0058AB&quot; &quot;#1CABE2&quot; &quot;#00833D&quot; &quot;#80BD41&quot; ...</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt;  $ cp_UNICEF_grays: chr [1:5] &quot;#333333&quot; &quot;#6B6B6B&quot; &quot;#B3B3B3&quot; &quot;#D7D7D7&quot; ...</span></span></code></pre></div>
 </div>
 
 

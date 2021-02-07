@@ -25,12 +25,3 @@ ggsave.figs <- function(myplot, file_name = "myplot", width = 8, height = 6, fol
   ggsave(here::here(folder_name, fig_names[2]), plot = myplot,
          dpi = 600, device = "pdf",  width = width, height = height)
 }
-
-
-#' Format number by comma
-#' @param x param to be rounded, e.g, 1000 -> "1,000"
-#' @importFrom scales comma
-#' @return charactor
-fc <- function(x){
-  scales::comma(round(x))
-}

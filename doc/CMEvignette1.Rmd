@@ -18,6 +18,7 @@ The goal of CME.assistant is to share reusable helper functions within the CME t
 Also feel free to download, further revise and compile locally.
 
 ```{r}
+options(rmarkdown.html_vignette.check_title = FALSE)
 library(CME.assistant)
 ```
 
@@ -45,6 +46,17 @@ dt_2 <- get.CME.UI.data(dir_file = dir_list$dir_female_2020)
 head(dt_2)
 ```
 
+## Make CC profiles  
+
+```{r, eval = FALSE}
+dir_cqt_files <- file.path(CME.assistant::get.IGME.dir(2020),
+                           "figData/cqt_backup")
+list.files(dir_cqt_files)
+dt_cqt <- get.dt.cqt(dir_cqt_files)
+dt_cqt[, table(Shortind, Sex)]
+# table to be added into the profile by country: 
+dt1 <- get.table.by.iso(iso0 = "AFG")
+```
 
 ### Locate the latest master datasets directories  
 Automatically point to the latest file using the date in file names  
@@ -70,4 +82,3 @@ get.match(c("a","b", "c"), new_list = list("a" = "new label 1",
 ```{r}
 str(UNICEF_colors)
 ```
-
