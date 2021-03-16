@@ -2,7 +2,7 @@
 % Please edit documentation in R/1.data_engineering.R
 \name{get.country.info}
 \alias{get.country.info}
-\title{Load the country info file, requires object `country_info`}
+\title{Load the country info file, requires dt object `country_info`}
 \usage{
 get.country.info()
 }

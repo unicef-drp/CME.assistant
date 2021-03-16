@@ -325,6 +325,8 @@ get.CME.UI.data <- function(
     data.table::setkey(dt_long, ISO3Code)
     # round?
     if(is.numeric(round_digit)) dt_long[, Value:= roundoff(Value, digits = round_digit)]
+    # remove NA
+    dt_long <- dt_long[!is.na(Value)]
 
     # pick output format here ----
     # since everything is made from format long
@@ -332,12 +334,14 @@ get.CME.UI.data <- function(
       return(dt_long)
       # wide all the indicators (incl. rates, deaths, if all selected)
     } else if (format == "wide_ind") {
-      # e.g. OfficialName ISO3Code      X Year      U5MR      NMR       IMR
-      dt_wide_ind <- data.table::dcast(dt_long, ISO3Code + OfficialName  + Year + Quantile + Sex ~ Indicator, value.var = "Value")
+      # e.g. OfficialName    ISO3Code      X Year      U5MR      NMR       IMR
+      formula0 <- paste(paste(idvars, collapse = " + "), "+ Year + Quantile + Sex ~ Indicator" )
+      dt_wide_ind <- data.table::dcast.data.table(dt_long, formula = formula0, value.var = "Value")
       return(dt_wide_ind)
       # wide all the years, all the inds in one column
     } else if (format == "wide_year") {
-      dt_wide_year <- data.table::dcast(dt_long, ISO3Code + OfficialName  +Indicator  + Quantile + Sex ~ Year, value.var = "Value")
+      formula0 <- paste(paste(idvars, collapse = " + "), " + Indicator  + Quantile + Sex ~ Year" )
+      dt_wide_year <- data.table::dcast.data.table(dt_long, formula = formula0, value.var = "Value")
       return(dt_wide_year)
     } else {
       # Two value columns : one for rate, one for deaths
@@ -356,7 +360,8 @@ get.CME.UI.data <- function(
           "Neonatal.Deaths"  = "Neonatal"
         )
         dt_long[, Indicator:= get.match(Indicator, new_list = align_ind)]
-        dt_wide_get <- data.table::dcast(dt_long, ISO3Code + OfficialName  + Indicator  + Year + Quantile + Sex ~ Get, value.var = "Value")
+        formula0 <- paste(paste(idvars, collapse = " + "), "+ Indicator  + Year + Quantile + Sex ~ Get" )
+        dt_wide_get <- data.table::dcast.data.table(dt_long, formula = formula0, value.var = "Value")
         return(dt_wide_get)
       }
     }
@@ -364,7 +369,122 @@ get.CME.UI.data <- function(
 }
 
 
-#' Load the country info file, requires object `country_info`
+#' function to read "Rates & Deaths_Country Summary.csv" and output long format
+#'
+#' @param dir_dt_cs directory to Rates & Deaths_Country Summary.csv
+#' @param year_wanted default to null, supply e.g. 1990:2019
+#' @param sex default to NULL, will determine from file dir
+#' @export
+read.country.summary <- function(
+  dir_dt_cs,      # fread("Rates & Deaths_Country Summary.csv)
+  year_wanted = NULL, # e.g. 1990:2019
+  sex = NULL
+){
+  if(!file.exists(dir_dt_cs)) stop("File doesn't exist: ", dir_dt_cs)
+  dt_cs <- fread(dir_dt_cs)[ISO3Code!="LIE"]
+  setnames(dt_cs, gsub(" ", ".", colnames(dt_cs)))
+  setnames(dt_cs, gsub("-", ".", colnames(dt_cs)))
+  # find the Quantie column:
+  if("X"%in%colnames(dt_cs))setnames(dt_cs, "X", "Quantile")
+  if("V99"%in%colnames(dt_cs))setnames(dt_cs, "V99", "Quantile") # in case leave as blank
+  if("Quintile"%in%colnames(dt_cs))setnames(dt_cs, "Quintile", "Quantile")
+  # get all the variables available in the datasets:
+  # e.g. c("X5q15", "X10q15", "X5q20")
+  vars <- grep(".2019", colnames(dt_cs), value = TRUE, fixed = TRUE)
+  vars <- gsub(".2019", "", vars)
+  # available years
+  year_available <- grep(vars[1], colnames(dt_cs), value = TRUE, fixed = TRUE)
+  year_available <- as.numeric(gsub(paste0(vars[1], "."), "", year_available))
+  if(is.null(year_wanted)){
+    year_wanted <- year_available
+  } else {
+    year_wanted <- year_wanted[year_wanted%in%year_available]
+  }
+  vars_wanted <- do.call(paste0, expand.grid(vars, ".", year_wanted))
+  dt_cs <- dt_cs[, c("ISO3Code", "Quantile", vars_wanted), with = FALSE]
+  dt_cs[, (vars_wanted):=lapply(.SD, as.numeric), .SDcols = vars_wanted]
+  dt_long <- melt.data.table(dt_cs, id.vars = c("ISO3Code", "Quantile"),
+                             variable.factor = FALSE)
+  dt_long[, year := as.numeric(substr(variable, nchar(variable)-3, nchar(variable)))]
+  dt_long[, ind := substr(variable, 1, nchar(variable)-5)]
+  dt_long[, variable:= NULL]
+  # determine sex from dir
+  if(is.null(sex)){
+    if(grepl("female", dir_dt_cs)){
+      sex <- "Female"
+    } else if (grepl("male", dir_dt_cs)) {
+      sex <- "Male"
+    } else {
+      sex <- "Total"
+    }
+  }
+  dt_long[, Sex:= sex]
+  return(dt_long)
+}
+
+#' function to read regional summary and output long format
+
+#' @param dir_dt_cs directory to e.g. paste0("Rates & Deaths_UNICEFRegion.csv")
+#'
+#' @param year_wanted default to null, supply e.g. 1990:2019
+#' @param add_regional_grouping if add `Regional_Grouping` column
+#' @param sex default to NULL, will determine from file dir
+#'
+#' @export
+read.region.summary <- function(
+  dir_dt_cs,      # regional summary in aggregate results
+  year_wanted = NULL,# e.g. c(1990, 2019)
+  sex = NULL,
+  add_regional_grouping = FALSE
+){
+  if(!file.exists(dir_dt_cs)) stop("File doesn't exist: ", dir_dt_cs)
+  dt_cs <- fread(dir_dt_cs)
+  # What region is it?
+
+  if(grepl("SDG", dir_dt_cs)) Regional_Grouping <- "SDG"
+  if(grepl("UNICEF", dir_dt_cs)) Regional_Grouping <- "UNICEF"
+  if(grepl("WB", dir_dt_cs)) Regional_Grouping <- "World Bank"
+  # clean up the col names
+  setnames(dt_cs, gsub(" ", ".", colnames(dt_cs)))
+  setnames(dt_cs, gsub("-", ".", colnames(dt_cs)))
+  vars0 <- colnames(dt_cs)
+  vars0 <- vars0[!grepl("Population", vars0, ignore.case = TRUE)]
+  vars_wanted <- vars0[!vars0%in%c("Region", "Year")]
+  # available years
+  year_available <- sort(unique(dt_cs$Year))
+  if(is.null(year_wanted)){
+    year_wanted <- year_available
+  } else {
+    year_wanted <- year_wanted[year_wanted%in%year_available]
+  }
+  dt_cs <- dt_cs[Year%in%year_available]
+  dt_cs[, (vars_wanted):=lapply(.SD, as.numeric), .SDcols = vars_wanted]
+  dt_long <- melt.data.table(dt_cs[,..vars0], id.vars = c("Region", "Year"),
+                             variable.factor = FALSE)
+  dt_long[grepl("upper", variable, ignore.case = TRUE), Quantile := "Upper"]
+  dt_long[grepl("median", variable, ignore.case = TRUE), Quantile := "Median"]
+  dt_long[grepl("lower", variable, ignore.case = TRUE), Quantile := "Lower"]
+  dt_long[, Shortind:= gsub("X|.lower.bound|.upper.bound|.median", "", variable)]
+  dt_long[, variable:= NULL]
+  if(add_regional_grouping) dt_long[, Regional_Grouping:= Regional_Grouping]
+  dt_long[, Year:= floor(Year) + 0.5]
+  # determine sex from dir
+  if(is.null(sex)){
+    if(grepl("female", dir_dt_cs)){
+      sex <- "Female"
+    } else if (grepl("male", dir_dt_cs)) {
+      sex <- "Male"
+    } else {
+      sex <- "Total"
+    }
+  }
+  dt_long[, Sex:= sex]
+  return(dt_long)
+}
+
+
+
+#' Load the country info file, requires dt object `country_info`
 #'
 #' Creats UNICEFReportRegion from UNICEFReportRegion1 and UNICEFReportRegion2
 #' @import data.table

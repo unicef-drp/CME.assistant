@@ -4,7 +4,7 @@
 \alias{add.new.series.u5mr}
 \title{Add new U5MR or IMR entries (dt_new_entries)}
 \usage{
-add.new.series.u5mr(dt_master, dt_new_entries, remove_old = TRUE)
+add.new.series.u5mr(dt_master, dt_new_entries, remove_old = FALSE)
 }
 \arguments{
 \item{dt_master}{the U5MR master dataset}

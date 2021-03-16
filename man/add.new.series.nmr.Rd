@@ -4,12 +4,15 @@
 \alias{add.new.series.nmr}
 \title{Add new NMR entries (`dt_new_entries`)}
 \usage{
-add.new.series.nmr(dt_nmr, dt_new_entries)
+add.new.series.nmr(dt_nmr, dt_new_entries, remove_old = FALSE)
 }
 \arguments{
 \item{dt_nmr}{the NMR master dataset}
 
 \item{dt_new_entries}{dt of new entries to be added}
+
+\item{remove_old}{if TRUE, remove old entries, if FALSE, set old entries to
+invisible and excluded}
 }
 \value{
 the new dt_nmr_new

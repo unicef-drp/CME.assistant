@@ -307,6 +307,7 @@ get.opt.dir <- function(
   cname,
   surveytype = "DHS",
   year = NULL){
+  cname <- gsub(" ", "", cname)
   dir_opt <- file.path(Sys.getenv("USERPROFILE"), "Dropbox/IGME Data/Output CMRJack/All/BH", surveytype, "Real/Optimal")
   files <- get.file.name(dir_file =dir_opt,  pattern0 = cname)
   if(any(grepl(" CY ", files))) files <- grep(" CY ", files, value = TRUE)
@@ -325,6 +326,7 @@ get.opt.dir <- function(
 #' get.raw.dir("Zimbabwe", "DHS", 2015)
 #' }
 get.raw.dir <- function(cname, surveytype = "DHS", year = NULL){
+  cname <- gsub(" ", "", cname)
   dir_opt <- file.path(Sys.getenv("USERPROFILE"), "Dropbox/IGME Data/Output CMRJack/All/BH", surveytype, "Real/Raw")
   files <- get.file.name(dir_file =dir_opt,  pattern0 = cname)
   if(any(grepl(" CY ", files))) files <- grep(" CY ", files, value = TRUE)
@@ -338,6 +340,7 @@ get.raw.dir <- function(cname, surveytype = "DHS", year = NULL){
 #' right (YL 2020/2)
 #'
 #' @param dir0 file directory not output for now
+#' @export revise.path
 revise.path <- function(dir0){
   # if there is backslack, replace it
   if(grep("\\\\", dir0)) dir <- gsub("\\\\", "\\/", dir0)

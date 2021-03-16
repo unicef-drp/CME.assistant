@@ -105,7 +105,7 @@ add.Original.Series.Name <- function(dt_new_entries, ori_name){
 add.new.series.u5mr <- function(
   dt_master,
   dt_new_entries,
-  remove_old = TRUE
+  remove_old = FALSE
   ){
   message("original nrow:", nrow(dt_master))
   dt_new_entries <- revise.age.group(dt_new_entries)
@@ -118,7 +118,10 @@ add.new.series.u5mr <- function(
       message("nrow after removing old entries:", nrow(dt_master))
 
     } else {
-      message("Change inclusion and visible for old entry to 0: ", paste(unique(dt_new_entries$IGME_Key), collapse = ", "))
+      # print those existing ones that are changed to 0
+      message("Change inclusion and visible for old entry to 0: \n",
+              paste(dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key), unique(IGME_Key)],
+              collapse = "\n"))
       dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key), Inclusion:=0]
       dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key), Visible := 0]
     }
@@ -151,7 +154,7 @@ add.new.series.u5mr <- function(
 add.new.series.imr <- function(
   dt_IMR,
   dt_new_entries,
-  remove_old = TRUE
+  remove_old = FALSE
   ){
   message("original nrow:", nrow(dt_IMR))
   dt_new_entries <- revise.age.group(dt_new_entries)
@@ -163,7 +166,10 @@ add.new.series.imr <- function(
       message("Remove existing (possibly old) entries: ", paste(unique(dt_new_entries$IGME_Key), collapse = ", "))
       dt_IMR <- dt_IMR[!IGME_Key %in% unique(dt_new_entries$IGME_Key)]
     } else {
-      message("Change inclusion and visible for old entry to 0: ", paste(unique(dt_new_entries$IGME_Key), collapse = ", "))
+      # print those existing ones that are changed to 0
+      message("Change inclusion and visible for old entry to 0: \n",
+              paste(dt_IMR[IGME_Key %in% unique(dt_new_entries$IGME_Key), unique(IGME_Key)],
+                    collapse = "\n"))
       dt_IMR[IGME_Key %in% unique(dt_new_entries$IGME_Key), Inclusion:=0]
       dt_IMR[IGME_Key %in% unique(dt_new_entries$IGME_Key), Visible := 0]
     }
@@ -185,33 +191,33 @@ add.new.series.imr <- function(
 #'
 #' @param dt_nmr the NMR master dataset
 #' @param dt_new_entries dt of new entries to be added
+#' @param remove_old if TRUE, remove old entries, if FALSE, set old entries to
+#'   invisible and excluded
 #' @return the new dt_nmr_new
 #' @export add.new.series.nmr
 add.new.series.nmr <- function(
   dt_nmr,
-  dt_new_entries
+  dt_new_entries,
+  remove_old = FALSE
   ){
   message("old nrow:", nrow(dt_nmr))
 
   key0s <- dt_new_entries[, unique(IGME_Key)]
-  dt_existing <- dt_nmr[IGME_Key%in%key0s & Visible==1]
-  if(nrow(dt_existing)>0){
-    message("Remove ", dt_existing[,.N], " rows of ", dt_existing$IGME_Key[1] ," as old data exist")
-    dt_nmr <- dt_nmr[!(IGME_Key%in%key0s & Visible==1)]
+  if(nrow(dt_nmr[IGME_Key %in% key0s,]) > 0){
+    if(remove_old){
+      message("Remove existing (possibly old) entries: ", paste(key0s, collapse = ", "))
+      dt_nmr <- dt_nmr[!IGME_Key %in% key0s]
+    } else {
+      # print those existing ones that are changed to 0
+      message("Change inclusion and visible for old entry to 0: \n",
+              paste(dt_nmr[IGME_Key %in% key0s, unique(IGME_Key)],
+                    collapse = "\n"))
+      dt_nmr[IGME_Key %in% key0s, Inclusion:=0]
+      dt_nmr[IGME_Key %in% key0s, Visible := 0]
+    }
+
   }
 
-  for(key0 in key0s){
-    dt_nmr[IGME_Key==key0]
-    if(nrow(dt_nmr[IGME_Key==key0])>0) {
-      message("Check existing entries for ", key0)
-      message("Inclusion for", key0, dt_nmr[IGME_Key==key0, Inclusion], "\n")
-      dt_nmr[IGME_Key==key0, Inclusion:=0]
-      message("New Inclusion for", key0, dt_nmr[IGME_Key==key0, Inclusion], "\n")
-      message("Visible for", key0, dt_nmr[IGME_Key==key0, Visible], "\n")
-      dt_nmr[IGME_Key==key0, Visible:=0]
-      message("New Visible for", key0, dt_nmr[IGME_Key==key0, Visible], "\n")
-    }
-  }
   # recreate IGME Key
   dt_new_entries <- create.IGME.key(dt_new_entries)
   dt_nmr_new <- rbind(dt_nmr, dt_new_entries, fill = TRUE)
@@ -223,7 +229,7 @@ add.new.series.nmr <- function(
 
   message("old ncol:", ncol(dt_nmr))
   message("new ncol:", ncol(dt_nmr_new))
-  message("Newly added:", paste(unique(dt_new_entries$IGME_Key), collapse = ", "))
+  message("Newly added:", paste(key0s, collapse = ", "))
 
   return(dt_nmr_new)
 }

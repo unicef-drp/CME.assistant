@@ -5,7 +5,7 @@
 \title{Add new IMR entries (dt_new_entries), now the same function as
 `add.new.series.u5mr`}
 \usage{
-add.new.series.imr(dt_IMR, dt_new_entries, remove_old = TRUE)
+add.new.series.imr(dt_IMR, dt_new_entries, remove_old = FALSE)
 }
 \arguments{
 \item{dt_IMR}{the IMR master dataset}

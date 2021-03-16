@@ -24,6 +24,6 @@ if(getRversion() >= "2.15.1")  {
                            "country" ,"dt_cme" ,"dt_cqt" ,"dt_new_cnames" ,"fig_dirs" ,"ind" ,"ind_short" ,"inds",
                            "legend_ID" ,"mcmc.meta" ,"na.omit" ,"source15_24" ,"source5_14", "surveys",
                            "surveys_combined", "value" ,"year.t" ,"year1" ,"year2" ,"years",
-                           "res.cqt.Lw"
+                           "res.cqt.Lw", "..vars0", "default_label"
                            ))
 }
