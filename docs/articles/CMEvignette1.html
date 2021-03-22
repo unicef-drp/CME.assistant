@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CME.assistant</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -69,7 +69,7 @@
 
       
 
-      </header><script src="CMEvignette1_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="CMEvignette1_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+      </header><script src="CMEvignette1_files/header-attrs-2.5/header-attrs.js"></script><link href="CMEvignette1_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
 <script src="CMEvignette1_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -98,8 +98,8 @@
 * The long-format dataset contains <strong>Official Name, ISO3Code, Indicator, Year, Quantile, Sex</strong> * The function will output all available indicators in the dataset * Optional: subset by country ISO (<code>c_iso</code>) or year (<code>year_range</code>)</p>
 <p><strong><code>get.CME.UI.data</code></strong></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># without supplying dir_file, by default returns the published IGME 2020 final</span>
-<span class="co"># results</span>
+<code class="sourceCode R"><span class="co"># without supplying dir_file, by default returns the published IGME 2020 result</span>
+<span class="co"># in long format</span>
 <span class="va">dt_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get.CME.UI.data.html">get.CME.UI.data</a></span><span class="op">(</span>use_IGME_year <span class="op">=</span> <span class="fl">2020</span><span class="op">)</span>
 <span class="co">#&gt; Indicators:U5MR, IMR, NMR, Under.five.Deaths, Infant.Deaths, Neonatal.Deaths</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dt_1</span><span class="op">)</span>
@@ -109,10 +109,29 @@
 <span class="co">#&gt; 3:  Afghanistan      AFG       IMR 1990    Upper Total 130.9</span>
 <span class="co">#&gt; 4:  Afghanistan      AFG       IMR 1991    Lower Total 108.2</span>
 <span class="co">#&gt; 5:  Afghanistan      AFG       IMR 1991   Median Total 116.8</span>
-<span class="co">#&gt; 6:  Afghanistan      AFG       IMR 1991    Upper Total 126.2</span></code></pre></div>
+<span class="co">#&gt; 6:  Afghanistan      AFG       IMR 1991    Upper Total 126.2</span>
+<span class="co"># can also output wide-format results: wide_ind, wide_year, wide_get (Rate and</span>
+<span class="co"># Deaths)</span>
+<span class="va">dt_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get.CME.UI.data.html">get.CME.UI.data</a></span><span class="op">(</span>use_IGME_year <span class="op">=</span> <span class="fl">2020</span>, format <span class="op">=</span> <span class="st">"wide_ind"</span><span class="op">)</span>
+<span class="co">#&gt; Indicators:U5MR, IMR, NMR, Under.five.Deaths, Infant.Deaths, Neonatal.Deaths</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dt_2</span><span class="op">)</span>
+<span class="co">#&gt;    OfficialName ISO3Code Year Quantile   Sex   IMR Infant.Deaths  NMR</span>
+<span class="co">#&gt; 1:  Afghanistan      AFG 1990    Lower Total 111.2         69961 66.4</span>
+<span class="co">#&gt; 2:  Afghanistan      AFG 1990   Median Total 120.4         75591 74.3</span>
+<span class="co">#&gt; 3:  Afghanistan      AFG 1990    Upper Total 130.9         82006 83.1</span>
+<span class="co">#&gt; 4:  Afghanistan      AFG 1991    Lower Total 108.2         71041 65.2</span>
+<span class="co">#&gt; 5:  Afghanistan      AFG 1991   Median Total 116.8         76527 72.9</span>
+<span class="co">#&gt; 6:  Afghanistan      AFG 1991    Upper Total 126.2         82547 81.2</span>
+<span class="co">#&gt;    Neonatal.Deaths  U5MR Under.five.Deaths</span>
+<span class="co">#&gt; 1:           43221 162.5            100845</span>
+<span class="co">#&gt; 2:           48398 177.7            110011</span>
+<span class="co">#&gt; 3:           54133 194.3            120093</span>
+<span class="co">#&gt; 4:           44511 157.6            101250</span>
+<span class="co">#&gt; 5:           49732 171.7            110063</span>
+<span class="co">#&gt; 6:           55365 186.9            119560</span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># can read final output file from Dropbox for any indicator</span>
-<span class="co"># loading Dropbox files requires access to corresponding files</span>
+<span class="co"># loading Dropbox files requires access</span>
 <span class="va">dir_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load.final_dir.html">load.final_dir</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">dt_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get.CME.UI.data.html">get.CME.UI.data</a></span><span class="op">(</span>dir_file <span class="op">=</span> <span class="va">dir_list</span><span class="op">$</span><span class="va">dir_female_2020</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dt_2</span><span class="op">)</span></code></pre></div>
@@ -122,8 +141,9 @@
 <h2 class="hasAnchor">
 <a href="#make-cc-profiles" class="anchor"></a>Make CC profiles</h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dir_cqt_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu">CME.assistant</span><span class="fu">::</span><span class="fu"><a href="../reference/get.IGME.dir.html">get.IGME.dir</a></span><span class="op">(</span><span class="fl">2020</span><span class="op">)</span>,
-                           <span class="st">"figData/cqt_backup"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="co"># loading Dropbox files requires access</span>
+<span class="va">dir_cqt_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu">CME.assistant</span><span class="fu">::</span><span class="fu"><a href="../reference/get.IGMEoutput.dir.html">get.IGMEoutput.dir</a></span><span class="op">(</span><span class="fl">2020</span><span class="op">)</span>,
+                           <span class="st">"figDataTemp/cqt_backup"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="va">dir_cqt_files</span><span class="op">)</span>
 <span class="va">dt_cqt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get.dt.cqt.html">get.dt.cqt</a></span><span class="op">(</span><span class="va">dir_cqt_files</span><span class="op">)</span>
 <span class="va">dt_cqt</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">Shortind</span>, <span class="va">Sex</span><span class="op">)</span><span class="op">]</span>
