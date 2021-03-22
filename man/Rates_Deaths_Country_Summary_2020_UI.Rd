@@ -6,7 +6,7 @@
 \title{Rates_Deaths_Country_Summary_2020_UI: The 2020 final estimates with UI
 Please refer to childmortality.org for details}
 \format{
-An object of class \code{data.table} (inherits from \code{data.frame}) with 588 rows and 519 columns.
+An object of class \code{data.table} (inherits from \code{data.frame}) with 588 rows and 427 columns.
 }
 \usage{
 Rates_Deaths_Country_Summary_2020_UI

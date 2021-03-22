@@ -32,15 +32,19 @@ Choose output format among raw, long, wide_year and wide_ind, default to "long"
 
 **`get.CME.UI.data`**
 ```{r, eval = TRUE}
-# without supplying dir_file, by default returns the published IGME 2020 final
-# results
+# without supplying dir_file, by default returns the published IGME 2020 result
+# in long format
 dt_1 <- get.CME.UI.data(use_IGME_year = 2020)
 head(dt_1)
+# can also output wide-format results: wide_ind, wide_year, wide_get (Rate and
+# Deaths)
+dt_2 <- get.CME.UI.data(use_IGME_year = 2020, format = "wide_ind")
+head(dt_2)
 ```
 
 ```{r, eval = FALSE}
 # can read final output file from Dropbox for any indicator
-# loading Dropbox files requires access to corresponding files
+# loading Dropbox files requires access
 dir_list <- load.final_dir()
 dt_2 <- get.CME.UI.data(dir_file = dir_list$dir_female_2020)
 head(dt_2)
@@ -49,8 +53,9 @@ head(dt_2)
 ## Make CC profiles  
 
 ```{r, eval = FALSE}
-dir_cqt_files <- file.path(CME.assistant::get.IGME.dir(2020),
-                           "figData/cqt_backup")
+# loading Dropbox files requires access
+dir_cqt_files <- file.path(CME.assistant::get.IGMEoutput.dir(2020),
+                           "figDataTemp/cqt_backup")
 list.files(dir_cqt_files)
 dt_cqt <- get.dt.cqt(dir_cqt_files)
 dt_cqt[, table(Shortind, Sex)]
