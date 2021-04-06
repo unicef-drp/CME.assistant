@@ -45,7 +45,7 @@ long-format data, wide_get means two columns: rate and death}
 \item{quantile}{TRUE: return upper, median, lower; FALSE: only median}
 }
 \value{
-a data.table
+a data.table (data.frame)
 }
 \description{
 `get.CME.UI.data` can read in "Rates & Deaths_Country Summary.csv" for any

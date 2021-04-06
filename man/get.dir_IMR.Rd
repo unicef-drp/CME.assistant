@@ -4,7 +4,7 @@
 \alias{get.dir_IMR}
 \title{Get the IMR master dataset directory}
 \usage{
-get.dir_IMR(dir_IGME = get.IGMEinput.dir(2020))
+get.dir_IMR(dir_IGME = get.IGMEinput.dir(2021))
 }
 \arguments{
 \item{dir_IGME}{The directory to IGME input folder, e.g. ".../2020 Round

@@ -48,20 +48,12 @@ head(dt_2)
 dir_list <- load.final_dir()
 dt_2 <- get.CME.UI.data(dir_file = dir_list$dir_female_2020)
 head(dt_2)
+
+# load all in one step
+dt_all <- data.table::rbindlist(lapply(load.final_dir(2020), get.CME.UI.data, get = "both"), fill = TRUE)
+dt_all[, table(Sex, Indicator)]
 ```
 
-## Make CC profiles  
-
-```{r, eval = FALSE}
-# loading Dropbox files requires access
-dir_cqt_files <- file.path(CME.assistant::get.IGMEoutput.dir(2020),
-                           "figDataTemp/cqt_backup")
-list.files(dir_cqt_files)
-dt_cqt <- get.dt.cqt(dir_cqt_files)
-dt_cqt[, table(Shortind, Sex)]
-# table to be added into the profile by country: 
-dt1 <- get.table.by.iso(iso0 = "AFG")
-```
 
 ### Locate the latest master datasets directories  
 Automatically point to the latest file using the date in file names  

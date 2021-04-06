@@ -2,8 +2,8 @@
 % Please edit documentation in R/0.directories.R
 \name{revise.path}
 \alias{revise.path}
-\title{Adjust the file dir if the lash is not right or the dropbox username is not
-right (YL 2020/2)}
+\title{Adjust the file dir if the lash is not right or the Dropbox username is not
+right}
 \usage{
 revise.path(dir0)
 }
@@ -11,6 +11,6 @@ revise.path(dir0)
 \item{dir0}{file directory not output for now}
 }
 \description{
-Adjust the file dir if the lash is not right or the dropbox username is not
-right (YL 2020/2)
+Adjust the file dir if the lash is not right or the Dropbox username is not
+right
 }

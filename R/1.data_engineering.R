@@ -161,7 +161,6 @@ get.match <- function(x,
 
 # Get data ---------------------------------------------------------------
 
-
 #' Return different format of the final aggregate results country summary
 #'
 #' `get.CME.UI.data` can read in "Rates & Deaths_Country Summary.csv" for any
@@ -187,7 +186,7 @@ get.match <- function(x,
 #' @param sex Sex column value: Total, Female or Male, if left as NULL as
 #'   default will be determined from directory of `dir_file`
 #'
-#' @return a data.table
+#' @return a data.table (data.frame)
 #' @export get.CME.UI.data
 #' @examples
 #' dt_1 <- get.CME.UI.data(use_IGME_year = 2020, format = "wide_year")

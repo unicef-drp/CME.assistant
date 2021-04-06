@@ -201,6 +201,7 @@ add.new.series.nmr <- function(
   remove_old = FALSE
   ){
   message("old nrow:", nrow(dt_nmr))
+  dt_new_entries <- revise.age.group(dt_new_entries)
 
   key0s <- dt_new_entries[, unique(IGME_Key)]
   if(nrow(dt_nmr[IGME_Key %in% key0s,]) > 0){
@@ -232,6 +233,62 @@ add.new.series.nmr <- function(
   message("Newly added:", paste(key0s, collapse = ", "))
 
   return(dt_nmr_new)
+}
+
+
+
+
+#' Add new VR series
+#'
+#' @param dt_master master dataset
+#' @param dt_new_entries new entries
+#' @param NMR is it NMR or not
+#' @param hide_old default to TRUE, set old ones to invisible = 0 and inclusion
+#'   = 0, otherwise leave as it is
+#'
+#' @export
+add.new.VR <- function(
+  dt_master,
+  dt_new_entries,
+  NMR = FALSE,
+  hide_old = TRUE
+){
+  dt_master <- copy(dt_master)
+  message("original nrow:", nrow(dt_master))
+  dt_new_entries <- revise.age.group(dt_new_entries)
+
+  nrow_old <- nrow(dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key) & Series.Name%in%unique(dt_new_entries$Series.Name),])
+  if(nrow_old > 0){
+    if(hide_old){
+      # print those existing ones that are changed to 0
+      message("Change inclusion and visible for old entry to 0: /n",
+              paste(dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key)  & Series.Name%in%unique(dt_new_entries$Series.Name), unique(IGME_Key)],
+                    collapse = "/n"))
+      message("Change inclusion and visible for old entry to 0: /n",
+              paste(dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key) & Series.Name%in%unique(dt_new_entries$Series.Name), unique(Series.Name)],
+                    collapse = "/n"))
+      dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key) & Series.Name%in%unique(dt_new_entries$Series.Name), Inclusion := 0]
+      dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key) & Series.Name%in%unique(dt_new_entries$Series.Name), Visible   := 0]
+    } else {
+      message("Old VR series unchanged.")
+    }
+  }
+
+  # recreate IGME Key
+  dt_new_entries <- create.IGME.key(dt_new_entries)
+  dt1 <- rbind(dt_master, dt_new_entries)
+  dup_key <- dt1[duplicated(dt1), unique(IGME_Key)]
+  if(length(dup_key)>0) message("Notice duplicated series: ", paste(dup_key, collapse = ", "))
+  if(NMR){
+    setorder(dt1, Country.Name, -End.date.of.Survey, Series.Name, Series.Type, -Date.Of.Data.Added, -Reference.Date, -Inclusion)
+
+  } else {
+    setorder(dt1, Country.Name, -Indicator, -Sex, -End.date.of.Survey, Series.Name, Series.Type, -Date.Of.Data.Added, -Reference.Date, - Inclusion)
+  }
+  message("new nrow:", nrow(dt1), " -adding- ", nrow(dt1) - nrow(dt_master))
+  message("Newly added:", paste(unique(dt_new_entries$IGME_Key), collapse = ", "))
+  if(nrow(dt_master) + nrow(dt_new_entries) != nrow(dt1)) warning("check row numbers ")
+  return(dt1)
 }
 
 

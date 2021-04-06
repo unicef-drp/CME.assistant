@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CME.assistant</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
       </span>
     </div>
 
@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -69,8 +69,7 @@
 
       
 
-      </header><script src="CMEvignette1_files/header-attrs-2.5/header-attrs.js"></script><link href="CMEvignette1_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="CMEvignette1_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="CMEvignette1_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Example of Functions Part I</h1>
@@ -134,26 +133,17 @@
 <span class="co"># loading Dropbox files requires access</span>
 <span class="va">dir_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load.final_dir.html">load.final_dir</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">dt_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get.CME.UI.data.html">get.CME.UI.data</a></span><span class="op">(</span>dir_file <span class="op">=</span> <span class="va">dir_list</span><span class="op">$</span><span class="va">dir_female_2020</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dt_2</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dt_2</span><span class="op">)</span>
+
+<span class="co"># load all in one step</span>
+<span class="va">dt_all</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/rbindlist.html">rbindlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="../reference/load.final_dir.html">load.final_dir</a></span><span class="op">(</span><span class="fl">2020</span><span class="op">)</span>, <span class="va">get.CME.UI.data</span>, get <span class="op">=</span> <span class="st">"both"</span><span class="op">)</span>, fill <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">dt_all</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">Sex</span>, <span class="va">Indicator</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 </div>
-</div>
-<div id="make-cc-profiles" class="section level2">
-<h2 class="hasAnchor">
-<a href="#make-cc-profiles" class="anchor"></a>Make CC profiles</h2>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># loading Dropbox files requires access</span>
-<span class="va">dir_cqt_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu">CME.assistant</span><span class="fu">::</span><span class="fu"><a href="../reference/get.IGMEoutput.dir.html">get.IGMEoutput.dir</a></span><span class="op">(</span><span class="fl">2020</span><span class="op">)</span>,
-                           <span class="st">"figDataTemp/cqt_backup"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="va">dir_cqt_files</span><span class="op">)</span>
-<span class="va">dt_cqt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get.dt.cqt.html">get.dt.cqt</a></span><span class="op">(</span><span class="va">dir_cqt_files</span><span class="op">)</span>
-<span class="va">dt_cqt</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">Shortind</span>, <span class="va">Sex</span><span class="op">)</span><span class="op">]</span>
-<span class="co"># table to be added into the profile by country: </span>
-<span class="va">dt1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get.table.by.iso.html">get.table.by.iso</a></span><span class="op">(</span>iso0 <span class="op">=</span> <span class="st">"AFG"</span><span class="op">)</span></code></pre></div>
 <div id="locate-the-latest-master-datasets-directories" class="section level3">
 <h3 class="hasAnchor">
 <a href="#locate-the-latest-master-datasets-directories" class="anchor"></a>Locate the latest master datasets directories</h3>
 <p>Automatically point to the latest file using the date in file names</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">input_dirs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load.IGMEinput.dir.html">load.IGMEinput.dir</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">dir_U5MR</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get.dir_U5MR.html">get.dir_U5MR</a></span><span class="op">(</span><span class="va">input_dirs</span><span class="op">$</span><span class="va">dir_IGME_20</span><span class="op">)</span>
 <span class="va">dir_IMR</span>    <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get.dir_IMR.html">get.dir_IMR</a></span><span class="op">(</span><span class="va">input_dirs</span><span class="op">$</span><span class="va">dir_IGME_20</span><span class="op">)</span>
@@ -165,13 +155,13 @@
 <h2 class="hasAnchor">
 <a href="#extra" class="anchor"></a>Extra</h2>
 <p><strong><code>get.match</code></strong></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># a helpful function to revise variable, you can provide a __new_list__ to define the labels</span>
 <span class="fu"><a href="../reference/get.match.html">get.match</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>,<span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span>, new_list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"a"</span> <span class="op">=</span> <span class="st">"new label 1"</span>,
                                            <span class="st">"b"</span> <span class="op">=</span> <span class="st">"new label 2"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] "new label 1" "new label 2" "c"</span></code></pre></div>
 <p><strong><code>UNICEF_colors</code></strong></p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">UNICEF_colors</span><span class="op">)</span>
 <span class="co">#&gt; List of 5</span>
 <span class="co">#&gt;  $ UNICEF_blue    : chr "#1CABE2"</span>

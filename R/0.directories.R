@@ -111,19 +111,24 @@ get.ref.date <- function(date0,
                          date1){
   date0 <- as.Date(date0)
   date1 <- as.Date(date1)
-  get.date <- function(date0){
-    y1 <- data.table::year(date0)
-    n_days1 <- ifelse(leap_year(y1), 366, 365) # e.g. 2020 is a leap year with 366 days
-    first_day_of_year <- as.Date(paste(y1, 1, 1, sep = "-")) # use to count diff days
-    date_num <- as.double(difftime(date0, first_day_of_year))/n_days1 + y1
-    return(date_num)
-  }
-  date_start <- get.date(date0)
-  date_end <- get.date(date1)
-  date_ave <- get.date(date0 + difftime(date1, date0)/2)
+  date_start <- get.numeric.date(date0)
+  date_end <- get.numeric.date(date1)
+  date_ave <- get.numeric.date(date0 + difftime(date1, date0)/2)
   return(list(date_start=date_start, date_end=date_end, date_ave=date_ave))
 }
 
+#' return numeric date
+#'
+#' @param date0 date for example: 2020-01-01
+#' @return numeric date for example: 2020.014
+#' @export
+get.numeric.date <- function(date0){
+  y1 <- data.table::year(date0)
+  n_days1 <- ifelse(leap_year(y1), 366, 365) # e.g. 2020 is a leap year with 366 days
+  first_day_of_year <- as.Date(paste(y1, 1, 1, sep = "-")) # use to count diff days
+  date_num <- as.double(difftime(date0, first_day_of_year))/n_days1 + y1
+  return(date_num)
+}
 
 # Get database path -------------------------------------------------------
 
@@ -190,7 +195,7 @@ find_latest_date <- function(files){
 #'   \code{\link{get.IGMEinput.dir}}
 #' @return file path to the master dataset
 #' @export get.dir_U5MR
-get.dir_U5MR <- function(dir_IGME = get.IGMEinput.dir(2020)){
+get.dir_U5MR <- function(dir_IGME = get.IGMEinput.dir(2021)){
   files_full <- get.file.name(dir_file = dir_IGME, pattern0 = "data_U5MR")
   files <- get.file.name(dir_file = dir_IGME, pattern0 = "data_U5MR", full_name = FALSE)
   file_selected <- files_full[find_latest_date(files)]
@@ -209,7 +214,7 @@ get.dir_U5MR <- function(dir_IGME = get.IGMEinput.dir(2020)){
 #'   Estimation/Code/input/"
 #' @return file path to the master dataset
 #' @export get.dir_IMR
-get.dir_IMR <- function(dir_IGME = get.IGMEinput.dir(2020)){
+get.dir_IMR <- function(dir_IGME = get.IGMEinput.dir(2021)){
   files_full <- get.file.name(dir_file = dir_IGME, pattern0 = "data_IMR")
   files <- get.file.name(dir_file = dir_IGME, pattern0 = "data_IMR", full_name = FALSE)
   file_selected <- files_full[find_latest_date(files)]
@@ -336,8 +341,9 @@ get.raw.dir <- function(cname, surveytype = "DHS", year = NULL){
 
 # extra
 
-#' Adjust the file dir if the lash is not right or the dropbox username is not
-#' right (YL 2020/2)
+#' Adjust the file dir if the lash is not right or the Dropbox username is not
+#' right
+#'
 #'
 #' @param dir0 file directory not output for now
 #' @export revise.path

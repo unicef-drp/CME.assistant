@@ -1,5 +1,5 @@
 Package: CME.assistant
-Title: Reusable Assisting Functions for Child Mortality Estimation
+Title: Reusable Assisting Functions for Data Analysis
 Version: 1.1.5
 Authors@R: 
     person(given = "Yang",
@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "lyhello@gmail.com",
            comment = c(ORCID = "0000-0001-6557-6439"))
-Description: Provide helper functions for UNICEF child mortality estimation. 
+Description: Provide reusable helper functions related to CME daily work.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -17,8 +17,6 @@ Depends:
 Imports:
     ggplot2 (>= 3.0.0),
     here,
-    readxl,
-    xlsx,
     usethis
 RoxygenNote: 7.1.1
 Suggests: 
