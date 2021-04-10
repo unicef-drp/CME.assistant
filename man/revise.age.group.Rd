@@ -9,6 +9,9 @@ revise.age.group(dt_new_entries)
 \arguments{
 \item{dt_new_entries}{dt of new entries to be added}
 }
+\value{
+dt_new_entries with 25-34 and 10-19 removed
+}
 \description{
-Internal function used by `add.new.series` functions
+function used by `add.new.series` functions, remove unwanted age groups
 }

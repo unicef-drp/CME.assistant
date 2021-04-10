@@ -59,8 +59,8 @@ dt_all[, table(Sex, Indicator)]
 Automatically point to the latest file using the date in file names  
 ```{r, eval = FALSE}
 input_dirs <- load.IGMEinput.dir()
-dir_U5MR   <- get.dir_U5MR(input_dirs$dir_IGME_20)
-dir_IMR    <- get.dir_IMR(input_dirs$dir_IGME_20)
+dir_U5MR   <- get.dir_U5MR(input_dirs$dir_IGME_21)
+dir_IMR    <- get.dir_IMR(input_dirs$dir_IGME_21)
 dir_NMR    <- get.dir_NMR(y5 = TRUE) # either 5-year or not
 dir_gender <- get.dir_gender(plotting = TRUE) # either dataset for plotting or modeling
 ```

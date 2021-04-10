@@ -317,6 +317,8 @@ get.CME.UI.data <- function(
     dt_long <- data.table::melt(dt1, measure.vars = inds_wanted_year, value.name = "Value", variable.factor = FALSE)
     # dt_long[, Indicator:= gsub( "\\..*", "", variable )] # remove anything after .
     dt_long[, Indicator:= substr(variable, 1, nchar(variable)-5)] # remove anything after .
+    # Deaths -> deaths
+    dt_long[, Indicator:= gsub("Deaths", "deaths", Indicator)]
     dt_long[, Year:= gsub( ".*\\.", "", variable )] # remove anything after the last dot
     dt_long[, Year:= as.numeric(Year)]
     vars_kept <- c(idvars, "Indicator", "Year", "Quantile", "Sex", "Value")

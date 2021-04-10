@@ -27,6 +27,10 @@ create.IGME.key <- function(dt0){
   dt0[!Series.Category %in% c("VR", "SVR", "Life Table"), IGME_Key := paste0(Code, "-", Series.Year, "-", Series.Name)]
   dt0[Series.Category %in% c("SVR") & Country.Name == "South Africa", IGME_Key := paste0(Code, "-", Series.Year, "-", Series.Category)]
   dt0[, IGME_Key := gsub(strings_to_remove, "", IGME_Key)]
+  # add direct/indirect?
+  dt0[grepl("Direct", Series.Type), IGME_Key := paste0(IGME_Key, "-Direct")]
+  dt0[grepl("Indirect", Series.Type), IGME_Key := paste0(IGME_Key, "-Indirect")]
+
   dt0[, Code:=NULL]
   return(dt0)
 }
@@ -71,12 +75,19 @@ rbinddatasetNMR <- function(dt_master, dt_new){
 
 #' Remove 25-34 age group in `dt_new_entries`
 #'
-#' Internal function used by `add.new.series` functions
+#' function used by `add.new.series` functions, remove unwanted age groups
 #' @param dt_new_entries dt of new entries to be added
+#' @return dt_new_entries with 25-34 and 10-19 removed
+#' @export revise.age.group
 revise.age.group <- function(dt_new_entries){
   if(nrow(dt_new_entries[Age.Group.of.Women=="25-34"])>0){
     message("Remove AOW group '25-34' for ", paste(dt_new_entries[Age.Group.of.Women=="25-34", unique(IGME_Key)], collapse = ", "))
-    dt_new_entries <- dt_new_entries[Age.Group.of.Women!="25-34", ]
+    dt_new_entries <- dt_new_entries[!Age.Group.of.Women%in%c("25-34"), ]
+
+  }
+  if(nrow(dt_new_entries[Age.Group.of.Women=="19-Oct"])>0){
+    message("Remove AOW group '10-19' for ", paste(dt_new_entries[Age.Group.of.Women=="25-34", unique(IGME_Key)], collapse = ", "))
+    dt_new_entries <- dt_new_entries[!Age.Group.of.Women%in%c("10-19", "19-Oct"), ]
   }
   return(dt_new_entries)
 }

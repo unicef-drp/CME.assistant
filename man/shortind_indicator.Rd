@@ -5,7 +5,7 @@
 \alias{shortind_indicator}
 \title{shortind_indicator: match shortind to full indicator names}
 \format{
-An object of class \code{list} of length 24.
+An object of class \code{list} of length 26.
 }
 \usage{
 shortind_indicator
