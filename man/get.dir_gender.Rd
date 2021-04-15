@@ -4,13 +4,13 @@
 \alias{get.dir_gender}
 \title{Get the sex-specific master dataset directory}
 \usage{
-get.dir_gender(dir_IGME_gender = NULL, plotting = TRUE)
+get.dir_gender(plotting = TRUE, dir_IGME_gender = NULL)
 }
 \arguments{
-\item{dir_IGME_gender}{default to "/Dropbox/CMEgender2015/Database"}
-
 \item{plotting}{to get the dataset for plotting (if TRUE) or dataset for
 modeling (if FALSE)}
+
+\item{dir_IGME_gender}{default to "/Dropbox/CMEgender2015/Database"}
 }
 \value{
 file path to the master dataset

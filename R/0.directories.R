@@ -273,10 +273,16 @@ get.dir_NMR <- function(
 #' @return file path to the master dataset
 #' @export get.dir_gender
 get.dir_gender <- function(
-  dir_IGME_gender = NULL,
-  plotting = TRUE
+  plotting = TRUE,
+  dir_IGME_gender = NULL
 ){
-  if(is.null(dir_IGME_gender)) dir_IGME_gender <- file.path(Sys.getenv("USERPROFILE"),"/Dropbox/CMEgender2015/Database")
+  if(is.null(dir_IGME_gender)){
+    if(plotting){
+      dir_IGME_gender <- file.path(Sys.getenv("USERPROFILE"),"/Dropbox/CMEgender2015/Database")
+    } else {
+      dir_IGME_gender <- file.path(Sys.getenv("USERPROFILE"),"/Dropbox/CMEgender2015/data/interim")
+    }
+  }
   if(plotting){
     files_full <- get.file.name(dir_file = dir_IGME_gender, pattern0 = "dataset_forplotting")
     files <- get.file.name(dir_file = dir_IGME_gender, pattern0 = "dataset_forplotting", full_name = FALSE)

@@ -85,25 +85,6 @@ check.and.install.pkgs <- function(pkgs){
 }
 
 
-#' A rounding function that round off numbers in the conventional way
-#'
-#' Instead of in R where round(0.5) = 0, roundoff(0.5, 0) = 1
-#'
-#' @param x the number
-#' @param digits digits, default to 2
-#' @return rounded numeric vector
-#' @export roundoff
-roundoff <- function(#
-  x, digits = 2
-) {
-  if(!is.numeric(x)) message("x coerse to numeric. ")
-  x <- as.numeric(x)
-  z <- trunc(abs(x)*10^digits + 0.5)
-  z <- sign(x)*z/10^digits
-  return(z)
-}
-
-
 #' Capitalize first letter of each word in the vector
 #' @param y vector of strings
 #' @return a vector of strings with first letter capitalized

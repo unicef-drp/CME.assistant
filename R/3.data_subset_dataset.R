@@ -27,6 +27,8 @@ create.IGME.key <- function(dt0){
   dt0[!Series.Category %in% c("VR", "SVR", "Life Table"), IGME_Key := paste0(Code, "-", Series.Year, "-", Series.Name)]
   dt0[Series.Category %in% c("SVR") & Country.Name == "South Africa", IGME_Key := paste0(Code, "-", Series.Year, "-", Series.Category)]
   dt0[, IGME_Key := gsub(strings_to_remove, "", IGME_Key)]
+  # remove blank
+  dt0[, IGME_Key := trimws(IGME_Key)]
   # add direct/indirect?
   dt0[grepl("Direct", Series.Type), IGME_Key := paste0(IGME_Key, "-Direct")]
   dt0[grepl("Indirect", Series.Type), IGME_Key := paste0(IGME_Key, "-Indirect")]
