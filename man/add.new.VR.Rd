@@ -11,7 +11,7 @@ add.new.VR(dt_master, dt_new_entries, NMR = FALSE, hide_old = TRUE)
 
 \item{dt_new_entries}{new entries}
 
-\item{NMR}{is it NMR or not}
+\item{NMR}{is it NMR or not, only controls how the columns are sorted}
 
 \item{hide_old}{default to TRUE, set old ones to invisible = 0 and inclusion
 = 0, otherwise leave as it is}

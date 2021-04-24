@@ -18,10 +18,11 @@ get.CME.UI.data(
 )
 }
 \arguments{
-\item{dir_file}{allow a different dataset to be read: directory to aggregate
+\item{dir_file}{directory to the dataset to be read: directory to aggregate
 final}
 
-\item{c_iso}{country iso, if NULL, returns all isos, default to NULL}
+\item{c_iso}{country ISO3Code, default to NULL: returns all countries in the
+dataset}
 
 \item{year_range}{a vector of years, default to 1990: 2019}
 
@@ -42,17 +43,21 @@ long-format data, wide_get means two columns: rate and death}
 \item{use_IGME_year}{load the saved IGME final aggregated results (final):
 2019 or 2020}
 
-\item{quantile}{TRUE: return upper, median, lower; FALSE: only median}
+\item{quantile}{default to TRUE: return upper, median, lower; FALSE: only
+median.}
 }
 \value{
 a data.table (data.frame)
 }
 \description{
 `get.CME.UI.data` can read in "Rates & Deaths_Country Summary.csv" for any
-indicators published so far and include Sex, Quantile in the output. A
-pre-saved list of summary.csv files directories could be obtained by
-\code{\link{load.final_dir}}. Output dataset in either long, wide year, wide
-indicator, or wide `get` (one column for rate and one column for death)
+indicators published so far and include Sex, Quantile in the output. If there
+is only median (i.e. no Quantile column in the dataset) the function will
+check if there is only one row per country. A pre-saved list of summary.csv
+files directories could be obtained by \code{\link{load.final_dir}}. Choose
+the `format` of the output dataset among `long`, `wide_year`, `wide_ind`
+(wide by indicator) and wide `get` (one column for rate and one column for
+death)
 }
 \examples{
 dt_1 <- get.CME.UI.data(use_IGME_year = 2020, format = "wide_year")

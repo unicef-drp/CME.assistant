@@ -4,15 +4,21 @@
 \alias{create.IGME.key}
 \title{Create IGME_Key column}
 \usage{
-create.IGME.key(dt0)
+create.IGME.key(dt0, add_Indicator = FALSE)
 }
 \arguments{
 \item{dt0}{dataset}
+
+\item{add_Indicator}{default to `FALSE`, if `TRUE` will add indicator in the
+end of `IGME_Key`, keep another `IGME_Key_s` column which doesn't have
+indicator in the end}
 }
 \value{
 dt0 dataset with added column `IGME_Key`
 }
 \description{
-Extra strings like "Preliminary" or "MM/NN adjusted" are removed in the
-created `IGME_Key` column
+Create column `IGME_Key` in the format of
+ISO3Code-Series.Year-Series.Name-Series.Category,
+e.g."TZA-1988-Census-Indirect", "RWA-2017-Malaria Indicator Survey-Indirect".
+Extra strings like "Preliminary" or "MM/NN adjusted" are removed
 }

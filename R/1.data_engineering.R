@@ -145,14 +145,18 @@ get.match <- function(x,
 #' Return different format of the final aggregate results country summary
 #'
 #' `get.CME.UI.data` can read in "Rates & Deaths_Country Summary.csv" for any
-#' indicators published so far and include Sex, Quantile in the output. A
-#' pre-saved list of summary.csv files directories could be obtained by
-#' \code{\link{load.final_dir}}. Output dataset in either long, wide year, wide
-#' indicator, or wide `get` (one column for rate and one column for death)
+#' indicators published so far and include Sex, Quantile in the output. If there
+#' is only median (i.e. no Quantile column in the dataset) the function will
+#' check if there is only one row per country. A pre-saved list of summary.csv
+#' files directories could be obtained by \code{\link{load.final_dir}}. Choose
+#' the `format` of the output dataset among `long`, `wide_year`, `wide_ind`
+#' (wide by indicator) and wide `get` (one column for rate and one column for
+#' death)
 #'
-#' @param dir_file allow a different dataset to be read: directory to aggregate
+#' @param dir_file directory to the dataset to be read: directory to aggregate
 #'   final
-#' @param c_iso country iso, if NULL, returns all isos, default to NULL
+#' @param c_iso country ISO3Code, default to NULL: returns all countries in the
+#'   dataset
 #' @param year_range a vector of years, default to 1990: 2019
 #' @param idvars default to "`OfficialName`, `ISO3Code`", what id vars you want
 #'   to include
@@ -163,7 +167,8 @@ get.match <- function(x,
 #' @param round_digit digits to round estimates, default to 1
 #' @param use_IGME_year load the saved IGME final aggregated results (final):
 #'   2019 or 2020
-#' @param quantile TRUE: return upper, median, lower; FALSE: only median
+#' @param quantile default to TRUE: return upper, median, lower; FALSE: only
+#'   median.
 #' @param sex Sex column value: Total, Female or Male, if left as NULL as
 #'   default will be determined from directory of `dir_file`
 #'
@@ -193,7 +198,7 @@ get.CME.UI.data <- function(
     } else if (use_IGME_year == 2019){
       dt <- Rates_Deaths_Country_Summary_2019_UI
     } else {
-      stop("Supply dir_file or choose use_IGME_year among 2019, 2020")
+      stop("Supply dir_file or choose `use_IGME_year` among 2019, 2020")
     }
   } else {
     dir_file <- unlist(dir_file)
@@ -213,15 +218,19 @@ get.CME.UI.data <- function(
   if("V99"%in%colnames(dt))setnames(dt, "V99", "Quantile") # in case leave as blank
   if("Quintile"%in%colnames(dt))setnames(dt, "Quintile", "Quantile")
 
-  # Does the quantile column exist?
+  # `row_per_iso` should be either 1 or 3, so `length(row_per_iso)` should be 1
   row_per_iso <- unique(dt[,.N, by = ISO3Code][,N])
-  # row_per_iso should be either 1 or 3
-  if(length(row_per_iso)!=1) warning("Check row per iso: ", paste(row_per_iso, collapse = ", "))
+  if(length(row_per_iso)!=1) warning("Should be one row each country? Check row per iso: ", paste(row_per_iso, collapse = ", "))
+
+  # Does the quantile column exist?
+  # If there is no Quantile column, then I assume there is only Median.
+  # There should one row per country
   if(!"Quantile"%in%colnames(dt)){
+    # If there is no quantile column it means there should be median only
     if(row_per_iso==1){
       dt[, Quantile:= "Median"]
     } else {
-      stop("There should be a `Quantile` column.")
+      stop("There should be a `Quantile` column in the final results file?")
     }
   }
 
@@ -244,14 +253,19 @@ get.CME.UI.data <- function(
   # available years
   available_years <- grep(inds_wanted[1], colnames(dt), value = TRUE, fixed = TRUE)
   available_years <- as.numeric(gsub(paste0(inds_wanted[1], "."), "", available_years))
-  if(is.null(year_range)){
-    year_range <- available_years
-  } else {
-    if (!all(year_range%in%available_years)) {
-      message("Available years are between: ", paste(range(available_years), collapse = " and "),
+  if(!is.null(year_range)){
+    # so it is OK to supply years by mistake like year_range = 2000.4, match by
+    # flooring
+    year_range <- available_years[floor(available_years)%in%floor(as.numeric(year_range))]
+    if(length(year_range)==0){
+      message("Supplied `year_range` is not in available years.\n",
+              "Available years are between ", paste(range(available_years), collapse = " and "),
               " --- will use all available years")
-      year_range <- year_range[year_range%in%available_years]
+      year_range <- available_years
     }
+  } else {
+    message("`year_range` set to NULL: use all available years in the dataset.")
+    year_range <- available_years
   }
 
   # subset isos if what's required is available
@@ -286,10 +300,15 @@ get.CME.UI.data <- function(
   # the value variable
   inds_wanted_year <- sort(do.call(paste, c(expand.grid(inds_wanted, year_range), sep = ".")))
   dt[, (inds_wanted_year):= lapply(.SD, as.numeric), .SDcols = inds_wanted_year]
-
   #
   vars_wanted <- c(idvars, "Quantile", "Sex", inds_wanted_year)
   dt1 <- dt[ISO3Code %in% c_iso, ..vars_wanted]
+
+  # quantile
+  if(!is.logical(quantile)){
+    quantile <- TRUE
+    message("quantile default to TRUE, choose between TRUE or FALSE.")
+  }
   if(!quantile) dt1 <- dt1[Quantile=="Median"]
 
   if(format == "raw") {
@@ -354,12 +373,12 @@ get.CME.UI.data <- function(
 #' function to read "Rates & Deaths_Country Summary.csv" and output long format
 #'
 #' @param dir_dt_cs directory to Rates & Deaths_Country Summary.csv
-#' @param year_wanted default to null, supply e.g. 1990:2019
+#' @param year_range default to null, supply e.g. 1990:2019
 #' @param sex default to NULL, will determine from file dir
 #' @export
 read.country.summary <- function(
   dir_dt_cs,      # fread("Rates & Deaths_Country Summary.csv)
-  year_wanted = NULL, # e.g. 1990:2019
+  year_range = NULL, # e.g. 1990:2019
   sex = NULL
 ){
   if(!file.exists(dir_dt_cs)) stop("File doesn't exist: ", dir_dt_cs)
@@ -377,12 +396,22 @@ read.country.summary <- function(
   # available years
   year_available <- grep(vars[1], colnames(dt_cs), value = TRUE, fixed = TRUE)
   year_available <- as.numeric(gsub(paste0(vars[1], "."), "", year_available))
-  if(is.null(year_wanted)){
-    year_wanted <- year_available
+  if(!is.null(year_range)){
+    # so it is OK to supply years by mistake like year_range = 2000.4, match by
+    # flooring
+    year_range <- available_years[floor(available_years)%in%floor(as.numeric(year_range))]
+    if(length(year_range)==0){
+      message("Supplied `year_range` is not in available years.\n",
+              "Available years are between ", paste(range(available_years), collapse = " and "),
+              " --- will use all available years")
+      year_range <- available_years
+    }
   } else {
-    year_wanted <- year_wanted[year_wanted%in%year_available]
+    message("`year_range` set to NULL: use all available years in the dataset.")
+    year_range <- available_years
   }
-  vars_wanted <- do.call(paste0, expand.grid(vars, ".", year_wanted))
+
+  vars_wanted <- do.call(paste0, expand.grid(vars, ".", year_range))
   dt_cs <- dt_cs[, c("ISO3Code", "Quantile", vars_wanted), with = FALSE]
   dt_cs[, (vars_wanted):=lapply(.SD, as.numeric), .SDcols = vars_wanted]
   dt_long <- melt.data.table(dt_cs, id.vars = c("ISO3Code", "Quantile"),
@@ -408,14 +437,14 @@ read.country.summary <- function(
 
 #' @param dir_dt_cs directory to e.g. paste0("Rates & Deaths_UNICEFRegion.csv")
 #'
-#' @param year_wanted default to null, supply e.g. 1990:2019
+#' @param year_range default to null, supply e.g. 1990:2019
 #' @param add_regional_grouping if add `Regional_Grouping` column
 #' @param sex default to NULL, will determine from file dir
 #'
 #' @export
 read.region.summary <- function(
   dir_dt_cs,      # regional summary in aggregate results
-  year_wanted = NULL,# e.g. c(1990, 2019)
+  year_range = NULL,# e.g. c(1990, 2019)
   sex = NULL,
   add_regional_grouping = FALSE
 ){
@@ -434,12 +463,21 @@ read.region.summary <- function(
   vars_wanted <- vars0[!vars0%in%c("Region", "Year")]
   # available years
   year_available <- sort(unique(dt_cs$Year))
-  if(is.null(year_wanted)){
-    year_wanted <- year_available
+  if(!is.null(year_range)){
+    # so it is OK to supply years by mistake like year_range = 2000.4, match by
+    # flooring
+    year_range <- available_years[floor(available_years)%in%floor(as.numeric(year_range))]
+    if(length(year_range)==0){
+      message("Supplied `year_range` is not in available years.\n",
+              "Available years are between ", paste(range(available_years), collapse = " and "),
+              " --- will use all available years")
+      year_range <- available_years
+    }
   } else {
-    year_wanted <- year_wanted[year_wanted%in%year_available]
+    message("`year_range` set to NULL: use all available years in the dataset.")
+    year_range <- available_years
   }
-  dt_cs <- dt_cs[Year%in%year_available]
+  dt_cs <- dt_cs[Year%in%year_range]
   dt_cs[, (vars_wanted):=lapply(.SD, as.numeric), .SDcols = vars_wanted]
   dt_long <- melt.data.table(dt_cs[,..vars0], id.vars = c("Region", "Year"),
                              variable.factor = FALSE)
