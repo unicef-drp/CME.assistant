@@ -6,7 +6,7 @@
 \usage{
 read.region.summary(
   dir_dt_cs,
-  year_wanted = NULL,
+  year_range = NULL,
   sex = NULL,
   add_regional_grouping = FALSE
 )
@@ -14,7 +14,7 @@ read.region.summary(
 \arguments{
 \item{dir_dt_cs}{directory to e.g. paste0("Rates & Deaths_UNICEFRegion.csv")}
 
-\item{year_wanted}{default to null, supply e.g. 1990:2019}
+\item{year_range}{default to null, supply e.g. 1990:2019}
 
 \item{sex}{default to NULL, will determine from file dir}
 

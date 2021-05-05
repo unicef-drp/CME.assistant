@@ -108,12 +108,17 @@ upper.first.letter <- function(y){
 #' @param x a element or a vector
 #' @param new_list if you supply a new list the function will use instead of the
 #'   default_labels
-#' @param no_line_break to remove linebreak from the string
+#' @param show_no_match default to FALSE, if TRUE will message unmatched
+#'   elements
+#' @param no_line_break default to FALSE, if TRUE will remove line break from
+#'   the string
+#'
 #' @export get.match
 #' @return an updated vector as character
 get.match <- function(x,
                       new_list = NULL,
-                      no_line_break = FALSE){
+                      no_line_break = FALSE,
+                      show_no_match = FALSE){
   if(is.null(new_list)){
     labs <- default_label
   } else {
@@ -132,6 +137,7 @@ get.match <- function(x,
   for (i in 1:length(x)){
     if (is.null(labs[[ x[i] ]])){
       out[i] <- x[i]
+      if(show_no_match) message("Notice from `get.match`: unmatched input: ", x[i])
     }else{
       out[i] <- labs[[ x[i] ]]
     }
@@ -150,7 +156,7 @@ get.match <- function(x,
 #' check if there is only one row per country. A pre-saved list of summary.csv
 #' files directories could be obtained by \code{\link{load.final_dir}}. Choose
 #' the `format` of the output dataset among `long`, `wide_year`, `wide_ind`
-#' (wide by indicator) and wide `get` (one column for rate and one column for
+#' (wide by indicator) and `wide_get` (one column for rate and one column for
 #' death)
 #'
 #' @param dir_file directory to the dataset to be read: directory to aggregate
@@ -166,11 +172,11 @@ get.match <- function(x,
 #' @param get  default to "rate". Choose among "rate", "death", or "both"
 #' @param round_digit digits to round estimates, default to 1
 #' @param use_IGME_year load the saved IGME final aggregated results (final):
-#'   2019 or 2020
+#'   choose between 2019 or 2020
 #' @param quantile default to TRUE: return upper, median, lower; FALSE: only
 #'   median.
-#' @param sex Sex column value: Total, Female or Male, if left as NULL as
-#'   default will be determined from directory of `dir_file`
+#' @param sex default as NULL, will determine sex from directory of `dir_file`
+#'   unless supplied
 #'
 #' @return a data.table (data.frame)
 #' @export get.CME.UI.data

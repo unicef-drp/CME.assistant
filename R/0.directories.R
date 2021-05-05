@@ -233,12 +233,17 @@ get.dir_IMR <- function(dir_IGME = get.IGMEinput.dir(2021)){
 #' the dataset location is fixed at "/NMR/data"
 #'
 #' @param y5 to get the 5-year dataset or not
+#' @param dir_IGME_NMR default to "Dropbox/NMR/data"
+#'
 #' @return file path to the master dataset
 #' @export get.dir_NMR
 get.dir_NMR <- function(
-  y5 = FALSE
+  y5 = FALSE,
+  dir_IGME_NMR = NULL
 ){
-  dir_IGME_NMR <- file.path(Sys.getenv("USERPROFILE"), "Dropbox/NMR/data")
+  if(is.null(dir_IGME_NMR)){
+    dir_IGME_NMR <- file.path(Sys.getenv("USERPROFILE"), "Dropbox/NMR/data")
+  }
   if(y5){
     files_full <- get.file.name(dir_file = dir_IGME_NMR, pattern0 = "data_NMR_")
     files_full <- files_full[grepl("5year", files_full)]

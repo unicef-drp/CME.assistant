@@ -4,10 +4,12 @@
 \alias{get.dir_NMR}
 \title{Get the NMR master dataset directory}
 \usage{
-get.dir_NMR(y5 = FALSE)
+get.dir_NMR(y5 = FALSE, dir_IGME_NMR = NULL)
 }
 \arguments{
 \item{y5}{to get the 5-year dataset or not}
+
+\item{dir_IGME_NMR}{default to "Dropbox/NMR/data"}
 }
 \value{
 file path to the master dataset

@@ -4,12 +4,12 @@
 \alias{read.country.summary}
 \title{function to read "Rates & Deaths_Country Summary.csv" and output long format}
 \usage{
-read.country.summary(dir_dt_cs, year_wanted = NULL, sex = NULL)
+read.country.summary(dir_dt_cs, year_range = NULL, sex = NULL)
 }
 \arguments{
 \item{dir_dt_cs}{directory to Rates & Deaths_Country Summary.csv}
 
-\item{year_wanted}{default to null, supply e.g. 1990:2019}
+\item{year_range}{default to null, supply e.g. 1990:2019}
 
 \item{sex}{default to NULL, will determine from file dir}
 }

@@ -19,6 +19,7 @@
 #' @export create.IGME.key
 create.IGME.key <- function(dt0, add_Indicator = FALSE){
   strings_to_remove <- " \\(Adjusted\\)| \\(MM adjusted\\)| \\(NN adjusted\\)| \\(Preliminary\\)| \\(preliminary\\)"
+  dt0[, Series.Year := trimws(Series.Year)]
 
   # the process to create IGME_Key
   if ("Country.Code"%in%colnames(dt0)&is.character(dt0$Country.Code)) {

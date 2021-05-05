@@ -4,7 +4,7 @@
 \alias{get.match}
 \title{A label function to replace values by a given list in a variable}
 \usage{
-get.match(x, new_list = NULL, no_line_break = FALSE)
+get.match(x, new_list = NULL, no_line_break = FALSE, show_no_match = FALSE)
 }
 \arguments{
 \item{x}{a element or a vector}
@@ -12,7 +12,11 @@ get.match(x, new_list = NULL, no_line_break = FALSE)
 \item{new_list}{if you supply a new list the function will use instead of the
 default_labels}
 
-\item{no_line_break}{to remove linebreak from the string}
+\item{no_line_break}{default to FALSE, if TRUE will remove line break from
+the string}
+
+\item{show_no_match}{default to FALSE, if TRUE will message unmatched
+elements}
 }
 \value{
 an updated vector as character

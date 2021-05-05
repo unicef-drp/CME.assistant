@@ -31,8 +31,8 @@ dataset}
 \item{idvars}{default to "`OfficialName`, `ISO3Code`", what id vars you want
 to include}
 
-\item{sex}{Sex column value: Total, Female or Male, if left as NULL as
-default will be determined from directory of `dir_file`}
+\item{sex}{default as NULL, will determine sex from directory of `dir_file`
+unless supplied}
 
 \item{format}{Choose format among raw, long, wide_year, wide_ind, and
 wide_get, default to "long". All the wide-format just `dcasts` the
@@ -41,7 +41,7 @@ long-format data, wide_get means two columns: rate and death}
 \item{round_digit}{digits to round estimates, default to 1}
 
 \item{use_IGME_year}{load the saved IGME final aggregated results (final):
-2019 or 2020}
+choose between 2019 or 2020}
 
 \item{quantile}{default to TRUE: return upper, median, lower; FALSE: only
 median.}
@@ -56,7 +56,7 @@ is only median (i.e. no Quantile column in the dataset) the function will
 check if there is only one row per country. A pre-saved list of summary.csv
 files directories could be obtained by \code{\link{load.final_dir}}. Choose
 the `format` of the output dataset among `long`, `wide_year`, `wide_ind`
-(wide by indicator) and wide `get` (one column for rate and one column for
+(wide by indicator) and `wide_get` (one column for rate and one column for
 death)
 }
 \examples{
