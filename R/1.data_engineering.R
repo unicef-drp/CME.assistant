@@ -219,10 +219,18 @@ get.CME.UI.data <- function(
   dt <- dt[ISO3Code!="LIE"]
   setnames(dt, gsub(" ", ".", colnames(dt)))
   setnames(dt, gsub("-", ".", colnames(dt)))
+
   # find the Quantile column:
-  if("X"%in%colnames(dt))setnames(dt, "X", "Quantile")
-  if("V99"%in%colnames(dt))setnames(dt, "V99", "Quantile") # in case leave as blank
+
   if("Quintile"%in%colnames(dt))setnames(dt, "Quintile", "Quantile")
+  if("X"%in%colnames(dt))setnames(dt, "X", "Quantile")
+  # in case leave as blank, column will have names like V99, V101, etc
+  if(!"Quantile"%in%colnames(dt)){
+    columnV <- grep("V", colnames(dt), value = TRUE)
+    columnV <- columnV[which(nchar(columnV) %in% c(3,4))]
+    message("Assign this column as Quantile column: ", columnV[1])
+    setnames(dt, columnV[1], "Quantile")
+  }
 
   # `row_per_iso` should be either 1 or 3, so `length(row_per_iso)` should be 1
   row_per_iso <- unique(dt[,.N, by = ISO3Code][,N])
@@ -400,8 +408,8 @@ read.country.summary <- function(
   vars <- grep(".2019", colnames(dt_cs), value = TRUE, fixed = TRUE)
   vars <- gsub(".2019", "", vars)
   # available years
-  year_available <- grep(vars[1], colnames(dt_cs), value = TRUE, fixed = TRUE)
-  year_available <- as.numeric(gsub(paste0(vars[1], "."), "", year_available))
+  available_years <- grep(vars[1], colnames(dt_cs), value = TRUE, fixed = TRUE)
+  available_years <- as.numeric(gsub(paste0(vars[1], "."), "", available_years))
   if(!is.null(year_range)){
     # so it is OK to supply years by mistake like year_range = 2000.4, match by
     # flooring
@@ -468,7 +476,7 @@ read.region.summary <- function(
   vars0 <- vars0[!grepl("Population", vars0, ignore.case = TRUE)]
   vars_wanted <- vars0[!vars0%in%c("Region", "Year")]
   # available years
-  year_available <- sort(unique(dt_cs$Year))
+  available_years <- sort(unique(dt_cs$Year))
   if(!is.null(year_range)){
     # so it is OK to supply years by mistake like year_range = 2000.4, match by
     # flooring
@@ -485,8 +493,13 @@ read.region.summary <- function(
   }
   dt_cs <- dt_cs[Year%in%year_range]
   dt_cs[, (vars_wanted):=lapply(.SD, as.numeric), .SDcols = vars_wanted]
-  dt_long <- melt.data.table(dt_cs[,..vars0], id.vars = c("Region", "Year"),
-                             variable.factor = FALSE)
+  if("Region" %in% colnames(dt_cs)){
+    id_vars <- c("Region", "Year")
+  } else {
+    id_vars <- c("Year")
+    message("There is no `Region` column, assume this is world results")
+  }
+  dt_long <- melt.data.table(dt_cs[,..vars0], id.vars = id_vars, variable.factor = FALSE)
   dt_long[grepl("upper", variable, ignore.case = TRUE), Quantile := "Upper"]
   dt_long[grepl("median", variable, ignore.case = TRUE), Quantile := "Median"]
   dt_long[grepl("lower", variable, ignore.case = TRUE), Quantile := "Lower"]

@@ -135,6 +135,8 @@ add.new.series.u5mr <- function(
   ){
   message("original nrow:", nrow(dt_master))
   dt_new_entries <- revise.age.group(dt_new_entries)
+  # recreate IGME Key
+  dt_new_entries <- create.IGME.key(dt_new_entries)
   nrow_old <- nrow(dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key),])
   if(nrow_old > 0){
     if(remove_old){
@@ -153,8 +155,7 @@ add.new.series.u5mr <- function(
     }
 
   }
-  # recreate IGME Key
-  dt_new_entries <- create.IGME.key(dt_new_entries)
+
   dt1 <- rbindlist(list(dt_master, dt_new_entries))
   dup_key <- dt1[duplicated(dt1), unique(IGME_Key)]
   if(length(dup_key)>0) message("Notice duplicated series: ", paste(dup_key, collapse = ", "))
@@ -184,6 +185,8 @@ add.new.series.imr <- function(
   ){
   message("original nrow:", nrow(dt_IMR))
   dt_new_entries <- revise.age.group(dt_new_entries)
+  # recreate IGME Key
+  dt_new_entries <- create.IGME.key(dt_new_entries)
   # dt_new_entries$To.be.adjusted
   # dt_IMR[, table(To.be.adjusted, useNA = "ifany")]
   # dt_IMR$To.be.adjusted <- NA
@@ -202,8 +205,7 @@ add.new.series.imr <- function(
 
   }
   message("nrow after removing old entries:", nrow(dt_IMR))
-  # recreate IGME Key
-  dt_new_entries <- create.IGME.key(dt_new_entries)
+
   dt1 <- rbindlist(list(dt_IMR, dt_new_entries))
   dt1[duplicated(dt1), unique(IGME_Key)]
   setorder(dt1, Country.Name, -Indicator, -Sex, -End.date.of.Survey, Series.Name, Series.Type, -Date.Of.Data.Added, -Reference.Date, - Inclusion)
@@ -228,6 +230,7 @@ add.new.series.nmr <- function(
   ){
   message("old nrow:", nrow(dt_nmr))
   dt_new_entries <- revise.age.group(dt_new_entries)
+  dt_new_entries <- create.IGME.key(dt_new_entries)
 
   key0s <- dt_new_entries[, unique(IGME_Key)]
   if(nrow(dt_nmr[IGME_Key %in% key0s,]) > 0){
@@ -245,8 +248,6 @@ add.new.series.nmr <- function(
 
   }
 
-  # recreate IGME Key
-  dt_new_entries <- create.IGME.key(dt_new_entries)
   dt_nmr_new <- rbind(dt_nmr, dt_new_entries, fill = TRUE)
   if(nrow(dt_nmr) + nrow(dt_new_entries) != nrow(dt_nmr_new)) warning("check row numbers ")
   if(ncol(dt_nmr) != ncol(dt_new_entries)) warning("check col numbers ")
@@ -280,8 +281,13 @@ add.new.VR <- function(
   hide_old = TRUE
 ){
   dt_master <- copy(dt_master)
+
   message("original nrow:", nrow(dt_master))
   dt_new_entries <- revise.age.group(dt_new_entries)
+
+  # recreate IGME Key
+  dt_new_entries <- create.IGME.key(dt_new_entries)
+
 
   nrow_old <- nrow(dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key)
                              & Series.Name%in%unique(dt_new_entries$Series.Name),])
@@ -304,8 +310,6 @@ add.new.VR <- function(
     }
   }
 
-  # recreate IGME Key
-  dt_new_entries <- create.IGME.key(dt_new_entries)
   dt1 <- rbind(dt_master, dt_new_entries)
   dup_key <- dt1[duplicated(dt1), unique(IGME_Key)]
   if(length(dup_key)>0) message("Notice duplicated series: ", paste(dup_key, collapse = ", "))
