@@ -4,12 +4,15 @@
 \alias{calculate.4q1}
 \title{Calculate 4q1 from 5q0 and 1q0}
 \usage{
-calculate.4q1(q5, q1)
+calculate.4q1(q5, q1, use_q_not_rate = TRUE)
 }
 \arguments{
 \item{q5}{5q0}
 
 \item{q1}{1q0}
+
+\item{use_q_not_rate}{default to TRUE, if TRUE q5, q1 are probability of
+dying  dx/lx, if FALSE are mortality rate per 1,000}
 }
 \value{
 4q1

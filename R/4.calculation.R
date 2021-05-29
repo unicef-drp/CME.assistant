@@ -23,10 +23,20 @@ roundoff <- function(#
 #'
 #' @param q1 1q0
 #' @param q4 4q1
+#' @param use_q_not_rate default to TRUE, if TRUE q1, q4 are probability of
+#'   dying  dx/lx, if FALSE are mortality rate per 1,000
 #'
 #' @return 5q0
 #' @export
-calculate.5q0 <- function(q1, q4){(1 - (1-q1/1E3) * (1-q4/1E3))*1000}
+calculate.5q0 <- function(q1, q4, use_q_not_rate = TRUE){
+  if(use_q_not_rate){
+    if(q1 > 1 | q4 > 1) message("Double check if q1 and q4 are probabilities")
+    q <- 1 - (1-q1) * (1-q4)
+  } else {
+    q <- (1 - (1-q1/1E3) * (1-q4/1E3))*1000
+  }
+  return(q)
+}
 
 
 #' Calculate 4q1 from 5q0 and 1q0
@@ -37,8 +47,19 @@ calculate.5q0 <- function(q1, q4){(1 - (1-q1/1E3) * (1-q4/1E3))*1000}
 #'
 #' @param q5 5q0
 #' @param q1 1q0
+#' @param use_q_not_rate default to TRUE, if TRUE q5, q1 are probability of
+#'   dying  dx/lx, if FALSE are mortality rate per 1,000
 #'
 #' @return 4q1
 #' @export
 #'
-calculate.4q1 <- function(q5, q1){(1-(1-q5/1000)/(1-q1/1000)) * 1000}
+calculate.4q1 <- function(q5, q1, use_q_not_rate = TRUE){
+  if(use_q_not_rate){
+    if(q1 > 1 | q5 > 1) message("Double check if q1 and q4 are probabilities")
+    q <- 1-(1-q5)/(1-q1)
+  } else {
+    q <- (1-(1-q5/1000)/(1-q1/1000)) * 1000
+  }
+  return(q)
+
+}
