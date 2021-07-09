@@ -19,7 +19,7 @@ dt with added columns named like "1990-2000"
 }
 \description{
 The formula for ARR is as follows: ARR = ln(rate2/rate1)/(t2-t1)*-100, where
-t1 and t2 are years and t1<t2.
+t1 and t2 are years and t1<t2. Return unrounded results
 }
 \examples{
 \dontrun{

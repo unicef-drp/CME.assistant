@@ -17,5 +17,5 @@ calculate.pd(dt, year1, year2)
 dt with added columns named like "PD1990-2000"
 }
 \description{
-Calculate percentage decline
+Return unrounded results
 }

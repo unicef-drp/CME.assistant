@@ -68,13 +68,14 @@ calculate.4q1 <- function(q5, q1, use_q_not_rate = TRUE){
 #' reduction
 #'
 #' The formula for ARR is as follows: ARR = ln(rate2/rate1)/(t2-t1)*-100, where
-#' t1 and t2 are years and t1<t2.
+#' t1 and t2 are years and t1<t2. Return unrounded results
 #'
 #'
 #' @param dt wide data by year, year1 and year2 shall be columns like 1990, 2000
 #' @param year1 year1 where year1 < year2
 #' @param year2 year2 where year1 < year2
 #' @return dt with added columns named like "1990-2000"
+#' @export calculate.arr
 #' @examples
 #' \dontrun{
 #' dt_final_ARR <- dt_final[Year%in%c(1990,2019)]
@@ -88,22 +89,24 @@ calculate.arr <- function(dt, year1, year2){
     as.numeric(gsub("[^\\d]+", "", years, perl = TRUE))
   }
   # use year1 and year2 value to get ARR
-  dt[, arr:= roundoff(log(get(as.character(year2))/get(as.character(year1)))/(get.year(year2)-get.year(year1))*-100, 4)]
+  dt[, arr:= log(get(as.character(year2))/get(as.character(year1)))/(get.year(year2)-get.year(year1))*-100]
   setnames(dt, "arr", paste0(year1, "-", year2))
   return(dt)
 }
 
 #' Calculate percentage decline
+#'
+#' Return unrounded results
 #' @inheritParams calculate.arr
 #' @return dt with added columns named like "PD1990-2000"
-#' @export
+#' @export calculate.pd
 #'
 calculate.pd <- function(dt, year1, year2){
   get.year <- function(years){
     if(grepl(".5", years)) years <- gsub(".5", "", years)
     as.numeric(gsub("[^\\d]+", "", years, perl = TRUE))
   }  # use year1 and year2 value to get ARR
-  dt[, pd:= roundoff((get(as.character(year2))/get(as.character(year1)) - 1)*-100, 4)]
+  dt[, pd:= (get(as.character(year2))/get(as.character(year1)) - 1)*-100]
   setnames(dt, "pd", paste0("PD", year1, "-", year2))
   dt
 }
