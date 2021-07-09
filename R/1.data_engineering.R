@@ -523,18 +523,33 @@ read.region.summary <- function(
 
 
 
-#' Load the country info file, requires dt object `country_info`
+#' Load the country.info.CME
 #'
 #' Creats UNICEFReportRegion from UNICEFReportRegion1 and UNICEFReportRegion2
+#'
+#' @param year0 IGME round, e.g. 2021
+#'
 #' @import data.table
-#' @export get.country.info
+#' @export get.country.info.CME
 #' @return dataset of country info
-get.country.info <- function(){
-  if(!exists("country_info"))stop("Read in country_info first, ")
-  dt <- country_info
+get.country.info.CME <- function(year0 = 2021){
+  dir_input <- get.IGMEinput.dir(year = year0)
+  dc <- fread(file.path(dir_input, "country.info.CME.csv"))
   # UNICEFReportRegion2 offers subregions for ECA and SSA, combined into UNICEFReportRegion
-  dt[, UNICEFReportRegion:=UNICEFReportRegion1]
-  dt[UNICEFReportRegion2!="", UNICEFReportRegion:=UNICEFReportRegion2]
-  return(dt)
+  dc[, UNICEFReportRegion:= ifelse(UNICEFReportRegion2 == "", UNICEFReportRegion1, UNICEFReportRegion2)]
+  return(dc)
 }
 
+
+#' Load the data_livebirths.csv, add ISO3Code and country names
+#'
+#' @param year0 IGME round, e.g. 2021
+#' @export get.live.birth
+#' @return dataset of live birth
+get.live.birth <- function(year0 = 2021){
+  dir_input <- get.IGMEinput.dir(year = year0)
+  dc <- fread(file.path(dir_input, "country.info.CME.csv"))
+  dtlb <- fread(file.path(dir_input, "data_livebirths.csv"))
+  dtlb <- merge(dc[,.(ISO3Code, CountryName, OfficialName, UNCode)], dtlb, by.x = "UNCode", by.y = "uncode")
+  return(dtlb)
+}

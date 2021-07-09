@@ -2,7 +2,7 @@
 % Please edit documentation in R/4.calculation.R
 \name{roundoff}
 \alias{roundoff}
-\title{A rounding function that round off numbers in the conventional way}
+\title{A rounding function that rounds off numbers in the conventional way: rounds 0.5 to 1}
 \usage{
 roundoff(x, digits = 2)
 }
@@ -15,5 +15,5 @@ roundoff(x, digits = 2)
 rounded numeric vector
 }
 \description{
-Instead of in R where round(0.5) = 0, roundoff(0.5, 0) = 1
+Instead of in R by default round(0.5) = 0, roundoff(0.5, 0) = 1
 }

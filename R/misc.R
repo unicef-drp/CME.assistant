@@ -25,6 +25,6 @@ if(getRversion() >= "2.15.1")  {
                            "legend_ID" ,"mcmc.meta" ,"na.omit" ,"source15_24" ,"source5_14", "surveys",
                            "surveys_combined", "value" ,"year.t" ,"year1" ,"year2" ,"years",
                            "res.cqt.Lw", "..vars0", "default_label",
-                           "IGME_Key_s", "available_years"
+                           "IGME_Key_s", "available_years", "CountryName", "UNCode", "arr", "pd"
                            ))
 }
