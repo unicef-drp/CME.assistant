@@ -6,7 +6,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of CME.assistant is to collect some frequently used functions.
+The goal of CME.assistant is to collect frequently used functions for internal data enginerring.
 This package is made non-private since it only attaches published final estimates for the recent 2 years.
 
 ## Installation  
