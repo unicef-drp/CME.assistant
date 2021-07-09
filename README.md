@@ -6,22 +6,20 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of CME.assistant is to collect frequently used functions for internal data enginerring.
-This package is made non-private since it only attaches published final estimates for the recent 2 years.
+The goal of `CME.assistant` is to collect frequently used functions for data enginerring for internal use.
 
 ## Installation  
 
 To install from github: 
-* Examples in the vignettes, set `build_vignettes = TRUE`
-* Maybe need to add `build_opts = "--no-multiarch"` if encounter Java-related problem according to [this post](https://github.com/salimk/Rcrawler/issues/1)
 
 ```{r}
 devtools::install_github("unicef-drp/CME.assistant")
-# or if needed,
-devtools::install_github("unicef-drp/CME.assistant", build_vignettes = TRUE, build_opts = "--no-multiarch")
+# or if need vignette,
+devtools::install_github("unicef-drp/CME.assistant", build_vignettes = TRUE)
 library(CME.assistant)
 ```
 Alternative option: download the repo, and use 'Ctrl/Cmd+Shift+B' to compile the package locally.
+Maybe also need to install [Rtools](https://cran.r-project.org/bin/windows/Rtools/) if not installed yet. 
 
 ## To view vignette
 ```{r}
