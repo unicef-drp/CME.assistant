@@ -2,7 +2,7 @@
 % Please edit documentation in R/0.directories.R
 \name{get.raw.dir}
 \alias{get.raw.dir}
-\title{get raw file directory from `Output CMRJack` folder}
+\title{Get raw file directory from `Output CMRJack` folder}
 \usage{
 get.raw.dir(cname, surveytype = "DHS", year = NULL)
 }
@@ -17,7 +17,7 @@ get.raw.dir(cname, surveytype = "DHS", year = NULL)
 xlsx file directory
 }
 \description{
-get raw file directory from `Output CMRJack` folder
+Get raw file directory from `Output CMRJack` folder
 }
 \examples{
 \dontrun{

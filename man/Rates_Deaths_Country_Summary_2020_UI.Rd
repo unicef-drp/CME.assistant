@@ -3,8 +3,7 @@
 \docType{data}
 \name{Rates_Deaths_Country_Summary_2020_UI}
 \alias{Rates_Deaths_Country_Summary_2020_UI}
-\title{Rates_Deaths_Country_Summary_2020_UI: The 2020 final estimates with UI
-Please refer to childmortality.org for details}
+\title{Rates_Deaths_Country_Summary_2020_UI: The 2020 estimates with UI}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 588 rows and 427 columns.
 }
@@ -12,7 +11,6 @@ An object of class \code{data.table} (inherits from \code{data.frame}) with 588 
 Rates_Deaths_Country_Summary_2020_UI
 }
 \description{
-Rates_Deaths_Country_Summary_2020_UI: The 2020 final estimates with UI
 Please refer to childmortality.org for details
 }
 \keyword{dataset}

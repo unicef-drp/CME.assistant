@@ -15,5 +15,4 @@ directory to output folder
 \description{
 If `year` is 2020, returns the directory to output folder in the 2020 Round
 Estimation Dropbox folder
-#'
 }

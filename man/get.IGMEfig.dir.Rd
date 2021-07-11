@@ -15,5 +15,4 @@ directory to fig folder
 \description{
 If `year` is 2020, returns the directory to fig folder in the 2020 Round
 Estimation Dropbox folder
-#'
 }

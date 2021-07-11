@@ -3,7 +3,8 @@
 \docType{data}
 \name{default_label}
 \alias{default_label}
-\title{a place holder, supply and it will be used in the `get.match` function}
+\title{A place holder, if supplied in global environment it will be used in the
+\code{\link{get.match}} function}
 \format{
 An object of class \code{NULL} of length 0.
 }
@@ -11,6 +12,7 @@ An object of class \code{NULL} of length 0.
 default_label
 }
 \description{
-a place holder, supply and it will be used in the `get.match` function
+A place holder, if supplied in global environment it will be used in the
+\code{\link{get.match}} function
 }
 \keyword{labels}

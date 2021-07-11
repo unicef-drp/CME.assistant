@@ -2,7 +2,7 @@
 % Please edit documentation in R/0.directories.R
 \name{load.IGMEoutput.dir}
 \alias{load.IGMEoutput.dir}
-\title{load the IGME "output" directories}
+\title{Load the IGME "output" directories}
 \usage{
 load.IGMEoutput.dir()
 }
@@ -11,5 +11,5 @@ dir_IGMEoutput_list: a list of directories to UN IGME Data/YYYY Round
   Estimations/Code/output
 }
 \description{
-load the IGME "output" directories
+Load the IGME "output" directories
 }

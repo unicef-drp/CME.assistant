@@ -1,12 +1,12 @@
 # functions to search and get all major datasets
 
-#'Get IGME "Code" dir for a given year
+#' Get IGME "Code" dir for a given year
 #'
-#'If `year` is 2020, returns the directory to Code folder in the 2020 Round
-#'Estimation Dropbox folder
-#'@param year YYYY
-#'@return directory to input folder
-#'@export get.IGME.dir
+#' If `year` is 2020, returns the directory to Code folder in the 2020 Round
+#' Estimation Dropbox folder
+#' @param year YYYY
+#' @return directory to input folder
+#' @export get.IGME.dir
 get.IGME.dir <- function(year){
   USERPROFILE <- Sys.getenv("USERPROFILE")
   file.path(USERPROFILE, paste0("/Dropbox/UN IGME Data/", year ," Round Estimation/Code/"))
@@ -32,19 +32,19 @@ load.IGMEinput.dir <- function(){
 }
 
 
-#'Get "input" dir for a given year
+#' Get "input" dir for a given year
 #'
-#'If `year` is 2020, returns the directory to input folder in the 2020 Round
-#'Estimation Dropbox folder
-#'@param year YYYY
-#'@return directory to input folder
-#'@export get.IGMEinput.dir
+#' If `year` is 2020, returns the directory to input folder in the 2020 Round
+#' Estimation Dropbox folder
+#' @param year YYYY
+#' @return directory to input folder
+#' @export get.IGMEinput.dir
 get.IGMEinput.dir <- function(year){
   USERPROFILE <- Sys.getenv("USERPROFILE")
   file.path(USERPROFILE, paste0("/Dropbox/UN IGME Data/", year ," Round Estimation/Code/input/"))
 }
 
-#' load the IGME "output" directories
+#' Load the IGME "output" directories
 #' @return dir_IGMEoutput_list: a list of directories to UN IGME Data/YYYY Round
 #'   Estimations/Code/output
 #' @export load.IGMEoutput.dir
@@ -60,11 +60,11 @@ load.IGMEoutput.dir <- function(){
   return(dir_IGMEoutput_list)
 }
 
-#'Get "output" dir for a given year
+#' Get "output" dir for a given year
 #'
-#'If `year` is 2020, returns the directory to output folder in the 2020 Round
-#'Estimation Dropbox folder
-#'#'
+#' If `year` is 2020, returns the directory to output folder in the 2020 Round
+#' Estimation Dropbox folder
+#'
 #' @param year YYYY
 #' @return directory to output folder
 #' @export get.IGMEoutput.dir
@@ -73,11 +73,11 @@ get.IGMEoutput.dir <- function(year){
   file.path(USERPROFILE, paste0("/Dropbox/UN IGME Data/", year ," Round Estimation/Code/output/"))
 }
 
-#'Get "fig" dir for a given year
+#' Get "fig" dir for a given year
 #'
-#'If `year` is 2020, returns the directory to fig folder in the 2020 Round
-#'Estimation Dropbox folder
-#'#'
+#' If `year` is 2020, returns the directory to fig folder in the 2020 Round
+#' Estimation Dropbox folder
+#'
 #' @param year YYYY
 #' @return directory to fig folder
 #' @export get.IGMEfig.dir
@@ -86,7 +86,7 @@ get.IGMEfig.dir <- function(year){
   file.path(USERPROFILE, paste0("/Dropbox/UN IGME Data/", year ," Round Estimation/Code/fig/"))
 }
 
-#'leap year: if this is a leap year
+#' Internal function: Check if `date` is a leap year
 #'
 #' @param date date
 leap_year <- function(date){
@@ -100,6 +100,7 @@ leap_year <- function(date){
 }
 
 #' Calculate start, end and average date in decimal from starting/end dates
+#'
 #' @importFrom data.table year
 #' @param date0 date for example: 2020-01-01
 #' @param date1 date for example: 2020-12-31
@@ -117,7 +118,7 @@ get.ref.date <- function(date0,
   return(list(date_start=date_start, date_end=date_end, date_ave=date_ave))
 }
 
-#' return numeric date
+#' Transform date into numeric numbers like 2020.55
 #'
 #' @param date0 date for example: 2020-01-01
 #' @return numeric date for example: 2020.014
@@ -331,7 +332,7 @@ get.opt.dir <- function(
   return(files)
 }
 
-#' get raw file directory from `Output CMRJack` folder
+#' Get raw file directory from `Output CMRJack` folder
 #' @param cname country name
 #' @param surveytype folder names like "DHS", "MICS", "NDHS",...
 #' @param year year of the survey, e.g. 2015
@@ -354,7 +355,6 @@ get.raw.dir <- function(cname, surveytype = "DHS", year = NULL){
 
 #' Adjust the file dir if the lash is not right or the Dropbox username is not
 #' right
-#'
 #'
 #' @param dir0 file directory not output for now
 #' @export revise.path

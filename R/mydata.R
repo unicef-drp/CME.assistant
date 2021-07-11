@@ -2,8 +2,8 @@
 # Those frequently used datasets shall be updated from time to time
 
 
-#' UNICEF_colors load UNICEF color palette Load UNICEF blue, Sequential, Diverging,
-#' Qualitative, and grays scheme into the global environment
+#' UNICEF_colors contains the UNICEF color palette including UNICEF blue,
+#' Sequential, Diverging, Qualitative, and grays scheme
 #'
 #' @docType data
 #' @keywords color scheme
@@ -46,28 +46,32 @@
 #'
 "final_dir_list"
 
-#'Rates_Deaths_Country_Summary_2019_UI: The 2019 final estimates with UI
+#' Rates_Deaths_Country_Summary_2019_UI: The 2019 estimates with UI
 #'
-#'Please refer to childmortality.org for details
+#' Please refer to childmortality.org for details
 #'
 #' @docType data
 #' @keywords dataset
 "Rates_Deaths_Country_Summary_2019_UI"
 
 
-#'Rates_Deaths_Country_Summary_2020_UI: The 2020 final estimates with UI
-#'Please refer to childmortality.org for details
+#' Rates_Deaths_Country_Summary_2020_UI: The 2020 estimates with UI
+#'
+#' Please refer to childmortality.org for details
 #'
 #' @docType data
 #' @keywords dataset
 "Rates_Deaths_Country_Summary_2020_UI"
 
-#' a place holder, supply and it will be used in the `get.match` function
+#' A place holder, if supplied in global environment it will be used in the
+#' \code{\link{get.match}} function
+#'
 #' @docType data
 #' @keywords labels
 "default_label"
 
-#'shortind_indicator: match shortind to full indicator names
+#' List of shortind_indicator: match shortind to full indicator names
+#'
 #' @docType data
 #' @keywords labels
 "shortind_indicator"

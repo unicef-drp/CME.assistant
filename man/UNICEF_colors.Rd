@@ -3,8 +3,8 @@
 \docType{data}
 \name{UNICEF_colors}
 \alias{UNICEF_colors}
-\title{UNICEF_colors load UNICEF color palette Load UNICEF blue, Sequential, Diverging,
-Qualitative, and grays scheme into the global environment}
+\title{UNICEF_colors contains the UNICEF color palette including UNICEF blue,
+Sequential, Diverging, Qualitative, and grays scheme}
 \format{
 An object of class \code{list} of length 5.
 }
@@ -12,8 +12,8 @@ An object of class \code{list} of length 5.
 UNICEF_colors
 }
 \description{
-UNICEF_colors load UNICEF color palette Load UNICEF blue, Sequential, Diverging,
-Qualitative, and grays scheme into the global environment
+UNICEF_colors contains the UNICEF color palette including UNICEF blue,
+Sequential, Diverging, Qualitative, and grays scheme
 }
 \details{
 UNICEF_colors <- list(

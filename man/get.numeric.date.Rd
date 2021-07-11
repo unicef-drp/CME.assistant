@@ -2,7 +2,7 @@
 % Please edit documentation in R/0.directories.R
 \name{get.numeric.date}
 \alias{get.numeric.date}
-\title{return numeric date}
+\title{Transform date into numeric numbers like 2020.55}
 \usage{
 get.numeric.date(date0)
 }
@@ -13,5 +13,5 @@ get.numeric.date(date0)
 numeric date for example: 2020.014
 }
 \description{
-return numeric date
+Transform date into numeric numbers like 2020.55
 }

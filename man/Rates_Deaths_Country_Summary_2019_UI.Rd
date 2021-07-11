@@ -3,7 +3,7 @@
 \docType{data}
 \name{Rates_Deaths_Country_Summary_2019_UI}
 \alias{Rates_Deaths_Country_Summary_2019_UI}
-\title{Rates_Deaths_Country_Summary_2019_UI: The 2019 final estimates with UI}
+\title{Rates_Deaths_Country_Summary_2019_UI: The 2019 estimates with UI}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 588 rows and 421 columns.
 }

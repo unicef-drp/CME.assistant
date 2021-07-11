@@ -2,7 +2,7 @@
 % Please edit documentation in R/0.directories.R
 \name{leap_year}
 \alias{leap_year}
-\title{leap year: if this is a leap year}
+\title{Internal function: Check if `date` is a leap year}
 \usage{
 leap_year(date)
 }
@@ -10,5 +10,5 @@ leap_year(date)
 \item{date}{date}
 }
 \description{
-leap year: if this is a leap year
+Internal function: Check if `date` is a leap year
 }
