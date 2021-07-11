@@ -1,7 +1,8 @@
 
-#' let dropbox untrack `Rproj user` folder
-#' Solve Dropbox conflicts with `Rproj.user`
-#' revised base on:
+#' Let Dropbox untrack `Rproj user` folder, solve Dropbox conflicts with
+#' `Rproj.user`
+#'
+#' Revised base on:
 #' https://community.rstudio.com/t/dropbox-conflicts-with-rproj-user/54059
 #'
 #' @importFrom usethis proj_get

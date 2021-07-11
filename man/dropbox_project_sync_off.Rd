@@ -2,16 +2,12 @@
 % Please edit documentation in R/dropbox_sync_off.R
 \name{dropbox_project_sync_off}
 \alias{dropbox_project_sync_off}
-\title{let dropbox untrack `Rproj user` folder
-Solve Dropbox conflicts with `Rproj.user`
-revised base on:
-https://community.rstudio.com/t/dropbox-conflicts-with-rproj-user/54059}
+\title{Let Dropbox untrack `Rproj user` folder, solve Dropbox conflicts with
+`Rproj.user`}
 \usage{
 dropbox_project_sync_off()
 }
 \description{
-let dropbox untrack `Rproj user` folder
-Solve Dropbox conflicts with `Rproj.user`
-revised base on:
+Revised base on:
 https://community.rstudio.com/t/dropbox-conflicts-with-rproj-user/54059
 }
