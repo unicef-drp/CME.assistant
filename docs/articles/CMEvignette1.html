@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CME.assistant</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
       </span>
     </div>
 
@@ -100,28 +100,28 @@
 <code class="sourceCode R"><span class="co"># without supplying dir_file, by default returns the published IGME 2020 result</span>
 <span class="co"># in long format</span>
 <span class="va">dt_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get.CME.UI.data.html">get.CME.UI.data</a></span><span class="op">(</span>use_IGME_year <span class="op">=</span> <span class="fl">2020</span><span class="op">)</span>
-<span class="co">#&gt; Indicators:U5MR, IMR, NMR, Under.five.Deaths, Infant.Deaths, Neonatal.Deaths</span>
+<span class="co">#&gt; Shortind: IMR, Infant.deaths, Neonatal.deaths, NMR, U5MR, Under.five.deaths</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dt_1</span><span class="op">)</span>
-<span class="co">#&gt;    OfficialName ISO3Code Indicator Year Quantile   Sex Value</span>
-<span class="co">#&gt; 1:  Afghanistan      AFG       IMR 1990    Lower Total 111.2</span>
-<span class="co">#&gt; 2:  Afghanistan      AFG       IMR 1990   Median Total 120.4</span>
-<span class="co">#&gt; 3:  Afghanistan      AFG       IMR 1990    Upper Total 130.9</span>
-<span class="co">#&gt; 4:  Afghanistan      AFG       IMR 1991    Lower Total 108.2</span>
-<span class="co">#&gt; 5:  Afghanistan      AFG       IMR 1991   Median Total 116.8</span>
-<span class="co">#&gt; 6:  Afghanistan      AFG       IMR 1991    Upper Total 126.2</span>
+<span class="co">#&gt;    OfficialName ISO3Code Shortind Year Quantile   Sex value</span>
+<span class="co">#&gt; 1:  Afghanistan      AFG      IMR 1990    Lower Total 111.2</span>
+<span class="co">#&gt; 2:  Afghanistan      AFG      IMR 1990   Median Total 120.4</span>
+<span class="co">#&gt; 3:  Afghanistan      AFG      IMR 1990    Upper Total 130.9</span>
+<span class="co">#&gt; 4:  Afghanistan      AFG      IMR 1991    Lower Total 108.2</span>
+<span class="co">#&gt; 5:  Afghanistan      AFG      IMR 1991   Median Total 116.8</span>
+<span class="co">#&gt; 6:  Afghanistan      AFG      IMR 1991    Upper Total 126.2</span>
 <span class="co"># can also output wide-format results: wide_ind, wide_year, wide_get (Rate and</span>
 <span class="co"># Deaths)</span>
 <span class="va">dt_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get.CME.UI.data.html">get.CME.UI.data</a></span><span class="op">(</span>use_IGME_year <span class="op">=</span> <span class="fl">2020</span>, format <span class="op">=</span> <span class="st">"wide_ind"</span><span class="op">)</span>
-<span class="co">#&gt; Indicators:U5MR, IMR, NMR, Under.five.Deaths, Infant.Deaths, Neonatal.Deaths</span>
+<span class="co">#&gt; Shortind: IMR, Infant.deaths, Neonatal.deaths, NMR, U5MR, Under.five.deaths</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dt_2</span><span class="op">)</span>
-<span class="co">#&gt;    OfficialName ISO3Code Year Quantile   Sex   IMR Infant.Deaths  NMR</span>
+<span class="co">#&gt;    OfficialName ISO3Code Year Quantile   Sex   IMR Infant.deaths  NMR</span>
 <span class="co">#&gt; 1:  Afghanistan      AFG 1990    Lower Total 111.2         69961 66.4</span>
 <span class="co">#&gt; 2:  Afghanistan      AFG 1990   Median Total 120.4         75591 74.3</span>
 <span class="co">#&gt; 3:  Afghanistan      AFG 1990    Upper Total 130.9         82006 83.1</span>
 <span class="co">#&gt; 4:  Afghanistan      AFG 1991    Lower Total 108.2         71041 65.2</span>
 <span class="co">#&gt; 5:  Afghanistan      AFG 1991   Median Total 116.8         76527 72.9</span>
 <span class="co">#&gt; 6:  Afghanistan      AFG 1991    Upper Total 126.2         82547 81.2</span>
-<span class="co">#&gt;    Neonatal.Deaths  U5MR Under.five.Deaths</span>
+<span class="co">#&gt;    Neonatal.deaths  U5MR Under.five.deaths</span>
 <span class="co">#&gt; 1:           43221 162.5            100845</span>
 <span class="co">#&gt; 2:           48398 177.7            110011</span>
 <span class="co">#&gt; 3:           54133 194.3            120093</span>
@@ -137,7 +137,7 @@
 
 <span class="co"># load all in one step</span>
 <span class="va">dt_all</span> <span class="op">&lt;-</span> <span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/rbindlist.html">rbindlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="../reference/load.final_dir.html">load.final_dir</a></span><span class="op">(</span><span class="fl">2020</span><span class="op">)</span>, <span class="va">get.CME.UI.data</span>, get <span class="op">=</span> <span class="st">"both"</span><span class="op">)</span>, fill <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="va">dt_all</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">Sex</span>, <span class="va">Indicator</span><span class="op">)</span><span class="op">]</span></code></pre></div>
+<span class="va">dt_all</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">Sex</span>, <span class="va">Shortind</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 </div>
 <div id="locate-the-latest-master-datasets-directories" class="section level3">
 <h3 class="hasAnchor">
@@ -145,8 +145,8 @@
 <p>Automatically point to the latest file using the date in file names</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">input_dirs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load.IGMEinput.dir.html">load.IGMEinput.dir</a></span><span class="op">(</span><span class="op">)</span>
-<span class="va">dir_U5MR</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get.dir_U5MR.html">get.dir_U5MR</a></span><span class="op">(</span><span class="va">input_dirs</span><span class="op">$</span><span class="va">dir_IGME_20</span><span class="op">)</span>
-<span class="va">dir_IMR</span>    <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get.dir_IMR.html">get.dir_IMR</a></span><span class="op">(</span><span class="va">input_dirs</span><span class="op">$</span><span class="va">dir_IGME_20</span><span class="op">)</span>
+<span class="va">dir_U5MR</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get.dir_U5MR.html">get.dir_U5MR</a></span><span class="op">(</span><span class="va">input_dirs</span><span class="op">$</span><span class="va">dir_IGME_21</span><span class="op">)</span>
+<span class="va">dir_IMR</span>    <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get.dir_IMR.html">get.dir_IMR</a></span><span class="op">(</span><span class="va">input_dirs</span><span class="op">$</span><span class="va">dir_IGME_21</span><span class="op">)</span>
 <span class="va">dir_NMR</span>    <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get.dir_NMR.html">get.dir_NMR</a></span><span class="op">(</span>y5 <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># either 5-year or not</span>
 <span class="va">dir_gender</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get.dir_gender.html">get.dir_gender</a></span><span class="op">(</span>plotting <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># either dataset for plotting or modeling</span></code></pre></div>
 </div>

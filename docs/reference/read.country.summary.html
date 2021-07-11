@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>function to read "Rates &amp; Deaths_Country Summary.csv" and output long format — read.country.summary • CME.assistant</title>
+<title>Read "Rates &amp; Deaths_Country Summary.csv" and output long format — read.country.summary • CME.assistant</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,11 @@
 
 
 
-<meta property="og:title" content="function to read "Rates &amp; Deaths_Country Summary.csv" and output long format — read.country.summary" />
-<meta property="og:description" content="function to read &quot;Rates &amp;amp; Deaths_Country Summary.csv&quot; and output long format" />
+<meta property="og:title" content="Read "Rates &amp; Deaths_Country Summary.csv" and output long format — read.country.summary" />
+<meta property="og:description" content="This function is a simpler version of get.CME.UI.data and is
+more straightforward to use: without many arguments, only output long format.
+The arguments are aligned so this function could be replaced by
+get.CME.UI.data in the code if needed" />
 
 
 
@@ -72,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CME.assistant</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
       </span>
     </div>
 
@@ -115,26 +118,29 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>function to read "Rates &amp; Deaths_Country Summary.csv" and output long format</h1>
+    <h1>Read "Rates &amp; Deaths_Country Summary.csv" and output long format</h1>
     
     <div class="hidden name"><code>read.country.summary.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>function to read "Rates &amp; Deaths_Country Summary.csv" and output long format</p>
+    <p>This function is a simpler version of <code><a href='get.CME.UI.data.html'>get.CME.UI.data</a></code> and is
+more straightforward to use: without many arguments, only output long format.
+The arguments are aligned so this function could be replaced by
+<code><a href='get.CME.UI.data.html'>get.CME.UI.data</a></code> in the code if needed</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read.country.summary</span><span class='op'>(</span><span class='va'>dir_dt_cs</span>, year_wanted <span class='op'>=</span> <span class='cn'>NULL</span>, sex <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>read.country.summary</span><span class='op'>(</span><span class='va'>dir_file</span>, year_range <span class='op'>=</span> <span class='cn'>NULL</span>, sex <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dir_dt_cs</th>
+      <th>dir_file</th>
       <td><p>directory to Rates &amp; Deaths_Country Summary.csv</p></td>
     </tr>
     <tr>
-      <th>year_wanted</th>
+      <th>year_range</th>
       <td><p>default to null, supply e.g. 1990:2019</p></td>
     </tr>
     <tr>

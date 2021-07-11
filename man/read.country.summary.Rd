@@ -2,17 +2,20 @@
 % Please edit documentation in R/1.data_engineering.R
 \name{read.country.summary}
 \alias{read.country.summary}
-\title{function to read "Rates & Deaths_Country Summary.csv" and output long format}
+\title{Read "Rates & Deaths_Country Summary.csv" and output long format}
 \usage{
-read.country.summary(dir_dt_cs, year_range = NULL, sex = NULL)
+read.country.summary(dir_file, year_range = NULL, sex = NULL)
 }
 \arguments{
-\item{dir_dt_cs}{directory to Rates & Deaths_Country Summary.csv}
+\item{dir_file}{directory to Rates & Deaths_Country Summary.csv}
 
 \item{year_range}{default to null, supply e.g. 1990:2019}
 
 \item{sex}{default to NULL, will determine from file dir}
 }
 \description{
-function to read "Rates & Deaths_Country Summary.csv" and output long format
+This function is a simpler version of \code{\link{get.CME.UI.data}} and is
+more straightforward to use: without many arguments, only output long format.
+The arguments are aligned so this function could be replaced by
+\code{\link{get.CME.UI.data}} in the code if needed
 }

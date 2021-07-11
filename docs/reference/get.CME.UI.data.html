@@ -41,10 +41,13 @@
 
 <meta property="og:title" content="Return different format of the final aggregate results country summary — get.CME.UI.data" />
 <meta property="og:description" content="`get.CME.UI.data` can read in &quot;Rates &amp;amp; Deaths_Country Summary.csv&quot; for any
-indicators published so far and include Sex, Quantile in the output. A
-pre-saved list of summary.csv files directories could be obtained by
-load.final_dir. Output dataset in either long, wide year, wide
-indicator, or wide `get` (one column for rate and one column for death)" />
+indicators published so far and include Sex, Quantile in the output. If there
+is only median (i.e. no Quantile column in the dataset) the function will
+check if there is only one row per country. A pre-saved list of summary.csv
+files directories could be obtained by load.final_dir. Choose
+the `format` of the output dataset from `long`, `wide_year`, `wide_ind`
+(wide by indicator) and `wide_get` (one column for rate and one column for
+death)" />
 
 
 
@@ -76,7 +79,7 @@ indicator, or wide `get` (one column for rate and one column for death)" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CME.assistant</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
       </span>
     </div>
 
@@ -126,10 +129,13 @@ indicator, or wide `get` (one column for rate and one column for death)" />
 
     <div class="ref-description">
     <p>`get.CME.UI.data` can read in "Rates &amp; Deaths_Country Summary.csv" for any
-indicators published so far and include Sex, Quantile in the output. A
-pre-saved list of summary.csv files directories could be obtained by
-<code><a href='load.final_dir.html'>load.final_dir</a></code>. Output dataset in either long, wide year, wide
-indicator, or wide `get` (one column for rate and one column for death)</p>
+indicators published so far and include Sex, Quantile in the output. If there
+is only median (i.e. no Quantile column in the dataset) the function will
+check if there is only one row per country. A pre-saved list of summary.csv
+files directories could be obtained by <code><a href='load.final_dir.html'>load.final_dir</a></code>. Choose
+the `format` of the output dataset from `long`, `wide_year`, `wide_ind`
+(wide by indicator) and `wide_get` (one column for rate and one column for
+death)</p>
     </div>
 
     <pre class="usage"><span class='fu'>get.CME.UI.data</span><span class='op'>(</span>
@@ -140,7 +146,7 @@ indicator, or wide `get` (one column for rate and one column for death)</p>
   idvars <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"OfficialName"</span>, <span class='st'>"ISO3Code"</span><span class='op'>)</span>,
   sex <span class='op'>=</span> <span class='cn'>NULL</span>,
   format <span class='op'>=</span> <span class='st'>"long"</span>,
-  round_digit <span class='op'>=</span> <span class='fl'>1L</span>,
+  round_digit <span class='op'>=</span> <span class='cn'>NULL</span>,
   use_IGME_year <span class='op'>=</span> <span class='fl'>2020</span>,
   quantile <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
@@ -150,12 +156,13 @@ indicator, or wide `get` (one column for rate and one column for death)</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>dir_file</th>
-      <td><p>allow a different dataset to be read: directory to aggregate
+      <td><p>directory to the dataset to be read: directory to aggregate
 final</p></td>
     </tr>
     <tr>
       <th>c_iso</th>
-      <td><p>country iso, if NULL, returns all isos, default to NULL</p></td>
+      <td><p>country ISO3Code, default to NULL: returns all countries in the
+dataset</p></td>
     </tr>
     <tr>
       <th>year_range</th>
@@ -172,8 +179,8 @@ to include</p></td>
     </tr>
     <tr>
       <th>sex</th>
-      <td><p>Sex column value: Total, Female or Male, if left as NULL as
-default will be determined from directory of `dir_file`</p></td>
+      <td><p>default as NULL, will determine sex from directory of `dir_file`
+unless supplied</p></td>
     </tr>
     <tr>
       <th>format</th>
@@ -183,16 +190,17 @@ long-format data, wide_get means two columns: rate and death</p></td>
     </tr>
     <tr>
       <th>round_digit</th>
-      <td><p>digits to round estimates, default to 1</p></td>
+      <td><p>digits to round estimates, default to `NULL`</p></td>
     </tr>
     <tr>
       <th>use_IGME_year</th>
       <td><p>load the saved IGME final aggregated results (final):
-2019 or 2020</p></td>
+choose between 2019 or 2020</p></td>
     </tr>
     <tr>
       <th>quantile</th>
-      <td><p>TRUE: return upper, median, lower; FALSE: only median</p></td>
+      <td><p>default to TRUE: return upper, median, lower; FALSE: only
+median.</p></td>
     </tr>
     </table>
 
@@ -202,8 +210,8 @@ long-format data, wide_get means two columns: rate and death</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>dt_1</span> <span class='op'>&lt;-</span> <span class='fu'>get.CME.UI.data</span><span class='op'>(</span>use_IGME_year <span class='op'>=</span> <span class='fl'>2020</span>, format <span class='op'>=</span> <span class='st'>"wide_year"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Indicators:U5MR, IMR, NMR, Under.five.Deaths, Infant.Deaths, Neonatal.Deaths</span></div><div class='input'><span class='va'>dt_2</span> <span class='op'>&lt;-</span> <span class='fu'>get.CME.UI.data</span><span class='op'>(</span>format <span class='op'>=</span> <span class='st'>"wide_ind"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Indicators:U5MR, IMR, NMR, Under.five.Deaths, Infant.Deaths, Neonatal.Deaths</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='message'>Shortind: IMR, Infant.deaths, Neonatal.deaths, NMR, U5MR, Under.five.deaths</span></div><div class='input'><span class='va'>dt_2</span> <span class='op'>&lt;-</span> <span class='fu'>get.CME.UI.data</span><span class='op'>(</span>format <span class='op'>=</span> <span class='st'>"wide_ind"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Shortind: IMR, Infant.deaths, Neonatal.deaths, NMR, U5MR, Under.five.deaths</span></div><div class='input'>
 
 </div></pre>
   </div>

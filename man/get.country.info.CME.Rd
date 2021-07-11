@@ -2,7 +2,7 @@
 % Please edit documentation in R/1.data_engineering.R
 \name{get.country.info.CME}
 \alias{get.country.info.CME}
-\title{Load the country.info.CME}
+\title{Load the "country.info.CME"}
 \usage{
 get.country.info.CME(year0 = 2021)
 }
@@ -13,5 +13,5 @@ get.country.info.CME(year0 = 2021)
 dataset of country info
 }
 \description{
-Creats UNICEFReportRegion from UNICEFReportRegion1 and UNICEFReportRegion2
+Creates UNICEFReportRegion from UNICEFReportRegion1 and UNICEFReportRegion2
 }

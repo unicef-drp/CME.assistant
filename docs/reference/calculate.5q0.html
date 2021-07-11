@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Search for file paths matched by part of the file name — search.for.file • CME.assistant</title>
+<title>Calculate 5q0 from 1q0 and 4q1 — calculate.5q0 • CME.assistant</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Search for file paths matched by part of the file name — search.for.file" />
-<meta property="og:description" content="Search for files containing the `file_name_string` in all sub-folders in
-`target.dir`, and list files containing the `file_name_string`" />
+<meta property="og:title" content="Calculate 5q0 from 1q0 and 4q1 — calculate.5q0" />
+<meta property="og:description" content="Calculate 5q0 from 1q0 and 4q1" />
 
 
 
@@ -116,35 +115,38 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Search for file paths matched by part of the file name</h1>
+    <h1>Calculate 5q0 from 1q0 and 4q1</h1>
     
-    <div class="hidden name"><code>search.for.file.Rd</code></div>
+    <div class="hidden name"><code>calculate.5q0.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Search for files containing the `file_name_string` in all sub-folders in
-`target.dir`, and list files containing the `file_name_string`</p>
+    <p>Calculate 5q0 from 1q0 and 4q1</p>
     </div>
 
-    <pre class="usage"><span class='fu'>search.for.file</span><span class='op'>(</span><span class='va'>target.dir</span>, <span class='va'>file_name_string</span>, full_path <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>calculate.5q0</span><span class='op'>(</span><span class='va'>q1</span>, <span class='va'>q4</span>, use_q_not_rate <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>target.dir</th>
-      <td><p>target directory</p></td>
+      <th>q1</th>
+      <td><p>1q0</p></td>
     </tr>
     <tr>
-      <th>file_name_string</th>
-      <td><p>e.g. "data_U5MR"</p></td>
+      <th>q4</th>
+      <td><p>4q1</p></td>
     </tr>
     <tr>
-      <th>full_path</th>
-      <td><p>full path or not</p></td>
+      <th>use_q_not_rate</th>
+      <td><p>default to TRUE, if TRUE q1, q4 are probability of
+dying  dx/lx, if FALSE are mortality rate per 1,000</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>5q0</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

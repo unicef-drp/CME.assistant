@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>function to read regional summary and output long format — read.region.summary • CME.assistant</title>
+<title>Read regional summary and output long format — read.region.summary • CME.assistant</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="function to read regional summary and output long format — read.region.summary" />
-<meta property="og:description" content="function to read regional summary and output long format" />
+<meta property="og:title" content="Read regional summary and output long format — read.region.summary" />
+<meta property="og:description" content="Read regional summary and output long format" />
 
 
 
@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CME.assistant</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
       </span>
     </div>
 
@@ -115,18 +115,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>function to read regional summary and output long format</h1>
+    <h1>Read regional summary and output long format</h1>
     
     <div class="hidden name"><code>read.region.summary.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>function to read regional summary and output long format</p>
+    <p>Read regional summary and output long format</p>
     </div>
 
     <pre class="usage"><span class='fu'>read.region.summary</span><span class='op'>(</span>
-  <span class='va'>dir_dt_cs</span>,
-  year_wanted <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>dir_file</span>,
+  year_range <span class='op'>=</span> <span class='cn'>NULL</span>,
   sex <span class='op'>=</span> <span class='cn'>NULL</span>,
   add_regional_grouping <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
@@ -135,11 +135,11 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dir_dt_cs</th>
+      <th>dir_file</th>
       <td><p>directory to e.g. paste0("Rates &amp; Deaths_UNICEFRegion.csv")</p></td>
     </tr>
     <tr>
-      <th>year_wanted</th>
+      <th>year_range</th>
       <td><p>default to null, supply e.g. 1990:2019</p></td>
     </tr>
     <tr>

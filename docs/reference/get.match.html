@@ -73,7 +73,7 @@ this variable. Values not revised in the given list will be kept" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">CME.assistant</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
       </span>
     </div>
 
@@ -126,7 +126,7 @@ this variable. Values not revised in the given list will be kept" />
 this variable. Values not revised in the given list will be kept</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get.match</span><span class='op'>(</span><span class='va'>x</span>, new_list <span class='op'>=</span> <span class='cn'>NULL</span>, no_line_break <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get.match</span><span class='op'>(</span><span class='va'>x</span>, new_list <span class='op'>=</span> <span class='cn'>NULL</span>, no_line_break <span class='op'>=</span> <span class='cn'>FALSE</span>, show_no_match <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,7 +142,13 @@ default_labels</p></td>
     </tr>
     <tr>
       <th>no_line_break</th>
-      <td><p>to remove linebreak from the string</p></td>
+      <td><p>default to FALSE, if TRUE will remove line break from
+the string</p></td>
+    </tr>
+    <tr>
+      <th>show_no_match</th>
+      <td><p>default to FALSE, if TRUE will message unmatched
+elements</p></td>
     </tr>
     </table>
 

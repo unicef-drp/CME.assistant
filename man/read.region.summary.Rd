@@ -2,17 +2,17 @@
 % Please edit documentation in R/1.data_engineering.R
 \name{read.region.summary}
 \alias{read.region.summary}
-\title{function to read regional summary and output long format}
+\title{Read regional summary and output long format}
 \usage{
 read.region.summary(
-  dir_dt_cs,
+  dir_file,
   year_range = NULL,
   sex = NULL,
   add_regional_grouping = FALSE
 )
 }
 \arguments{
-\item{dir_dt_cs}{directory to e.g. paste0("Rates & Deaths_UNICEFRegion.csv")}
+\item{dir_file}{directory to e.g. paste0("Rates & Deaths_UNICEFRegion.csv")}
 
 \item{year_range}{default to null, supply e.g. 1990:2019}
 
@@ -21,5 +21,5 @@ read.region.summary(
 \item{add_regional_grouping}{if add `Regional_Grouping` column}
 }
 \description{
-function to read regional summary and output long format
+Read regional summary and output long format
 }

@@ -12,7 +12,7 @@ get.CME.UI.data(
   idvars = c("OfficialName", "ISO3Code"),
   sex = NULL,
   format = "long",
-  round_digit = 1L,
+  round_digit = NULL,
   use_IGME_year = 2020,
   quantile = TRUE
 )
@@ -38,7 +38,7 @@ unless supplied}
 wide_get, default to "long". All the wide-format just `dcasts` the
 long-format data, wide_get means two columns: rate and death}
 
-\item{round_digit}{digits to round estimates, default to 1}
+\item{round_digit}{digits to round estimates, default to `NULL`}
 
 \item{use_IGME_year}{load the saved IGME final aggregated results (final):
 choose between 2019 or 2020}
@@ -55,7 +55,7 @@ indicators published so far and include Sex, Quantile in the output. If there
 is only median (i.e. no Quantile column in the dataset) the function will
 check if there is only one row per country. A pre-saved list of summary.csv
 files directories could be obtained by \code{\link{load.final_dir}}. Choose
-the `format` of the output dataset among `long`, `wide_year`, `wide_ind`
+the `format` of the output dataset from `long`, `wide_year`, `wide_ind`
 (wide by indicator) and `wide_get` (one column for rate and one column for
 death)
 }

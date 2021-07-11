@@ -51,7 +51,7 @@ head(dt_2)
 
 # load all in one step
 dt_all <- data.table::rbindlist(lapply(load.final_dir(2020), get.CME.UI.data, get = "both"), fill = TRUE)
-dt_all[, table(Sex, Indicator)]
+dt_all[, table(Sex, Shortind)]
 ```
 
 

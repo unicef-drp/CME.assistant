@@ -2,7 +2,7 @@
 % Please edit documentation in R/1.data_engineering.R
 \name{get.live.birth}
 \alias{get.live.birth}
-\title{Load the data_livebirths.csv, add ISO3Code and country names}
+\title{Load the "data_livebirths.csv", add ISO3Code and country names}
 \usage{
 get.live.birth(year0 = 2021)
 }
@@ -13,5 +13,5 @@ get.live.birth(year0 = 2021)
 dataset of live birth
 }
 \description{
-Load the data_livebirths.csv, add ISO3Code and country names
+Load the "data_livebirths.csv", add ISO3Code and country names
 }
