@@ -44,10 +44,12 @@ head(dt_2)
 
 ```{r, eval = FALSE}
 # can read final output file from Dropbox for any indicator
-# loading Dropbox files requires access
+# * loading Dropbox files requires access *
 dir_list <- load.final_dir()
 dt_2 <- get.CME.UI.data(dir_file = dir_list$dir_female_2020)
 head(dt_2)
+# With a given `dir_file`, can also use `read.country.summary`, which is a simplier version that only returns long-format data
+dt_3 <- read.country.summary(dir_file = dir_list$dir_female_2020)
 
 # load all in one step
 dt_all <- data.table::rbindlist(lapply(load.final_dir(2020), get.CME.UI.data, get = "both"), fill = TRUE)
@@ -62,7 +64,9 @@ input_dirs <- load.IGMEinput.dir()
 dir_U5MR   <- get.dir_U5MR(input_dirs$dir_IGME_21)
 dir_IMR    <- get.dir_IMR(input_dirs$dir_IGME_21)
 dir_NMR    <- get.dir_NMR(y5 = TRUE) # either 5-year or not
+dir_NMR    <- get.dir_NMR(y5 = FALSE) # either 5-year or not
 dir_gender <- get.dir_gender(plotting = TRUE) # either dataset for plotting or modeling
+dir_gender <- get.dir_gender(plotting = FALSE) # either dataset for plotting or modeling
 ```
 
 

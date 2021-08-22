@@ -8,7 +8,7 @@
 #' @return directory to input folder
 #' @export get.IGME.dir
 get.IGME.dir <- function(year){
-  USERPROFILE <- Sys.getenv("USERPROFILE")
+  USERPROFILE <- load_os_leading_dir()
   file.path(USERPROFILE, paste0("/Dropbox/UN IGME Data/", year ," Round Estimation/Code/"))
 }
 
@@ -20,7 +20,7 @@ get.IGME.dir <- function(year){
 #' @export load.IGMEinput.dir
 load.IGMEinput.dir <- function(){
   # the input folder:
-  USERPROFILE <- Sys.getenv("USERPROFILE")
+  USERPROFILE <- load_os_leading_dir()
   dir_IGMEinput_list <- list(
     dir_IGME_thisyear = file.path(USERPROFILE, paste0("/Dropbox/UN IGME Data/", format(Sys.Date(), "%Y") ," Round Estimation/Code/input/")),
     dir_IGME_21       = file.path(USERPROFILE, "/Dropbox/UN IGME Data/2021 Round Estimation/Code/input/"),
@@ -40,7 +40,7 @@ load.IGMEinput.dir <- function(){
 #' @return directory to input folder
 #' @export get.IGMEinput.dir
 get.IGMEinput.dir <- function(year){
-  USERPROFILE <- Sys.getenv("USERPROFILE")
+  USERPROFILE <- load_os_leading_dir()
   file.path(USERPROFILE, paste0("/Dropbox/UN IGME Data/", year ," Round Estimation/Code/input/"))
 }
 
@@ -49,7 +49,7 @@ get.IGMEinput.dir <- function(year){
 #'   Estimations/Code/output
 #' @export load.IGMEoutput.dir
 load.IGMEoutput.dir <- function(){
-  USERPROFILE <- Sys.getenv("USERPROFILE")
+  USERPROFILE <- load_os_leading_dir()
   dir_IGMEoutput_list <- list(
     dir_IGME_thisyear = file.path(USERPROFILE, paste0("/Dropbox/UN IGME Data/", format(Sys.Date(), "%Y") ," Round Estimation/Code/output/")),
     dir_IGME_21       = file.path(USERPROFILE, "/Dropbox/UN IGME Data/2021 Round Estimation/Code/output/"),
@@ -69,7 +69,7 @@ load.IGMEoutput.dir <- function(){
 #' @return directory to output folder
 #' @export get.IGMEoutput.dir
 get.IGMEoutput.dir <- function(year){
-  USERPROFILE <- Sys.getenv("USERPROFILE")
+  USERPROFILE <- load_os_leading_dir()
   file.path(USERPROFILE, paste0("/Dropbox/UN IGME Data/", year ," Round Estimation/Code/output/"))
 }
 
@@ -82,7 +82,7 @@ get.IGMEoutput.dir <- function(year){
 #' @return directory to fig folder
 #' @export get.IGMEfig.dir
 get.IGMEfig.dir <- function(year){
-  USERPROFILE <- Sys.getenv("USERPROFILE")
+  USERPROFILE <- load_os_leading_dir()
   file.path(USERPROFILE, paste0("/Dropbox/UN IGME Data/", year ," Round Estimation/Code/fig/"))
 }
 
@@ -243,7 +243,7 @@ get.dir_NMR <- function(
   dir_IGME_NMR = NULL
 ){
   if(is.null(dir_IGME_NMR)){
-    dir_IGME_NMR <- file.path(Sys.getenv("USERPROFILE"), "Dropbox/NMR/data")
+    dir_IGME_NMR <- file.path(load_os_leading_dir(), "Dropbox/NMR/data")
   }
   if(y5){
     files_full <- get.file.name(dir_file = dir_IGME_NMR, pattern0 = "data_NMR_")
@@ -284,9 +284,9 @@ get.dir_gender <- function(
 ){
   if(is.null(dir_IGME_gender)){
     if(plotting){
-      dir_IGME_gender <- file.path(Sys.getenv("USERPROFILE"),"/Dropbox/CMEgender2015/Database")
+      dir_IGME_gender <- file.path(load_os_leading_dir(),"/Dropbox/CMEgender2015/Database")
     } else {
-      dir_IGME_gender <- file.path(Sys.getenv("USERPROFILE"),"/Dropbox/CMEgender2015/data/interim")
+      dir_IGME_gender <- file.path(load_os_leading_dir(),"/Dropbox/CMEgender2015/data/interim")
     }
   }
   if(plotting){
@@ -325,7 +325,7 @@ get.opt.dir <- function(
   surveytype = "DHS",
   year = NULL){
   cname <- gsub(" ", "", cname)
-  dir_opt <- file.path(Sys.getenv("USERPROFILE"), "Dropbox/IGME Data/Output CMRJack/All/BH", surveytype, "Real/Optimal")
+  dir_opt <- file.path(load_os_leading_dir(), "Dropbox/IGME Data/Output CMRJack/All/BH", surveytype, "Real/Optimal")
   files <- get.file.name(dir_file =dir_opt,  pattern0 = cname)
   if(any(grepl(" CY ", files))) files <- grep(" CY ", files, value = TRUE)
   if(!is.null(year))files <- grep(year, files, value = TRUE)
@@ -344,7 +344,7 @@ get.opt.dir <- function(
 #' }
 get.raw.dir <- function(cname, surveytype = "DHS", year = NULL){
   cname <- gsub(" ", "", cname)
-  dir_opt <- file.path(Sys.getenv("USERPROFILE"), "Dropbox/IGME Data/Output CMRJack/All/BH", surveytype, "Real/Raw")
+  dir_opt <- file.path(load_os_leading_dir(), "Dropbox/IGME Data/Output CMRJack/All/BH", surveytype, "Real/Raw")
   files <- get.file.name(dir_file =dir_opt,  pattern0 = cname)
   if(any(grepl(" CY ", files))) files <- grep(" CY ", files, value = TRUE)
   if(!is.null(year)) files <- grep(year, files, value = TRUE)
@@ -362,7 +362,26 @@ revise.path <- function(dir0){
   # if there is backslack, replace it
   if(grep("\\\\", dir0)) dir <- gsub("\\\\", "\\/", dir0)
   # replace username if it is not right
-  if(!grepl(Sys.getenv("USERNAME"), dir)) dir <- file.path(Sys.getenv("USERPROFILE"),"Dropbox", sub("^.*Dropbox", "", dir))
+  if(!grepl(Sys.getenv("USERNAME"), dir)) dir <- file.path(load_os_leading_dir(),"Dropbox", sub("^.*Dropbox", "", dir))
   if(!file.exists(dir)) stop("check if dir exists: ", dir)
   return(dir)
+}
+
+#' check system, return . Used as nternal function.
+#'
+#' @return "Windows", "OSX", or "Linus"
+get_os <- function(){
+  sysinf <- Sys.info()
+  if (!is.null(sysinf)){
+    os <- sysinf['sysname']
+    if (os == 'Darwin')
+      os <- "osx"
+  } else { ## mystery machine
+    os <- .Platform$OS.type
+    if (grepl("^darwin", R.version$os))
+      os <- "osx"
+    if (grepl("linux-gnu", R.version$os))
+      os <- "linux"
+  }
+  return(tolower(os))
 }

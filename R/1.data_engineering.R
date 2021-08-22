@@ -17,6 +17,21 @@ search.for.file <- function(target.dir, file_name_string, full_path = FALSE){
 }
 
 
+#' Get leading path in file directories depending on operation system (Mac OSX or Windows)
+#'
+#' @return "Users/<username>" or "C:/Users/<username>"
+#' @export load_os_leading_dir
+#'
+#' @examples load_os_leading_dir()
+load_os_leading_dir <- function(){
+  user <- Sys.getenv("USERNAME")
+  os <- get_os()
+  if(!os %in% c("windows", "osx")) warning ("Have only saved directories for Windows and Mac OSX")
+  leading_path <- if(os == "osx") file.path("Users", user) else Sys.getenv("USERPROFILE")
+  return(leading_path)
+}
+
+
 #' Return a saved dir_list for total and sex-specific Rates & Deaths_Country
 #' Summary.csv
 #'
@@ -29,28 +44,29 @@ search.for.file <- function(target.dir, file_name_string, full_path = FALSE){
 #' @return list of results file directories on Dropbox
 #' @export load.final_dir
 load.final_dir <- function(year = 2020){
+  leading_path <- load_os_leading_dir()
   y19 <- list(
-    dir_total_2019 = file.path(Sys.getenv("USERPROFILE"),
+    dir_total_2019 = file.path(leading_path,
                                "/Dropbox/UN IGME Data/2019 Round Estimation/Code/Aggregate results (final) 2019-08-15/Rates & Deaths_Country Summary.csv"),
-    dir_female_2019 = file.path(Sys.getenv("USERPROFILE"),
+    dir_female_2019 = file.path(leading_path,
                                "/Dropbox/UN IGME Data/2019 Round Estimation/Code/Aggregate results (final) 2019-08-20 (female)/Rates & Deaths(ADJUSTED)_female_Country Summary (negative replaced).csv"),
-    dir_male_2019 = file.path(Sys.getenv("USERPROFILE"),
+    dir_male_2019 = file.path(leading_path,
                                "/Dropbox/UN IGME Data/2019 Round Estimation/Code/Aggregate results (final) 2019-08-20 (male)/Rates & Deaths(ADJUSTED)_male_Country Summary.csv"),
-    dir_5_14_2019 = file.path(Sys.getenv("USERPROFILE"),
+    dir_5_14_2019 = file.path(leading_path,
                               "Dropbox/IGME 5-14/2019 Round Estimation/Aggregate results (final) 2019-07-29/Rates & Deaths_Country Summary.csv")
 
   )
   y20 <- list(
-    dir_total_2020 = file.path(Sys.getenv("USERPROFILE"),
-                               "/Dropbox/UN IGME Data/2020 Round Estimation/Code/Aggregate results (final) 2020-08-14/Rates & Deaths_Country Summary.csv"),
-    dir_female_2020 = file.path(Sys.getenv("USERPROFILE"),
-                                "/Dropbox/UN IGME Data/2020 Round Estimation/Code/Aggregate results (final) 2020-08-16 (female)/Rates & Deaths(ADJUSTED)_female_Country Summary.csv"),
-    dir_male_2020 = file.path(Sys.getenv("USERPROFILE"),
+    dir_total_2020 = file.path(leading_path,
+                              "/Dropbox/UN IGME Data/2020 Round Estimation/Code/Aggregate results (final) 2020-08-14/Rates & Deaths_Country Summary.csv"),
+    dir_female_2020 = file.path(leading_path,
+                              "/Dropbox/UN IGME Data/2020 Round Estimation/Code/Aggregate results (final) 2020-08-16 (female)/Rates & Deaths(ADJUSTED)_female_Country Summary.csv"),
+    dir_male_2020 = file.path(leading_path,
                               "/Dropbox/UN IGME Data/2020 Round Estimation/Code/Aggregate results (final) 2020-08-16 (male)/Rates & Deaths(ADJUSTED)_male_Country Summary.csv"),
-    dir_5_14_2020 = file.path(Sys.getenv("USERPROFILE"),
-                         "Dropbox/IGME 5-14/2020 Round Estimation/Aggregate results (final) 2020-08-31/Rates & Deaths_Country Summary.csv"),
-    dir_15_24_2020 = file.path(Sys.getenv("USERPROFILE"),
-                              "Dropbox/IGME 5-14/Estimates 10q15/Aggregate results (final) 2020-08-31/Rates & Deaths_Country Summary.csv")
+    dir_5_14_2020 = file.path(leading_path,
+                              "/Dropbox/IGME 5-14/2020 Round Estimation 10q5/Aggregate results (final) 2020-08-31/Rates & Deaths_Country Summary.csv"),
+    dir_15_24_2020 = file.path(leading_path,
+                              "/Dropbox/IGME 15-24/2020 Round Estimation 10q15/Aggregate results (final) 2020-08-31/Rates & Deaths_Country Summary.csv")
     #
   )
   year <- as.character(year)
@@ -62,10 +78,9 @@ load.final_dir <- function(year = 2020){
     dir_list <- c(y19, y20)
   }
   # check if all the files still exist (if file names remain unchanged)
-  if(!all(sapply(dir_list, file.exists))) stop("Check files that don't exist:\n ", paste(dir_list[!sapply(dir_list, file.exists)], collapse = ",\n "))
+  if(!all(sapply(dir_list, file.exists))) warning("Check file paths that don't exist:\n ", paste(dir_list[!sapply(dir_list, file.exists)], collapse = ",\n "))
   return(dir_list)
 }
-# dir_list <- load.final_dir()
 
 
 
