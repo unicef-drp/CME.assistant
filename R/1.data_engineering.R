@@ -24,7 +24,7 @@ search.for.file <- function(target.dir, file_name_string, full_path = FALSE){
 #'
 #' @examples load_os_leading_dir()
 load_os_leading_dir <- function(){
-  user <- Sys.getenv("USERNAME")
+  user <- Sys.info()[["user"]]
   os <- get_os()
   if(!os %in% c("windows", "osx")) warning ("Have only saved directories for Windows and Mac OSX")
   leading_path <- if(os == "osx") file.path("Users", user) else Sys.getenv("USERPROFILE")
