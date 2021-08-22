@@ -407,6 +407,7 @@ search.for.file <- function(target.dir, file_name_string, full_path = FALSE){
 #' @export load_os_leading_dir
 #'
 #' @examples load_os_leading_dir()
+#'
 load_os_leading_dir <- function(){
   user <- Sys.info()[["user"]]
   os <- get_os()
