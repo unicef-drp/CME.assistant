@@ -3,12 +3,14 @@ shortind_indicator <- list(
     "U5MR"   =   "Under-five mortality rate",
     "IMR"    =   "Infant mortality rate",
     "NMR"    =   "Neonatal mortality rate",
+    "MR1t59" =   "Mortality rate age 1-59 months", # added Sep.2021
     "CMR"    =   "Child mortality rate age 1-4",
     "SBR"    =   "Stillbirth rate",
 
     "Under.five.deaths"    =  "Under-five deaths",
     "Infant.deaths"        =  "Infant deaths",
     "Neonatal.deaths"      =  "Neonatal deaths",
+    "Deaths.1to59"         =  "Deaths age 1 to 59 months",
     "Child.deaths.age1to4" =  "Child deaths age 1 to 4",
     "SB"                   =  "Stillbirths",
 
