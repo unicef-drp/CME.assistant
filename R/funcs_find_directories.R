@@ -115,7 +115,8 @@ get.ref.date <- function(date0,
   date_start <- get.numeric.date(date0)
   date_end <- get.numeric.date(date1)
   date_ave <- get.numeric.date(date0 + difftime(date1, date0)/2)
-  return(list(date_start=date_start, date_end=date_end, date_ave=date_ave))
+  date_ave_d <- date0 + difftime(date1, date0)/2
+  return(list(date_start=date_start, date_end=date_end, date_ave=date_ave, date_ave_d = date_ave_d))
 }
 
 #' Transform date into numeric numbers like 2020.55
