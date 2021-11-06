@@ -4,12 +4,17 @@
 \alias{get.dir_U5MR}
 \title{Get the U5MR master dataset directory}
 \usage{
-get.dir_U5MR(dir_IGME = get.IGMEinput.dir(2021))
+get.dir_U5MR(
+  dir_IGME = get.IGMEinput.dir(2021),
+  pattern_to_match = "data_U5MR"
+)
 }
 \arguments{
 \item{dir_IGME}{The directory to IGME input folder, e.g. ".../2020 Round
 Estimation/Code/input/", could be obtained using
 \code{\link{get.IGMEinput.dir}}}
+
+\item{pattern_to_match}{default to "data_U5MR", but can be used generally}
 }
 \value{
 file path to the master dataset

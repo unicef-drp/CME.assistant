@@ -115,7 +115,8 @@ get.ref.date <- function(date0,
   date_start <- get.numeric.date(date0)
   date_end <- get.numeric.date(date1)
   date_ave <- get.numeric.date(date0 + difftime(date1, date0)/2)
-  return(list(date_start=date_start, date_end=date_end, date_ave=date_ave))
+  date_ave_d <- date0 + difftime(date1, date0)/2
+  return(list(date_start=date_start, date_end=date_end, date_ave=date_ave, date_ave_d = date_ave_d))
 }
 
 #' Transform date into numeric numbers like 2020.55
@@ -180,7 +181,7 @@ get.max.date <- function(mydate) {
 #' @param files file path
 #'
 find_latest_date <- function(files){
-  remove_string <- c("data_U5MR_|.csv|data_IMR_|data_NMR_|_5year|dataset_formodeling_|dataset_forplotting_")
+  remove_string <- c("data_U5MR_|.csv|data_IMR_|data_NMR_|_5year|dataset_formodeling_|dataset_forplotting_|SexSpecific-entries_")
   dates <- gsub(remove_string, "", files)
   # screen for valid date string:
   # dates <- c("2015", "20200804", "2020-08-01")
@@ -189,16 +190,38 @@ find_latest_date <- function(files){
 }
 
 
+#' Get the file directory with latest date in the filename
+#'
+#' @param dir_folder The directory to search for files
+#' @param pattern_to_match Pattern used to match filename
+#' @return file path to the dataset
+#' @export get.dir_latest_file
+get.dir_latest_file <- function(dir_folder, pattern_to_match){
+  files_full <- get.file.name(dir_file = dir_folder, pattern0 = pattern_to_match)
+  files <- get.file.name(dir_file = dir_folder, pattern0 = pattern_to_match, full_name = FALSE)
+  file_selected <- files_full[find_latest_date(files)]
+  if(length(file_selected)!=0){
+    message(paste(pattern_to_match, "dataset chosen: \n", file_selected))
+    return(file_selected)
+  } else {
+    message("No corresponding dataset found in: \n ", dir_folder)
+    return(NULL)
+  }
+}
+
+
 #' Get the U5MR master dataset directory
 #'
 #' @param dir_IGME The directory to IGME input folder, e.g. ".../2020 Round
 #'   Estimation/Code/input/", could be obtained using
 #'   \code{\link{get.IGMEinput.dir}}
+#' @param pattern_to_match default to "data_U5MR", but can be used generally
+#'
 #' @return file path to the master dataset
 #' @export get.dir_U5MR
-get.dir_U5MR <- function(dir_IGME = get.IGMEinput.dir(2021)){
-  files_full <- get.file.name(dir_file = dir_IGME, pattern0 = "data_U5MR")
-  files <- get.file.name(dir_file = dir_IGME, pattern0 = "data_U5MR", full_name = FALSE)
+get.dir_U5MR <- function(dir_IGME = get.IGMEinput.dir(2021), pattern_to_match = "data_U5MR"){
+  files_full <- get.file.name(dir_file = dir_IGME, pattern0 = pattern_to_match)
+  files <- get.file.name(dir_file = dir_IGME, pattern0 = pattern_to_match, full_name = FALSE)
   file_selected <- files_full[find_latest_date(files)]
   if(length(file_selected)!=0){
     message(paste("U5MR master dataset chosen: \n", file_selected))
@@ -449,9 +472,9 @@ load.final_dir <- function(year = 2020){
     dir_male_2020 = file.path(leading_path,
                               "/Dropbox/UN IGME Data/2020 Round Estimation/Code/Aggregate results (final) 2020-08-16 (male)/Rates & Deaths(ADJUSTED)_male_Country Summary.csv"),
     dir_5_14_2020 = file.path(leading_path,
-                              "/Dropbox/IGME 5-14/2020 Round Estimation 10q5/Aggregate results (final) 2020-08-31/Rates & Deaths_Country Summary.csv"),
+                              "/Dropbox/IGME 5-14/2020 Round Estimation/Aggregate results (final) 2020-08-31/Rates & Deaths_Country Summary.csv"),
     dir_15_24_2020 = file.path(leading_path,
-                               "/Dropbox/IGME 15-24/2020 Round Estimation 10q15/Aggregate results (final) 2020-08-31/Rates & Deaths_Country Summary.csv")
+                               "/Dropbox/IGME 15-24/2020 Round Estimation/Aggregate results (final) 2020-08-31/Rates & Deaths_Country Summary.csv")
     #
   )
   year <- as.character(year)

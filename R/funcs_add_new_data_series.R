@@ -137,8 +137,17 @@ add.new.series.u5mr <- function(
   message("original nrow:", nrow_master_old)
 
   dt_new_entries <- revise.age.group(dt_new_entries)
+
   # recreate IGME Key
   dt_new_entries <- create.IGME.key(dt_new_entries)
+
+  # check reference date
+  if(dt_new_entries1[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, .N] >0){
+    warning("Set invisible for data point more than 25 years prior to average date of the survey: ",
+            dt_new_entries1[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, IGME_Key[1]])
+  }
+
+
   nrow_old <- nrow(dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key),])
   if(nrow_old > 0){
     if(remove_old){
@@ -160,7 +169,7 @@ add.new.series.u5mr <- function(
 
   }
 
-  dt1 <- rbindlist(list(dt_master, dt_new_entries))
+  dt1 <- rbindlist(list(dt_master, dt_new_entries), use.names = TRUE)
   dup_key <- dt1[duplicated(dt1), unique(IGME_Key)]
   if(length(dup_key)>0) message("Notice duplicated series: ", paste(dup_key, collapse = ", "))
   setorder(dt1, Country.Name, -Indicator, -Sex, -End.date.of.Survey, Series.Name, Series.Type, -Date.Of.Data.Added, -Reference.Date, - Inclusion)
@@ -215,7 +224,7 @@ add.new.series.imr <- function(
   }
   message("nrow after removing old entries:", nrow(dt_IMR))
 
-  dt1 <- rbindlist(list(dt_IMR, dt_new_entries))
+  dt1 <- rbindlist(list(dt_IMR, dt_new_entries), use.names = TRUE)
   dt1[duplicated(dt1), unique(IGME_Key)]
   setorder(dt1, Country.Name, -Indicator, -Sex, -End.date.of.Survey, Series.Name, Series.Type, -Date.Of.Data.Added, -Reference.Date, - Inclusion)
   message("Newly added:", paste(unique(dt_new_entries$IGME_Key), collapse = ", "))
@@ -242,6 +251,9 @@ add.new.series.nmr <- function(
   message("old nrow:", nrow_master_old)
   dt_new_entries <- revise.age.group(dt_new_entries)
   dt_new_entries <- create.IGME.key(dt_new_entries)
+  # mark MM adjustments
+  dt_new_entries[, Adjustment.in.U5MR:=as.character(Adjustment.in.U5MR)]
+  dt_new_entries[Country.Code%in%hiv.iso, Adjustment.in.U5MR:= "MM adjustment"]
 
   key0s <- dt_new_entries[, unique(IGME_Key)]
   if(nrow(dt_nmr[IGME_Key %in% key0s,]) > 0){
@@ -261,7 +273,7 @@ add.new.series.nmr <- function(
 
   }
 
-  dt_nmr_new <- rbind(dt_nmr, dt_new_entries, fill = TRUE)
+  dt_nmr_new <- rbindlist(list(dt_nmr, dt_new_entries), fill = TRUE, use.names = TRUE)
   if(nrow(dt_nmr) + nrow(dt_new_entries) != nrow(dt_nmr_new)) warning("check row numbers ")
   if(ncol(dt_nmr) != ncol(dt_new_entries)) warning("check col numbers ")
   setorder(dt_nmr_new, Country.Name, -End.date.of.Survey, Series.Name, Series.Type, -Date.Of.Data.Added, -Reference.Date, -Inclusion)
@@ -326,7 +338,7 @@ add.new.series.by.name <- function(
     }
   }
 
-  dt1 <- rbind(dt_master, dt_new_entries)
+  dt1 <- rbindlist(list(dt_master, dt_new_entries), fill = TRUE, use.names = TRUE)
   dup_key <- dt1[duplicated(dt1), unique(IGME_Key)]
   if(length(dup_key)>0) message("Notice duplicated series: ", paste(dup_key, collapse = ", "))
   if(dt_master$Indicator[1] == "log NMR/(U5MR-NMR)" ){
