@@ -142,9 +142,9 @@ add.new.series.u5mr <- function(
   dt_new_entries <- create.IGME.key(dt_new_entries)
 
   # check reference date
-  if(dt_new_entries1[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, .N] >0){
+  if(dt_new_entries[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, .N] >0){
     warning("Set invisible for data point more than 25 years prior to average date of the survey: ",
-            dt_new_entries1[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, IGME_Key[1]])
+            dt_new_entries[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, IGME_Key[1]])
   }
 
 
