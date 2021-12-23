@@ -1,6 +1,6 @@
 Package: CME.assistant
 Title: Reusable Assisting Functions for Data Analysis
-Version: 1.2.2
+Version: 1.2.3
 Authors@R: 
     person(given = "Yang",
            family = "Liu",
@@ -12,14 +12,12 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 
-    R (>= 3.3.0),
-    data.table (>= 1.12.0)
+    R (>= 3.3.0)
 Imports:
-    ggplot2 (>= 3.0.0),
-    here,
-    usethis
+    data.table (>= 1.12.0)
 RoxygenNote: 7.1.2
 Suggests: 
+    here,
     knitr,
     rmarkdown
 VignetteBuilder: knitr

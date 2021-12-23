@@ -17,5 +17,7 @@ read.country.summary(dir_file, year_range = NULL, sex = NULL)
 This function is a simpler version of \code{\link{get.CME.UI.data}} and is
 more straightforward to use: without many arguments, only output long format.
 The arguments are aligned so this function could be replaced by
-\code{\link{get.CME.UI.data}} in the code if needed
+\code{\link{get.CME.UI.data}} in the code if needed.
+\code{\link{get.CME.UI.data}} offers more options, including output format,
+selecting id.vars. etc
 }

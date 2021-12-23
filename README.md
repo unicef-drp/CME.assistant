@@ -6,7 +6,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `CME.assistant` is to collect frequently used functions for data enginerring for internal use.
+The goal of `CME.assistant` is to collect frequently used functions, mostly for data engineering, for internal use.
+The only package dependency is `data.table`.
 
 ## Installation  
 
@@ -20,7 +21,7 @@ library(CME.assistant)
 ```
 Skip the recommended update of other packages if you don't like.   
 
-Alternative option: download the repo, and use 'Ctrl/Cmd+Shift+B' to compile the package locally. (Maybe also need to install [Rtools](https://cran.r-project.org/bin/windows/Rtools/) if not installed yet.)
+Alternative option: download the repo and compile the package locally. (Also need [Rtools](https://cran.r-project.org/bin/windows/Rtools/) if not installed yet.)
 
 ## To view vignette
 ```{r}

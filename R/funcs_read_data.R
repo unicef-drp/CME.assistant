@@ -210,7 +210,8 @@ get.CME.UI.data <- function(
       year_range <- available_years
     }
   } else {
-    message("`year_range` set to NULL: use all available years in the dataset.")
+    message("`year_range` set to NULL: use all available years in the dataset: ",
+            paste(range(available_years), collapse = "-"))
     year_range <- available_years
   }
 
@@ -323,7 +324,9 @@ get.CME.UI.data <- function(
 #' This function is a simpler version of \code{\link{get.CME.UI.data}} and is
 #' more straightforward to use: without many arguments, only output long format.
 #' The arguments are aligned so this function could be replaced by
-#' \code{\link{get.CME.UI.data}} in the code if needed
+#' \code{\link{get.CME.UI.data}} in the code if needed.
+#' \code{\link{get.CME.UI.data}} offers more options, including output format,
+#' selecting id.vars. etc
 #'
 #' @param dir_file directory to Rates & Deaths_Country Summary.csv
 #' @param year_range default to null, supply e.g. 1990:2019
@@ -369,7 +372,7 @@ read.country.summary <- function(
       year_range <- available_years
     }
   } else {
-    message("`year_range` set to NULL: use all available years in the dataset.")
+    message("`year_range` set to NULL: use all available years in the dataset: ", paste(range(available_years), collapse = "-"))
     year_range <- available_years
   }
 
@@ -505,4 +508,136 @@ get.live.birth <- function(year0 = 2021){
   dtlb <- fread(file.path(dir_input, "data_livebirths.csv"))
   dtlb <- merge(dc[,.(ISO3Code, CountryName, OfficialName, UNCode)], dtlb, by.x = "UNCode", by.y = "uncode")
   return(dtlb)
+}
+
+
+
+#' Read one results.csv file and reformat into long-format
+#'
+#' @param dt_dir the single directory to a results.csv file
+#' @param year_range year range desired, default to all years: `1931:2030`
+#' @param q quantile desired, default to `c("Lower", "Median", "Upper")`
+#' @param sex default to NULL, Sex is determined from `dt_dir`, unless specified
+#' @return long-format results.csv, all values in the "value" column
+#' @export read.results.csv
+read.results.csv <- function(
+  dt_dir,
+  year_range = 1931:2030,
+  q = c("Lower", "Median", "Upper"),
+  sex = NULL
+){
+  id_vars <- c("ISO.Code", "Quantile", "Indicator")
+  if(grepl(".xlsx|.xls", dt_dir)){
+    # dt1 <- setDT(readxl::read_xlsx(dt_dir))
+    stop("dt_dir points to xlsx file.")
+  } else {
+    dt1 <- fread(dt_dir, header = TRUE)
+  }
+  dt1 <- dt1[Quantile %in% q, ]
+  # align the column names first
+  if("ISO Code"%in%colnames(dt1)) setnames(dt1, "ISO Code", "ISO.Code")
+
+  if(!is.numeric(year_range)){
+    year_range <- 1931:2030
+    message("`year_range` set to default: 1931-2030")
+  }
+
+  if(any(grepl("X", colnames(dt1)))){
+    value_vars <- paste0("X", year_range, ".5")
+  } else if (any(grepl(".5", colnames(dt1), fixed = TRUE))) {
+    value_vars <- paste0(year_range, ".5")
+  } else {
+    value_vars <- paste0(year_range)
+  }
+  value_vars <- value_vars[value_vars%in%colnames(dt1)] # only available years will be picked
+  dt1[, (value_vars):= lapply(.SD, as.numeric), .SDcols = value_vars]
+  if(grepl("U5MR|P5", dt1$Indicator[1])) dt1$Indicator <- "Under-five Mortality Rate"
+  if(grepl("IMR|P1", dt1$Indicator[1])) dt1$Indicator <- "Infant Mortality Rate"
+  if(grepl("CMR|P4", dt1$Indicator[1])) dt1$Indicator <- "Child mortality rate age 1-4"
+
+  if(grepl("10q5", dt_dir))dt1$Indicator <- "Mortality rate age 5-14"
+  if(grepl("5q5", dt_dir)) dt1$Indicator <- "Mortality rate age 5-9"
+  if(grepl("5q10", dt_dir))dt1$Indicator <- "Mortality rate age 10-14"
+
+  if(grepl("10q15", dt_dir))dt1$Indicator <- "Mortality rate age 15-24"
+  if(grepl("5q15", dt_dir)) dt1$Indicator <- "Mortality rate age 15-19"
+  if(grepl("5q20", dt_dir)) dt1$Indicator <- "Mortality rate age 20-24"
+  vars_wanted <- c(id_vars, value_vars)
+  dt1_long <- melt.data.table(dt1[,..vars_wanted], measure.vars = value_vars,
+                              variable.name = "Year", variable.factor = FALSE)
+  dt1_long[, value:=as.numeric(value)]
+  if(any(grepl("X", colnames(dt1)))) {
+    dt1_long[, Year:= floor(as.numeric(sub("X","",Year)))]
+  } else {
+    dt1_long[, Year:= floor(as.numeric(Year))]
+  }
+
+  # determine sex from dir
+  if(is.null(sex)){
+    if(grepl("female", dt_dir, ignore.case = TRUE)){
+      sex <- "Female"
+    } else if (grepl("male", dt_dir, ignore.case = TRUE)) {
+      sex <- "Male"
+    }  else if (grepl("P", dt_dir)) {
+      sex <- "P_factor"
+    } else if (grepl("Sex ratio", dt_dir)) {
+      sex <- "Sex_Ratio"
+    } else {
+      sex <- "Total"
+    }
+
+    if(grepl("expected", dt_dir, ignore.case = TRUE)) sex <- paste(sex, "expected")
+  }
+
+  dt1_long[, Sex:= sex]
+
+  ind_list <- list(
+    "Under-five Mortality Rate" = "U5MR",
+    "Infant Mortality Rate" = "IMR",
+    "Child mortality rate age 1-4" = "CMR",
+    "Neonatal Mortality Rate" = "NMR",
+
+    "Mortality rate age 5-14"  = "10q5",
+    "Mortality rate age 5-9"   = "5q5",
+    "Mortality rate age 10-14" = "5q10",
+    "Mortality rate age 15-24" = "10q15",
+    "Mortality rate age 15-19" = "5q15",
+    "Mortality rate age 20-24" = "5q20"
+
+  )
+  dt1_long[, Shortind:= get.match(Indicator, new_list = ind_list)]
+
+  setkey(dt1_long, ISO.Code, Year)
+  dt1_long <- dt1_long[,.(ISO.Code, Shortind, Indicator, Sex, Year, Quantile, value)]
+  return(dt1_long)
+}
+
+
+
+
+#' Read and bind all "results.csv" into one file using `rbindlist`
+#'
+#' Use \code{\link{read.results.csv}} to read all "results.csv" files
+#'
+#' @param results_dir_list results_dir_list list of all the results.csv files to
+#'   read in and compare
+#' @param year_range0 year range, default to years `1931:2021`
+#' @param value_name name of the value, default to "Results"
+#'
+#' @return long-format results.csv for all indicators, all values in the
+#'   `value_name` column
+#' @export read.all.results.csv
+read.all.results.csv <- function(
+  results_dir_list,
+  year_range0 = 1931:2020,
+  value_name = "Results"
+){
+  # a list of all the results files:
+  # combine original results
+  dt_results_2020 <- rbindlist(lapply(results_dir_list, read.results.csv, year_range = year_range0))
+  setnames(dt_results_2020, "value", value_name)
+  # dt_results_2020[, Quantile:= as.factor(Quantile)]
+  # if(!identical(levels(dt_results_2020$Quantile), c("Lower", "Median", "Upper"))) stop("Check Quantile levels: ", paste(levels(dt_results_2020$Quantile), collapse = ", "))
+  # dt_results_2020$Quantile <- factor(dt_results_2020$Quantile, levels = c("Median", "Lower", "Upper"))
+  return(dt_results_2020)
 }
