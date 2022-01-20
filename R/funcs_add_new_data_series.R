@@ -100,7 +100,7 @@ revise.age.group <- function(dt_new_entries){
     dt_new_entries <- dt_new_entries[!Age.Group.of.Women%in%c("25-34"), ]
 
   }
-  if(nrow(dt_new_entries[Age.Group.of.Women=="19-Oct"])>0){
+  if(nrow(dt_new_entries[Age.Group.of.Women%in%c("10-19", "19-Oct"), ])>0){
     message("Remove AOW group '10-19' for ", paste(dt_new_entries[Age.Group.of.Women=="25-34", unique(IGME_Key)], collapse = ", "))
     dt_new_entries <- dt_new_entries[!Age.Group.of.Women%in%c("10-19", "19-Oct"), ]
   }

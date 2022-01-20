@@ -442,7 +442,7 @@ read.region.summary <- function(
       year_range <- available_years
     }
   } else {
-    message("`year_range` set to NULL: use all available years in the dataset.")
+    message("`year_range` set to NULL: use all available years in the dataset: ", paste(range(available_years), collapse = "-"))
     year_range <- available_years
   }
   dt_cs <- dt_cs[Year%in%year_range]
