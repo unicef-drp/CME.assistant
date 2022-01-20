@@ -229,9 +229,9 @@ get.CME.UI.data <- function(
     sex <- "Total"
   } else {
     if(is.null(sex)){
-      if(grepl("female", dir_file)){
+      if(grepl("female", dir_file, ignore.case = TRUE)){
         sex <- "Female"
-      } else if (grepl("male", dir_file)) {
+      } else if (grepl("male", dir_file, ignore.case = TRUE)) {
         sex <- "Male"
       } else {
         sex <- "Total"
@@ -387,9 +387,9 @@ read.country.summary <- function(
   dt_long[, variable:= NULL]
   # determine sex from dir
   if(is.null(sex)){
-    if(grepl("female", dir_file)){
+    if(grepl("female", dir_file, ignore.case = TRUE)){
       sex <- "Female"
-    } else if (grepl("male", dir_file)) {
+    } else if (grepl("male", dir_file, ignore.case = TRUE)) {
       sex <- "Male"
     } else {
       sex <- "Total"
@@ -465,9 +465,9 @@ read.region.summary <- function(
   dt_long[, Year:= floor(Year) + 0.5]
   # determine sex from dir
   if(is.null(sex)){
-    if(grepl("female", dir_file)){
+    if(grepl("female", dir_file, ignore.case = TRUE)){
       sex <- "Female"
-    } else if (grepl("male", dir_file)) {
+    } else if (grepl("male", dir_file, ignore.case = TRUE)) {
       sex <- "Male"
     } else {
       sex <- "Total"
