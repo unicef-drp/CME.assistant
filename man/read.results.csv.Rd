@@ -18,7 +18,7 @@ read.results.csv(
 
 \item{q}{quantile desired, default to `c("Lower", "Median", "Upper")`}
 
-\item{sex}{default to NULL, Sex is determined from `dt_dir`, unless specified}
+\item{sex}{default to NULL, sex is determined from `dt_dir`, unless specified}
 }
 \value{
 long-format results.csv, all values in the "value" column

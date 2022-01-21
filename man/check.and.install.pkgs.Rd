@@ -2,7 +2,7 @@
 % Please edit documentation in R/funcs_read_data.R
 \name{check.and.install.pkgs}
 \alias{check.and.install.pkgs}
-\title{Check and install packages if missing}
+\title{Check and attach libraries. Install if not.}
 \usage{
 check.and.install.pkgs(pkgs)
 }
@@ -10,5 +10,5 @@ check.and.install.pkgs(pkgs)
 \item{pkgs}{vector of packages}
 }
 \description{
-Check and install packages if missing
+Check and attach libraries. Install if not.
 }

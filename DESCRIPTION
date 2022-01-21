@@ -17,6 +17,7 @@ Depends:
 Imports:
 RoxygenNote: 7.1.2
 Suggests: 
+    dplyr,
     here,
     knitr,
     rmarkdown

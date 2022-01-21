@@ -15,10 +15,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-The goal of CME.assistant is to share reusable functions within the CME team.
+The goal of CME.assistant is to share frequently used functions within the CME team.
 
 ```{r, echo = FALSE}
 options(rmarkdown.html_vignette.check_title = FALSE)
+library("CME.assistant")
 ```
 
 ## Functions for reading data
@@ -31,19 +32,22 @@ For now the most useful ones I used in many scripts are:
 
 _Examples:_  
 
-```{r}
+```{r, eval = FALSE}
 # running these code requires access to Dropbox folders
 
-# Always a good idea to update the library, make sure you have the latest version
+# Always a good idea to update the library to make sure you have the latest version
 # devtools::install_github("unicef-drp/CME.assistant")
-library(CME.assistant)
+library("CME.assistant")
 leading_path <- CME.assistant::load_os_leading_dir() # leading dir to Dropbox
 
 # Dropbox directories to all results.csv
 dir_CC_code <- file.path(leading_path, "Dropbox/UNICEF Work/Country consultation/Code_for_CC")
 source(file.path(dir_CC_code, "R/Dropbox_results_directories.R"))
-dt_results <- read.all.results.csv(results_dir_list = results_dir_list_final)
-dt_results[is.na(Results), table(Sex, Shortind)]
+dt_results <- rbindlist(lapply(results_dir_list_final, CME.assistant::read.results.csv))
+# which the same as:
+dt_results <- do.call(rbind, lapply(results_dir_list_final, CME.assistant::read.results.csv))
+dt_results[!is.na(value), table(Sex, Shortind)]
+
 
 # Dropbox directories to all final aggregates
 dir_report_code <- file.path(leading_path, "Dropbox/UNICEF Work/IGME report etc/2021/Code_for_report/")
@@ -63,16 +67,30 @@ dt_estimates <- rbindlist(lapply(dir_country_summary, CME.assistant::read.countr
 dt_estimates[, table(Shortind, Sex)]
 ```
 
+Similar for regional summary:  
+
+```{r, eval = FALSE}
+region_group_filename <- "SDGSimpleRegion"
+dir_region_summary <- c(
+  file.path(dir_aggu5,   paste0("Rates & Deaths_", region_group_filename, ".csv")),
+  file.path(dir_aggu5_f, paste0("Rates & Deaths(ADJUSTED)_female_", region_group_filename, ".csv")),
+  file.path(dir_aggu5_m, paste0("Rates & Deaths(ADJUSTED)_male_", region_group_filename, ".csv")),
+  file.path(dir_agg10q5,   paste0("Rates & Deaths_", region_group_filename, ".csv")),
+  file.path(dir_agg10q15,   paste0("Rates & Deaths_", region_group_filename, ".csv"))
+)
+dt_region <- rbindlist(lapply(dir_region_summary, CME.assistant::read.region.summary))
+```
+
+
 * **`get.CME.UI.data`**:
-A more advanced version of `read.country.summary` that allows tuning output format: can output wide format by wide-quantile, wide-year, wide-indicator or one column for rate and one for death.
+A more advanced version of `read.country.summary` that allows more tuning: can output wide format by wide-quantile, wide-year, wide-indicator or one column for rate and one for death.
   + The default long-format output contains columns `c("ISO3Code", "OfficialName", "Shortind", "Year", "Quantile", "Sex", "value")`
   + The function will output all available indicators in the dataset
-  + Allow subsetting by ISO (`c_iso`) or year (`year_range`) 
+  + Could subset by ISO (`c_iso`) or year (`year_range`) 
 
 _Examples:_
 
-```{r}
-# examples: 
+```{r, eval = FALSE}
 dir_cs_u5 <- file.path(dir_aggu5, "Rates & Deaths_Country Summary.csv")
 dt_1 <- get.CME.UI.data(dir_file = dir_cs_u5)
 dt_1[Year == 2020][1:3,]
@@ -81,17 +99,17 @@ dt_1 <- get.CME.UI.data(dir_file = dir_cs_u5,
 dt_1[Year == 2020][1,]
 dt_1 <- get.CME.UI.data(dir_file = dir_cs_u5, format = "wide_q")
 dt_1[Year == 2020][1,]
-dt_wy <- get.CME.UI.data(dir_file = dir_cs_u5, format = "wide_year", year_range = c(2000, 2010, 2020))
-dt_wy[1:3,]
 dt_1 <- get.CME.UI.data(dir_file = dir_cs_u5, format = "wide_ind", round_digit = 1)
 dt_1[Year == 2020][1:3,]
 dt_1 <- get.CME.UI.data(dir_file = dir_cs_u5, format = "wide_get", round_digit = 1)
 dt_1[Year == 2020][1:3,]
+dt_wy <- get.CME.UI.data(dir_file = dir_cs_u5, format = "wide_year", year_range = c(2000, 2010, 2020))
+dt_wy[1:3,]
 ```
 
 ## Functions for calculating
 Using the wide-year output above, we can directly calculate ARR or percentage decline (PD)
-```{r}
+```{r, eval = FALSE}
 dt_wy <- calculate.arr(dt_wy, 2000, 2010) # ARR
 dt_wy <- calculate.arr(dt_wy, 2010, 2020) # ARR
 dt_wy <- calculate.pd(dt_wy, 2000, 2020) # percentage decline
@@ -119,13 +137,12 @@ dir_gender <- get.dir_gender(plotting = FALSE) # either dataset for plotting or 
 Almost used in every script  
 
 **`get.match`**  
-Similar to `dplyr::recode`, which takes a named vector to rename values, `get.match` takes a list as input to rename values   
+Similar to `dplyr::recode`, which takes a named vector to rename values, `get.match` takes a list as input to rename values. Maybe just use `dplyr::recode` in the future  
 ```{r}
-# a helpful function to revise variable, you can provide a __new_list__ to define the labels
-get.match(c("a","b", "c"), new_list = list("a" = "label 1", "b" = "label 2"))
-
-# `dplyr::recode` can do the same: 
+# `dplyr::recode` can do the same and is about 10x faster:
 dplyr::recode(c("a","b", "c"), !!!c("a" = "label 1", "b" = "label 2"))
+
+get.match(c("a","b", "c"), new_list = list("a" = "label 1", "b" = "label 2"))
 ```
 
 **`UNICEF_colors`**  
@@ -134,4 +151,5 @@ The official color palette, help me to find UNICEF blue
 str(UNICEF_colors)
 ```
 
-**`hiv.iso`**
+**`hiv.iso`**  
+Sometimes useful

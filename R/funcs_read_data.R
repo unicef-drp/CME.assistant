@@ -410,7 +410,7 @@ read.region.summary <- function(
 #' @param dt_dir the single directory to a results.csv file
 #' @param year_range year range desired, default to all years: `1931:2030`
 #' @param q quantile desired, default to `c("Lower", "Median", "Upper")`
-#' @param sex default to NULL, Sex is determined from `dt_dir`, unless specified
+#' @param sex default to NULL, sex is determined from `dt_dir`, unless specified
 #' @return long-format results.csv, all values in the "value" column
 #' @export read.results.csv
 read.results.csv <- function(
@@ -573,17 +573,22 @@ get.live.birth <- function(year0 = 2021){
 
 # General helper -----------------------------------------------------------
 
-#' Check and install packages if missing
-#' @importFrom utils install.packages
-#' @param pkgs vector of packages
-#' @return NULL
-#' @export check.and.install.pkgs
+#' A rounding function that rounds off numbers in the conventional way: rounds 0.5 to 1
 #'
-check.and.install.pkgs <- function(pkgs){
-  search_package <- sapply(pkgs, find.package, quiet = TRUE) # return a string or character(0)
-  new.packages <- pkgs[sapply(search_package, function(x)length(x)==0)]
-  if(length(new.packages)) install.packages(new.packages, dependencies = TRUE)
-  suppressPackageStartupMessages(invisible(lapply(pkgs, library, character.only = TRUE)))
+#' Instead of in R by default round(0.5) = 0, roundoff(0.5, 0) = 1
+#'
+#' @param x the number
+#' @param digits digits, default to 2
+#' @return rounded numeric vector
+#' @export roundoff
+roundoff <- function(#
+  x, digits = 2
+) {
+  if(!is.numeric(x)) message("x coerse to numeric. ")
+  x <- as.numeric(x)
+  z <- trunc(abs(x)*10^digits + 0.5)
+  z <- sign(x)*z/10^digits
+  return(z)
 }
 
 
@@ -645,4 +650,19 @@ get.match <- function(x,
     }
   }
   return(if(no_line_break)gsub("\n", "", out) else out)
+}
+
+
+
+#' Check and attach libraries. Install if not.
+#' @importFrom utils install.packages
+#' @param pkgs vector of packages
+#' @return NULL
+#' @export check.and.install.pkgs
+#'
+check.and.install.pkgs <- function(pkgs){
+  search_package <- sapply(pkgs, find.package, quiet = TRUE) # return a string or character(0)
+  new.packages <- pkgs[sapply(search_package, function(x)length(x)==0)]
+  if(length(new.packages)) install.packages(new.packages, dependencies = TRUE)
+  suppressPackageStartupMessages(invisible(lapply(pkgs, library, character.only = TRUE)))
 }
