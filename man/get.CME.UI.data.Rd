@@ -7,7 +7,7 @@
 get.CME.UI.data(
   dir_file = NULL,
   c_iso = NULL,
-  year_range = c(1990:2019),
+  year_range = NULL,
   get = "both",
   idvars = c("OfficialName", "ISO3Code"),
   sex = NULL,
@@ -24,7 +24,7 @@ final}
 \item{c_iso}{country ISO3Code, default to NULL: returns all countries in the
 dataset}
 
-\item{year_range}{a vector of years, default to 1990: 2019}
+\item{year_range}{a vector of years, default to NULL: use all available years}
 
 \item{get}{default to "rate". Choose among "rate", "death", or "both"}
 
@@ -55,9 +55,9 @@ indicators published so far and include Sex, Quantile in the output. If there
 is only median (i.e. no Quantile column in the dataset) the function will
 check if there is only one row per country. A pre-saved list of summary.csv
 files directories could be obtained by \code{\link{load.final_dir}}. Choose
-the `format` of the output dataset from `long`, `wide_year`, `wide_ind`
-(wide by indicator) and `wide_get` (one column for rate and one column for
-death)
+the `format` of the output dataset from `long`, `wide_q`(wide quantile),
+`wide_year`, `wide_ind` (wide indicator) and `wide_get` (one column for rate
+and one column for death)
 }
 \examples{
 dt_1 <- get.CME.UI.data(use_IGME_year = 2020, format = "wide_year")

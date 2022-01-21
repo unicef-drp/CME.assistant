@@ -1,82 +1,4 @@
 # Data engineering related helper functions
-# CME functions package
-
-
-# General helper -----------------------------------------------------------
-
-#' Check and install packages if missing
-#' @importFrom utils install.packages
-#' @param pkgs vector of packages
-#' @return NULL
-#' @export check.and.install.pkgs
-#'
-check.and.install.pkgs <- function(pkgs){
-  search_package <- sapply(pkgs, find.package, quiet = TRUE) # return a string or character(0)
-  new.packages <- pkgs[sapply(search_package, function(x)length(x)==0)]
-  if(length(new.packages)) install.packages(new.packages, dependencies = TRUE)
-  suppressPackageStartupMessages(invisible(lapply(pkgs, library, character.only = TRUE)))
-}
-
-
-#' Capitalize first letter of each word in the vector
-#' @param y vector of strings
-#' @return a vector of strings with first letter capitalized
-#' @export upper.first.letter
-#' @examples upper.first.letter(c("aa","bb","cc"))
-upper.first.letter <- function(y){
-  if(!is.character(y)) y <- as.character(y)
-  upper.first.letter0 <- function(y) {
-  c <- strsplit(y, " ")[[1]]
-  paste(toupper(substring(c, 1, 1)), substring(c, 2),
-        sep="", collapse=" ")
-  }
-  return(unname(sapply(y, upper.first.letter0)))
-}
-
-#' A label function to replace values by a given list in a variable
-#'
-#' You can provide a __new_list__ to define the values you wish to change in
-#' this variable. Values not revised in the given list will be kept
-#'
-#' @param x a element or a vector
-#' @param new_list if you supply a new list the function will use instead of the
-#'   default_labels
-#' @param show_no_match default to FALSE, if TRUE will message unmatched
-#'   elements
-#' @param no_line_break default to FALSE, if TRUE will remove line break from
-#'   the string
-#'
-#' @export get.match
-#' @return an updated vector as character
-get.match <- function(x,
-                      new_list = NULL,
-                      no_line_break = FALSE,
-                      show_no_match = FALSE){
-  if(is.null(new_list)){
-    labs <- default_label
-  } else {
-    if(is.list(new_list)){
-      labs <- new_list
-    } else {
-      message("new_list must be a list. Still use the default list.")
-      labs <- default_label
-    }
-  }
-  if(!is.character(x)){
-    message("Coerse input into character.")
-    x <- as.character(x)
-  }
-  out <- rep(NA, length(x))
-  for (i in 1:length(x)){
-    if (is.null(labs[[ x[i] ]])){
-      out[i] <- x[i]
-      if(show_no_match) message("Notice from `get.match`: unmatched input: ", x[i])
-    }else{
-      out[i] <- labs[[ x[i] ]]
-    }
-  }
-  return(if(no_line_break)gsub("\n", "", out) else out)
-}
 
 
 # Get data ---------------------------------------------------------------
@@ -88,15 +10,15 @@ get.match <- function(x,
 #' is only median (i.e. no Quantile column in the dataset) the function will
 #' check if there is only one row per country. A pre-saved list of summary.csv
 #' files directories could be obtained by \code{\link{load.final_dir}}. Choose
-#' the `format` of the output dataset from `long`, `wide_year`, `wide_ind`
-#' (wide by indicator) and `wide_get` (one column for rate and one column for
-#' death)
+#' the `format` of the output dataset from `long`, `wide_q`(wide quantile),
+#' `wide_year`, `wide_ind` (wide indicator) and `wide_get` (one column for rate
+#' and one column for death)
 #'
 #' @param dir_file directory to the dataset to be read: directory to aggregate
 #'   final
 #' @param c_iso country ISO3Code, default to NULL: returns all countries in the
 #'   dataset
-#' @param year_range a vector of years, default to 1990: 2019
+#' @param year_range a vector of years, default to NULL: use all available years
 #' @param idvars default to "`OfficialName`, `ISO3Code`", what id vars you want
 #'   to include
 #' @param format Choose format among raw, long, wide_year, wide_ind, and
@@ -121,7 +43,7 @@ get.match <- function(x,
 get.CME.UI.data <- function(
   dir_file = NULL,
   c_iso = NULL,
-  year_range = c(1990:2019),
+  year_range = NULL,
   get = "both", # "rate" / "death" / "both"
   idvars = c("OfficialName", "ISO3Code"),
   sex = NULL,
@@ -240,8 +162,8 @@ get.CME.UI.data <- function(
   }
   dt[, Sex:= sex]
 
-  if(!format%in%c("raw", "long", "wide_year", "wide_ind", "wide_get")){
-    message("Choose format among raw, long, wide_get, wide_year and wide_ind, default to long")
+  if(!format%in%c("raw", "long", "wide_q", "wide_year", "wide_ind", "wide_get")){
+    message("Choose format among raw, long, wide_q, wide_get, wide_year and wide_ind, default to long")
     format <-  "long"
   }
   # the value variable
@@ -285,14 +207,18 @@ get.CME.UI.data <- function(
       # wide all the indicators (incl. rates, deaths, if all selected)
     } else if (format == "wide_ind") {
       # e.g. OfficialName    ISO3Code      X Year      U5MR      NMR       IMR
-      formula0 <- paste(paste(idvars, collapse = " + "), "+ Year + Quantile + Sex ~ Shortind" )
+      formula0 <- paste(paste(idvars, collapse = " + "), " + Sex + Year + Quantile ~ Shortind" )
       dt_wide_ind <- data.table::dcast.data.table(dt_long, formula = formula0, value.var = "value")
       return(dt_wide_ind)
       # wide all the years, all the inds in one column
     } else if (format == "wide_year") {
-      formula0 <- paste(paste(idvars, collapse = " + "), " + Shortind  + Quantile + Sex ~ Year" )
+      formula0 <- paste(paste(idvars, collapse = " + "), " + Shortind  + Sex  + Quantile ~ Year" )
       dt_wide_year <- data.table::dcast.data.table(dt_long, formula = formula0, value.var = "value")
       return(dt_wide_year)
+    } else if (format == "wide_q") {
+      formula0 <- paste(paste(idvars, collapse = " + "), "+ Shortind + Sex + Year ~ Quantile" )
+      dt_wide_quantile <- data.table::dcast.data.table(dt_long, formula = formula0, value.var = "value")
+      return(dt_wide_quantile)
     } else {
       # Two value columns : one for rate, one for deaths
       dt_long[, Get:="Rate"]
@@ -310,7 +236,7 @@ get.CME.UI.data <- function(
           "Neonatal.deaths"  = "Neonatal"
         )
         dt_long[, Shortind:= get.match(Shortind, new_list = align_ind)]
-        formula0 <- paste(paste(idvars, collapse = " + "), "+ Shortind  + Year + Quantile + Sex ~ Get" )
+        formula0 <- paste(paste(idvars, collapse = " + "), "+ Shortind  + Sex + Year + Quantile  ~ Get" )
         dt_wide_get <- data.table::dcast.data.table(dt_long, formula = formula0, value.var = "value")
         return(dt_wide_get)
       }
@@ -333,7 +259,7 @@ get.CME.UI.data <- function(
 #' @param sex default to NULL, will determine from file dir
 #' @export
 read.country.summary <- function(
-  dir_file,      # fread("Rates & Deaths_Country Summary.csv)
+  dir_file,      # directory to "Rates & Deaths_Country Summary.csv"
   year_range = NULL, # e.g. 1990:2019
   sex = NULL
 ){
@@ -479,39 +405,6 @@ read.region.summary <- function(
 
 
 
-#' Load the "country.info.CME"
-#'
-#' Creates UNICEFReportRegion from UNICEFReportRegion1 and UNICEFReportRegion2
-#'
-#' @param year0 IGME round, e.g. 2021
-#'
-#' @import data.table
-#' @export get.country.info.CME
-#' @return dataset of country info
-get.country.info.CME <- function(year0 = 2021){
-  dir_input <- get.IGMEinput.dir(year = year0)
-  dc <- fread(file.path(dir_input, "country.info.CME.csv"))
-  # UNICEFReportRegion2 offers subregions for ECA and SSA, combined into UNICEFReportRegion
-  dc[, UNICEFReportRegion:= ifelse(UNICEFReportRegion2 == "", UNICEFReportRegion1, UNICEFReportRegion2)]
-  return(dc)
-}
-
-
-#' Load the "data_livebirths.csv", add ISO3Code and country names
-#'
-#' @param year0 IGME round, e.g. 2021
-#' @export get.live.birth
-#' @return dataset of live birth
-get.live.birth <- function(year0 = 2021){
-  dir_input <- get.IGMEinput.dir(year = year0)
-  dc <- fread(file.path(dir_input, "country.info.CME.csv"))
-  dtlb <- fread(file.path(dir_input, "data_livebirths.csv"))
-  dtlb <- merge(dc[,.(ISO3Code, CountryName, OfficialName, UNCode)], dtlb, by.x = "UNCode", by.y = "uncode")
-  return(dtlb)
-}
-
-
-
 #' Read one results.csv file and reformat into long-format
 #'
 #' @param dt_dir the single directory to a results.csv file
@@ -640,4 +533,116 @@ read.all.results.csv <- function(
   # if(!identical(levels(dt_results_2020$Quantile), c("Lower", "Median", "Upper"))) stop("Check Quantile levels: ", paste(levels(dt_results_2020$Quantile), collapse = ", "))
   # dt_results_2020$Quantile <- factor(dt_results_2020$Quantile, levels = c("Median", "Lower", "Upper"))
   return(dt_results_2020)
+}
+
+
+
+#' Load the "country.info.CME"
+#'
+#' Creates UNICEFReportRegion from UNICEFReportRegion1 and UNICEFReportRegion2
+#'
+#' @param year0 IGME round, e.g. 2021
+#'
+#' @import data.table
+#' @export get.country.info.CME
+#' @return dataset of country info
+get.country.info.CME <- function(year0 = 2021){
+  dir_input <- get.IGMEinput.dir(year = year0)
+  dc <- fread(file.path(dir_input, "country.info.CME.csv"))
+  # UNICEFReportRegion2 offers subregions for ECA and SSA, combined into UNICEFReportRegion
+  dc[, UNICEFReportRegion:= ifelse(UNICEFReportRegion2 == "", UNICEFReportRegion1, UNICEFReportRegion2)]
+  return(dc)
+}
+
+
+#' Load the "data_livebirths.csv", add ISO3Code and country names
+#'
+#' @param year0 IGME round, e.g. 2021
+#' @export get.live.birth
+#' @return dataset of live birth
+get.live.birth <- function(year0 = 2021){
+  dir_input <- get.IGMEinput.dir(year = year0)
+  dc <- fread(file.path(dir_input, "country.info.CME.csv"))
+  dtlb <- fread(file.path(dir_input, "data_livebirths.csv"))
+  dtlb <- merge(dc[,.(ISO3Code, CountryName, OfficialName, UNCode)], dtlb, by.x = "UNCode", by.y = "uncode")
+  return(dtlb)
+}
+
+
+
+
+# General helper -----------------------------------------------------------
+
+#' Check and install packages if missing
+#' @importFrom utils install.packages
+#' @param pkgs vector of packages
+#' @return NULL
+#' @export check.and.install.pkgs
+#'
+check.and.install.pkgs <- function(pkgs){
+  search_package <- sapply(pkgs, find.package, quiet = TRUE) # return a string or character(0)
+  new.packages <- pkgs[sapply(search_package, function(x)length(x)==0)]
+  if(length(new.packages)) install.packages(new.packages, dependencies = TRUE)
+  suppressPackageStartupMessages(invisible(lapply(pkgs, library, character.only = TRUE)))
+}
+
+
+#' Capitalize first letter of each word in the vector
+#' @param y vector of strings
+#' @return a vector of strings with first letter capitalized
+#' @export upper.first.letter
+#' @examples upper.first.letter(c("aa","bb","cc"))
+upper.first.letter <- function(y){
+  if(!is.character(y)) y <- as.character(y)
+  upper.first.letter0 <- function(y) {
+    c <- strsplit(y, " ")[[1]]
+    paste(toupper(substring(c, 1, 1)), substring(c, 2),
+          sep="", collapse=" ")
+  }
+  return(unname(sapply(y, upper.first.letter0)))
+}
+
+#' A label function to replace values by a given list in a variable
+#'
+#' You can provide a __new_list__ to define the values you wish to change in
+#' this variable. Values not revised in the given list will be kept
+#'
+#' @param x a element or a vector
+#' @param new_list if you supply a new list the function will use instead of the
+#'   default_labels
+#' @param show_no_match default to FALSE, if TRUE will message unmatched
+#'   elements
+#' @param no_line_break default to FALSE, if TRUE will remove line break from
+#'   the string
+#'
+#' @export get.match
+#' @return an updated vector as character
+get.match <- function(x,
+                      new_list = NULL,
+                      no_line_break = FALSE,
+                      show_no_match = FALSE){
+  if(is.null(new_list)){
+    labs <- default_label
+  } else {
+    if(is.list(new_list)){
+      labs <- new_list
+    } else {
+      message("new_list must be a list. Still use the default list.")
+      labs <- default_label
+    }
+  }
+  if(!is.character(x)){
+    message("Coerse input into character.")
+    x <- as.character(x)
+  }
+  out <- rep(NA, length(x))
+  for (i in 1:length(x)){
+    if (is.null(labs[[ x[i] ]])){
+      out[i] <- x[i]
+      if(show_no_match) message("Notice from `get.match`: unmatched input: ", x[i])
+    }else{
+      out[i] <- labs[[ x[i] ]]
+    }
+  }
+  return(if(no_line_break)gsub("\n", "", out) else out)
 }

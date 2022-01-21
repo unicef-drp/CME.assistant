@@ -12,63 +12,9 @@
 
 
 
-<title>Example of Functions Part I</title>
+<title>CME.assistant</title>
 
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
-
-document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
-  }
-});
-</script>
-<style type="text/css">
-a.anchor-section {margin-left: 10px; visibility: hidden; color: inherit;}
-a.anchor-section::before {content: '#';}
-.hasAnchor:hover a.anchor-section {visibility: visible;}
-</style>
-<script>// Anchor sections v1.0 written by Atsushi Yasumoto on Oct 3rd, 2020.
-document.addEventListener('DOMContentLoaded', function() {
-  // Do nothing if AnchorJS is used
-  if (typeof window.anchors === 'object' && anchors.hasOwnProperty('hasAnchorJSLink')) {
-    return;
-  }
-
-  const h = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
-
-  // Do nothing if sections are already anchored
-  if (Array.from(h).some(x => x.classList.contains('hasAnchor'))) {
-    return null;
-  }
-
-  // Use section id when pandoc runs with --section-divs
-  const section_id = function(x) {
-    return ((x.classList.contains('section') || (x.tagName === 'SECTION'))
-            ? x.id : '');
-  };
-
-  // Add anchors
-  h.forEach(function(x) {
-    const id = x.id || section_id(x.parentElement);
-    if (id === '') {
-      return null;
-    }
-    let anchor = document.createElement('a');
-    anchor.href = '#' + id;
-    anchor.classList = ['anchor-section'];
-    x.classList.add('hasAnchor');
-    x.appendChild(anchor);
-  });
-});
-</script>
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -80,21 +26,28 @@ document.addEventListener('DOMContentLoaded', function() {
     </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -114,7 +67,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -171,187 +124,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<style type="text/css">body {
-background-color: #fff;
-margin: 1em auto;
-max-width: 700px;
-overflow: visible;
-padding-left: 2em;
-padding-right: 2em;
-font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-font-size: 14px;
-line-height: 1.35;
-}
-#TOC {
-clear: both;
-margin: 0 0 10px 10px;
-padding: 4px;
-width: 400px;
-border: 1px solid #CCCCCC;
-border-radius: 5px;
-background-color: #f6f6f6;
-font-size: 13px;
-line-height: 1.3;
-}
-#TOC .toctitle {
-font-weight: bold;
-font-size: 15px;
-margin-left: 5px;
-}
-#TOC ul {
-padding-left: 40px;
-margin-left: -1.5em;
-margin-top: 5px;
-margin-bottom: 5px;
-}
-#TOC ul ul {
-margin-left: -2em;
-}
-#TOC li {
-line-height: 16px;
-}
-table {
-margin: 1em auto;
-border-width: 1px;
-border-color: #DDDDDD;
-border-style: outset;
-border-collapse: collapse;
-}
-table th {
-border-width: 2px;
-padding: 5px;
-border-style: inset;
-}
-table td {
-border-width: 1px;
-border-style: inset;
-line-height: 18px;
-padding: 5px 5px;
-}
-table, table th, table td {
-border-left-style: none;
-border-right-style: none;
-}
-table thead, table tr.even {
-background-color: #f7f7f7;
-}
-p {
-margin: 0.5em 0;
-}
-blockquote {
-background-color: #f6f6f6;
-padding: 0.25em 0.75em;
-}
-hr {
-border-style: solid;
-border: none;
-border-top: 1px solid #777;
-margin: 28px 0;
-}
-dl {
-margin-left: 0;
-}
-dl dd {
-margin-bottom: 13px;
-margin-left: 13px;
-}
-dl dt {
-font-weight: bold;
-}
-ul {
-margin-top: 0;
-}
-ul li {
-list-style: circle outside;
-}
-ul ul {
-margin-bottom: 0;
-}
-pre, code {
-background-color: #f7f7f7;
-border-radius: 3px;
-color: #333;
-white-space: pre-wrap; 
-}
-pre {
-border-radius: 3px;
-margin: 5px 0px 10px 0px;
-padding: 10px;
-}
-pre:not([class]) {
-background-color: #f7f7f7;
-}
-code {
-font-family: Consolas, Monaco, 'Courier New', monospace;
-font-size: 85%;
-}
-p > code, li > code {
-padding: 2px 0px;
-}
-div.figure {
-text-align: center;
-}
-img {
-background-color: #FFFFFF;
-padding: 2px;
-border: 1px solid #DDDDDD;
-border-radius: 3px;
-border: 1px solid #CCCCCC;
-margin: 0 5px;
-}
-h1 {
-margin-top: 0;
-font-size: 35px;
-line-height: 40px;
-}
-h2 {
-border-bottom: 4px solid #f7f7f7;
-padding-top: 10px;
-padding-bottom: 2px;
-font-size: 145%;
-}
-h3 {
-border-bottom: 2px solid #f7f7f7;
-padding-top: 10px;
-font-size: 120%;
-}
-h4 {
-border-bottom: 1px solid #f7f7f7;
-margin-left: 8px;
-font-size: 105%;
-}
-h5, h6 {
-border-bottom: 1px solid #ccc;
-font-size: 105%;
-}
-a {
-color: #0033dd;
-text-decoration: none;
-}
-a:hover {
-color: #6666ff; }
-a:visited {
-color: #800080; }
-a:visited:hover {
-color: #BB00BB; }
-a[href^="http:"] {
-text-decoration: underline; }
-a[href^="https:"] {
-text-decoration: underline; }
 
-code > span.kw { color: #555; font-weight: bold; } 
-code > span.dt { color: #902000; } 
-code > span.dv { color: #40a070; } 
-code > span.bn { color: #d14; } 
-code > span.fl { color: #d14; } 
-code > span.ch { color: #d14; } 
-code > span.st { color: #d14; } 
-code > span.co { color: #888888; font-style: italic; } 
-code > span.ot { color: #007020; } 
-code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; } 
-code > span.er { color: #a61717; background-color: #e3d2d2; } 
-</style>
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
 
 
 
@@ -363,74 +137,174 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">Example of Functions Part I</h1>
+<h1 class="title toc-ignore">CME.assistant</h1>
 
 
 
-<p>The goal of CME.assistant is to share reusable helper functions within the CME team. Also feel free to download, further revise and compile locally.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">options</span>(<span class="dt">rmarkdown.html_vignette.check_title =</span> <span class="ot">FALSE</span>)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(CME.assistant)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#&gt; Loading required package: data.table</span></span></code></pre></div>
-<div id="functions-for-data-engineering" class="section level2">
-<h2>Functions for data engineering</h2>
-<div id="read-the-final-aggregated-file-and-output-final-igme-estimates-in-various-forms" class="section level3">
-<h3>Read the final aggregated file and output final IGME estimates in various forms</h3>
-<p>Choose output format among raw, long, wide_year and wide_ind, default to “long”<br />
-* The long-format dataset contains <strong>Official Name, ISO3Code, Indicator, Year, Quantile, Sex</strong> * The function will output all available indicators in the dataset * Optional: subset by country ISO (<code>c_iso</code>) or year (<code>year_range</code>)</p>
-<p><strong><code>get.CME.UI.data</code></strong></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># without supplying dir_file, by default returns the published IGME 2020 final</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="co"># results</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>dt_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">get.CME.UI.data</span>(<span class="dt">use_IGME_year =</span> <span class="dv">2020</span>)</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt; Indicators:U5MR, IMR, NMR, Under.five.Deaths, Infant.Deaths, Neonatal.Deaths</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">head</span>(dt_<span class="dv">1</span>)</span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt;    OfficialName ISO3Code Indicator Year Quantile   Sex Value</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt; 1:  Afghanistan      AFG       IMR 1990    Lower Total 111.2</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt; 2:  Afghanistan      AFG       IMR 1990   Median Total 120.4</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt; 3:  Afghanistan      AFG       IMR 1990    Upper Total 130.9</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt; 4:  Afghanistan      AFG       IMR 1991    Lower Total 108.2</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="co">#&gt; 5:  Afghanistan      AFG       IMR 1991   Median Total 116.8</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt; 6:  Afghanistan      AFG       IMR 1991    Upper Total 126.2</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># can read final output file from Dropbox for any indicator</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co"># loading Dropbox files requires access to corresponding files</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a>dir_list &lt;-<span class="st"> </span><span class="kw">load.final_dir</span>()</span>
-<span id="cb3-4"><a href="#cb3-4"></a>dt_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">get.CME.UI.data</span>(<span class="dt">dir_file =</span> dir_list<span class="op">$</span>dir_female_<span class="dv">2020</span>)</span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="kw">head</span>(dt_<span class="dv">2</span>)</span></code></pre></div>
+<p>The goal of CME.assistant is to share reusable functions within the CME team.</p>
+<div id="functions-for-reading-data" class="section level2">
+<h2>Functions for reading data</h2>
+<p>For now the most useful ones I used in many scripts are:</p>
+<ul>
+<li><strong><code>read.results.csv</code></strong>: read any “results.csv”</li>
+<li><strong><code>read.country.summary</code></strong>: read any “Rates &amp; Deaths_Country Summary.csv”</li>
+<li><strong><code>read.region.summary</code></strong>: read any “Rates &amp; Deaths_…Region.csv”</li>
+</ul>
+<p><em>Examples:</em></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># running these code requires access to Dropbox folders</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Always a good idea to update the library, make sure you have the latest version</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># devtools::install_github(&quot;unicef-drp/CME.assistant&quot;)</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(CME.assistant)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>leading_path <span class="ot">&lt;-</span> CME.assistant<span class="sc">::</span><span class="fu">load_os_leading_dir</span>() <span class="co"># leading dir to Dropbox</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Dropbox directories to all results.csv</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>dir_CC_code <span class="ot">&lt;-</span> <span class="fu">file.path</span>(leading_path, <span class="st">&quot;Dropbox/UNICEF Work/Country consultation/Code_for_CC&quot;</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">file.path</span>(dir_CC_code, <span class="st">&quot;R/Dropbox_results_directories.R&quot;</span>))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>dt_results <span class="ot">&lt;-</span> <span class="fu">read.all.results.csv</span>(<span class="at">results_dir_list =</span> results_dir_list_final)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>dt_results[<span class="fu">is.na</span>(Results), <span class="fu">table</span>(Sex, Shortind)]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         Shortind</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Sex      10q15  10q5  5q10  5q15  5q20   5q5   IMR   NMR  U5MR</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Female 18393 16266 16266 18393 18393 16266  6399     0  6399</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Male   18393 16266 16266 18393 18393 16266  6399     0  6399</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Total  31842 29703     0 31848     0 29703 17076 24357 16623</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Dropbox directories to all final aggregates</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>dir_report_code <span class="ot">&lt;-</span> <span class="fu">file.path</span>(leading_path, <span class="st">&quot;Dropbox/UNICEF Work/IGME report etc/2021/Code_for_report/&quot;</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">file.path</span>(dir_report_code, <span class="st">&quot;Dropbox_aggresults_directories_2021.R&quot;</span>))</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>dir_country_summary <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(dir_aggu5,      <span class="st">&quot;Rates &amp; Deaths_Country Summary.csv&quot;</span>),</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(dir_aggu5_f,    <span class="st">&quot;Rates &amp; Deaths(ADJUSTED)_female_Country Summary.csv&quot;</span>),</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(dir_aggu5_m,    <span class="st">&quot;Rates &amp; Deaths(ADJUSTED)_male_Country Summary.csv&quot;</span>),</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(dir_agg10q5,    <span class="st">&quot;Rates &amp; Deaths_Country Summary.csv&quot;</span>),</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(dir_agg10q5_f,  <span class="st">&quot;Rates &amp; Deaths(ADJUSTED)_Country Summary.csv&quot;</span>),</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(dir_agg10q5_m,  <span class="st">&quot;Rates &amp; Deaths(ADJUSTED)_Country Summary.csv&quot;</span>),</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(dir_agg10q15,   <span class="st">&quot;Rates &amp; Deaths_Country Summary.csv&quot;</span>),</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(dir_agg10q15_f, <span class="st">&quot;Rates &amp; Deaths(ADJUSTED)_Country Summary.csv&quot;</span>),</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(dir_agg10q15_m, <span class="st">&quot;Rates &amp; Deaths(ADJUSTED)_Country Summary.csv&quot;</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>dt_estimates <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(<span class="fu">lapply</span>(dir_country_summary, CME.assistant<span class="sc">::</span>read.country.summary))</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>dt_estimates[, <span class="fu">table</span>(Shortind, Sex)]</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    Sex</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Shortind            Female  Male Total</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   deaths.age.10to14  41535 41535 41535</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   deaths.age.15to19  41535 41535 41535</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   deaths.age.15to24  41535 41535 41535</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   deaths.age.20to24  41535 41535 41535</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   deaths.age.5to14   41535 41535 41535</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   deaths.age.5to9    41535 41535 41535</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   IMR                41535 41535 41535</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Infant.deaths      41535 41535 41535</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Neonatal.deaths        0     0 41535</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   NMR                    0     0 41535</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   U5MR               41535 41535 41535</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Under.five.deaths  41535 41535 41535</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   X10q15             41535 41535 41535</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   X10q5              41535 41535 41535</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   X5q10              41535 41535 41535</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   X5q15              41535 41535 41535</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   X5q20              41535 41535 41535</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   X5q5               41535 41535 41535</span></span></code></pre></div>
+<ul>
+<li><strong><code>get.CME.UI.data</code></strong>: A more advanced version of <code>read.country.summary</code> that allows tuning output format: can output wide format by wide-quantile, wide-year, wide-indicator or one column for rate and one for death.
+<ul>
+<li>The default long-format output contains columns <code>c(&quot;ISO3Code&quot;, &quot;OfficialName&quot;, &quot;Shortind&quot;, &quot;Year&quot;, &quot;Quantile&quot;, &quot;Sex&quot;, &quot;value&quot;)</code></li>
+<li>The function will output all available indicators in the dataset</li>
+<li>Allow subsetting by ISO (<code>c_iso</code>) or year (<code>year_range</code>)</li>
+</ul></li>
+</ul>
+<p><em>Examples:</em></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># examples: </span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dir_cs_u5 <span class="ot">&lt;-</span> <span class="fu">file.path</span>(dir_aggu5, <span class="st">&quot;Rates &amp; Deaths_Country Summary.csv&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>dt_1 <span class="ot">&lt;-</span> <span class="fu">get.CME.UI.data</span>(<span class="at">dir_file =</span> dir_cs_u5)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>dt_1[Year <span class="sc">==</span> <span class="dv">2020</span>][<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    OfficialName ISO3Code Shortind Year Quantile   Sex    value</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1:  Afghanistan      AFG      IMR 2020    Lower Total 35.40956</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2:  Afghanistan      AFG      IMR 2020   Median Total 44.96735</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3:  Afghanistan      AFG      IMR 2020    Upper Total 55.52678</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>dt_1 <span class="ot">&lt;-</span> <span class="fu">get.CME.UI.data</span>(<span class="at">dir_file =</span> dir_cs_u5, </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                        <span class="at">idvars =</span> <span class="fu">c</span>(<span class="st">&quot;ISO3Code&quot;</span>, <span class="st">&quot;CountryName&quot;</span>, <span class="st">&quot;OfficialName&quot;</span>), <span class="at">format =</span> <span class="st">&quot;wide_q&quot;</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>dt_1[Year <span class="sc">==</span> <span class="dv">2020</span>][<span class="dv">1</span>,]</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    ISO3Code CountryName OfficialName Shortind   Sex Year    Lower   Median</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1:      AFG Afghanistan  Afghanistan      IMR Total 2020 35.40956 44.96735</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       Upper</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1: 55.52678</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>dt_1 <span class="ot">&lt;-</span> <span class="fu">get.CME.UI.data</span>(<span class="at">dir_file =</span> dir_cs_u5, <span class="at">format =</span> <span class="st">&quot;wide_q&quot;</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>dt_1[Year <span class="sc">==</span> <span class="dv">2020</span>][<span class="dv">1</span>,]</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    OfficialName ISO3Code Shortind   Sex Year    Lower   Median    Upper</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1:  Afghanistan      AFG      IMR Total 2020 35.40956 44.96735 55.52678</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>dt_wy <span class="ot">&lt;-</span> <span class="fu">get.CME.UI.data</span>(<span class="at">dir_file =</span> dir_cs_u5, <span class="at">format =</span> <span class="st">&quot;wide_year&quot;</span>, <span class="at">year_range =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">2010</span>, <span class="dv">2020</span>))</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>dt_wy[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,]</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    OfficialName ISO3Code Shortind   Sex Quantile     2000     2010     2020</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1:  Afghanistan      AFG      IMR Total    Lower 84.74110 59.46534 35.40956</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2:  Afghanistan      AFG      IMR Total   Median 90.46084 64.18679 44.96735</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3:  Afghanistan      AFG      IMR Total    Upper 96.78075 69.32247 55.52678</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>dt_1 <span class="ot">&lt;-</span> <span class="fu">get.CME.UI.data</span>(<span class="at">dir_file =</span> dir_cs_u5, <span class="at">format =</span> <span class="st">&quot;wide_ind&quot;</span>, <span class="at">round_digit =</span> <span class="dv">1</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>dt_1[Year <span class="sc">==</span> <span class="dv">2020</span>][<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,]</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    OfficialName ISO3Code   Sex Year Quantile  IMR Infant.deaths  NMR</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1:  Afghanistan      AFG Total 2020    Lower 35.4         42698 26.5</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2:  Afghanistan      AFG Total 2020   Median 45.0         54151 35.2</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3:  Afghanistan      AFG Total 2020    Upper 55.5         66756 45.4</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    Neonatal.deaths U5MR Under.five.deaths</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1:           32153 44.2             53179</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2:           42758 58.0             69714</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3:           55191 74.2             89128</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>dt_1 <span class="ot">&lt;-</span> <span class="fu">get.CME.UI.data</span>(<span class="at">dir_file =</span> dir_cs_u5, <span class="at">format =</span> <span class="st">&quot;wide_get&quot;</span>, <span class="at">round_digit =</span> <span class="dv">1</span>)</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>dt_1[Year <span class="sc">==</span> <span class="dv">2020</span>][<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,]</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    OfficialName ISO3Code Shortind   Sex Year Quantile Deaths Rate</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1:  Afghanistan      AFG   Infant Total 2020    Lower  42698 35.4</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2:  Afghanistan      AFG   Infant Total 2020   Median  54151 45.0</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3:  Afghanistan      AFG   Infant Total 2020    Upper  66756 55.5</span></span></code></pre></div>
 </div>
+<div id="functions-for-calculating" class="section level2">
+<h2>Functions for calculating</h2>
+<p>Using the wide-year output above, we can directly calculate ARR or percentage decline (PD)</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dt_wy <span class="ot">&lt;-</span> <span class="fu">calculate.arr</span>(dt_wy, <span class="dv">2000</span>, <span class="dv">2010</span>) <span class="co"># ARR</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>dt_wy <span class="ot">&lt;-</span> <span class="fu">calculate.arr</span>(dt_wy, <span class="dv">2010</span>, <span class="dv">2020</span>) <span class="co"># ARR</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>dt_wy <span class="ot">&lt;-</span> <span class="fu">calculate.pd</span>(dt_wy, <span class="dv">2000</span>, <span class="dv">2020</span>) <span class="co"># percentage decline</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>dt_wy[Quantile <span class="sc">==</span> <span class="st">&quot;Median&quot;</span> <span class="sc">&amp;</span> Shortind <span class="sc">==</span> <span class="st">&quot;NMR&quot;</span>, ][<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    OfficialName ISO3Code Shortind   Sex Quantile     2000      2010      2020</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1:  Afghanistan      AFG      NMR Total   Median 60.89313 47.426775 35.192273</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2:      Albania      ALB      NMR Total   Median 12.11692  6.653406  7.776092</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3:      Algeria      DZA      NMR Total   Median 21.13803 17.510804 16.285582</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    2000-2010  2010-2020 PD2000-2020</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1:  2.499334  2.9836039    42.20649</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2:  5.994739 -1.5592508    35.82451</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3:  1.882557  0.7253787    22.95601</span></span></code></pre></div>
 </div>
-<div id="make-cc-profiles" class="section level2">
-<h2>Make CC profiles</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>dir_cqt_files &lt;-<span class="st"> </span><span class="kw">file.path</span>(CME.assistant<span class="op">::</span><span class="kw">get.IGME.dir</span>(<span class="dv">2020</span>),</span>
-<span id="cb4-2"><a href="#cb4-2"></a>                           <span class="st">&quot;figData/cqt_backup&quot;</span>)</span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="kw">list.files</span>(dir_cqt_files)</span>
-<span id="cb4-4"><a href="#cb4-4"></a>dt_cqt &lt;-<span class="st"> </span><span class="kw">get.dt.cqt</span>(dir_cqt_files)</span>
-<span id="cb4-5"><a href="#cb4-5"></a>dt_cqt[, <span class="kw">table</span>(Shortind, Sex)]</span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co"># table to be added into the profile by country: </span></span>
-<span id="cb4-7"><a href="#cb4-7"></a>dt1 &lt;-<span class="st"> </span><span class="kw">get.table.by.iso</span>(<span class="dt">iso0 =</span> <span class="st">&quot;AFG&quot;</span>)</span></code></pre></div>
-<div id="locate-the-latest-master-datasets-directories" class="section level3">
-<h3>Locate the latest master datasets directories</h3>
-<p>Automatically point to the latest file using the date in file names</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>input_dirs &lt;-<span class="st"> </span><span class="kw">load.IGMEinput.dir</span>()</span>
-<span id="cb5-2"><a href="#cb5-2"></a>dir_U5MR   &lt;-<span class="st"> </span><span class="kw">get.dir_U5MR</span>(input_dirs<span class="op">$</span>dir_IGME_<span class="dv">20</span>)</span>
-<span id="cb5-3"><a href="#cb5-3"></a>dir_IMR    &lt;-<span class="st"> </span><span class="kw">get.dir_IMR</span>(input_dirs<span class="op">$</span>dir_IGME_<span class="dv">20</span>)</span>
-<span id="cb5-4"><a href="#cb5-4"></a>dir_NMR    &lt;-<span class="st"> </span><span class="kw">get.dir_NMR</span>(<span class="dt">y5 =</span> <span class="ot">TRUE</span>) <span class="co"># either 5-year or not</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>dir_gender &lt;-<span class="st"> </span><span class="kw">get.dir_gender</span>(<span class="dt">plotting =</span> <span class="ot">TRUE</span>) <span class="co"># either dataset for plotting or modeling</span></span></code></pre></div>
-</div>
+<div id="locate-the-latest-databases" class="section level2">
+<h2>Locate the latest databases</h2>
+<p>Automatically point to the latest databases judging by the file names</p>
+<p>Sometimes it is good to write down the directory of specific version of database. But these could be helpful when we just need to load the latest databases.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dir_IGME_input <span class="ot">&lt;-</span> <span class="fu">get.IGMEinput.dir</span>(<span class="dv">2022</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dir_U5MR   <span class="ot">&lt;-</span> <span class="fu">get.dir_U5MR</span>(dir_IGME_input)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>dir_IMR    <span class="ot">&lt;-</span> <span class="fu">get.dir_IMR</span>(dir_IGME_input)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>dir_NMR    <span class="ot">&lt;-</span> <span class="fu">get.dir_NMR</span>(<span class="at">y5 =</span> <span class="cn">TRUE</span>) <span class="co"># either 5-year or not</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>dir_NMR    <span class="ot">&lt;-</span> <span class="fu">get.dir_NMR</span>(<span class="at">y5 =</span> <span class="cn">FALSE</span>) <span class="co"># either 5-year or not</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>dir_gender <span class="ot">&lt;-</span> <span class="fu">get.dir_gender</span>(<span class="at">plotting =</span> <span class="cn">TRUE</span>) <span class="co"># either dataset for plotting or modeling</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>dir_gender <span class="ot">&lt;-</span> <span class="fu">get.dir_gender</span>(<span class="at">plotting =</span> <span class="cn">FALSE</span>) <span class="co"># either dataset for plotting or modeling</span></span></code></pre></div>
 </div>
 <div id="extra" class="section level2">
 <h2>Extra</h2>
-<p><strong><code>get.match</code></strong></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># a helpful function to revise variable, you can provide a __new_list__ to define the labels</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">get.match</span>(<span class="kw">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>), <span class="dt">new_list =</span> <span class="kw">list</span>(<span class="st">&quot;a&quot;</span> =<span class="st"> &quot;new label 1&quot;</span>,</span>
-<span id="cb6-3"><a href="#cb6-3"></a>                                           <span class="st">&quot;b&quot;</span> =<span class="st"> &quot;new label 2&quot;</span>))</span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt; [1] &quot;new label 1&quot; &quot;new label 2&quot; &quot;c&quot;</span></span></code></pre></div>
-<p><strong><code>UNICEF_colors</code></strong></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">str</span>(UNICEF_colors)</span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="co">#&gt; List of 5</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="co">#&gt;  $ UNICEF_blue    : chr &quot;#1CABE2&quot;</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="co">#&gt;  $ cp_UNICEF_seq  : chr [1:8] &quot;#002759&quot; &quot;#00377D&quot; &quot;#0058AB&quot; &quot;#0083CF&quot; ...</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="co">#&gt;  $ cp_UNICEF_div  : chr [1:10] &quot;#002759&quot; &quot;#0058AB&quot; &quot;#1CABE2&quot; &quot;#69DBFF&quot; ...</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="co">#&gt;  $ cp_UNICEF_qua  : chr [1:10] &quot;#0058AB&quot; &quot;#1CABE2&quot; &quot;#00833D&quot; &quot;#80BD41&quot; ...</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="co">#&gt;  $ cp_UNICEF_grays: chr [1:5] &quot;#333333&quot; &quot;#6B6B6B&quot; &quot;#B3B3B3&quot; &quot;#D7D7D7&quot; ...</span></span></code></pre></div>
+<p><strong><code>round.off</code></strong><br />
+Almost used in every script</p>
+<p><strong><code>get.match</code></strong><br />
+Similar to <code>dplyr::recode</code>, which takes a named vector to rename values, <code>get.match</code> takes a list as input to rename values</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a helpful function to revise variable, you can provide a __new_list__ to define the labels</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">get.match</span>(<span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>), <span class="at">new_list =</span> <span class="fu">list</span>(<span class="st">&quot;a&quot;</span> <span class="ot">=</span> <span class="st">&quot;label 1&quot;</span>, <span class="st">&quot;b&quot;</span> <span class="ot">=</span> <span class="st">&quot;label 2&quot;</span>))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;label 1&quot; &quot;label 2&quot; &quot;c&quot;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># `dplyr::recode` can do the same: </span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">recode</span>(<span class="fu">c</span>(<span class="st">&quot;a&quot;</span>,<span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>), <span class="sc">!!!</span><span class="fu">c</span>(<span class="st">&quot;a&quot;</span> <span class="ot">=</span> <span class="st">&quot;label 1&quot;</span>, <span class="st">&quot;b&quot;</span> <span class="ot">=</span> <span class="st">&quot;label 2&quot;</span>))</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;label 1&quot; &quot;label 2&quot; &quot;c&quot;</span></span></code></pre></div>
+<p><strong><code>UNICEF_colors</code></strong><br />
+The official color palette, help me to find UNICEF blue</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(UNICEF_colors)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 5</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ UNICEF_blue    : chr &quot;#1CABE2&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ cp_UNICEF_seq  : chr [1:8] &quot;#002759&quot; &quot;#00377D&quot; &quot;#0058AB&quot; &quot;#0083CF&quot; ...</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ cp_UNICEF_div  : chr [1:10] &quot;#002759&quot; &quot;#0058AB&quot; &quot;#1CABE2&quot; &quot;#69DBFF&quot; ...</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ cp_UNICEF_qua  : chr [1:10] &quot;#0058AB&quot; &quot;#1CABE2&quot; &quot;#00833D&quot; &quot;#80BD41&quot; ...</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ cp_UNICEF_grays: chr [1:5] &quot;#333333&quot; &quot;#6B6B6B&quot; &quot;#B3B3B3&quot; &quot;#D7D7D7&quot; ...</span></span></code></pre></div>
+<p><strong><code>hiv.iso</code></strong></p>
 </div>
 
 
