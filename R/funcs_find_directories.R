@@ -150,7 +150,7 @@ get.file.name <- function(dir_file,
                           full_name = TRUE){
 
   if(is.null(dir_file))message("dir_file is NULL. Please double check.")
-  if(!dir.exists(dir_file))message("Check if dir_file exists: ", dir_file)
+  # if(!dir.exists(dir_file))message("Check if dir_file exists: ", dir_file)
   files <- list.files(dir_file)
   files_full <- list.files(dir_file, full.names = TRUE)
   return(if(full_name)files_full[which(grepl(pattern0, files))] else files[which(grepl(pattern0, files))])

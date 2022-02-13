@@ -1,3 +1,12 @@
+# onloading message
+.onAttach <- function(libname, pkgname){
+  packageStartupMessage(
+    'To install the latest version from Github,
+  run `devtools::install_github("unicef-drp/CME.assistant")`'
+  )
+}
+
+
 
 # something to please the cran, not that important
 if(getRversion() >= "2.15.1")  {

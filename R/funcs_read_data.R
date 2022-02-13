@@ -444,17 +444,28 @@ read.results.csv <- function(
   }
   value_vars <- value_vars[value_vars%in%colnames(dt1)] # only available years will be picked
   dt1[, (value_vars):= lapply(.SD, as.numeric), .SDcols = value_vars]
-  if(grepl("U5MR|P5", dt1$Indicator[1])) dt1$Indicator <- "Under-five Mortality Rate"
-  if(grepl("IMR|P1", dt1$Indicator[1])) dt1$Indicator <- "Infant Mortality Rate"
-  if(grepl("CMR|P4", dt1$Indicator[1])) dt1$Indicator <- "Child mortality rate age 1-4"
+  # can also assign indicator for P-factor: P5/4/1_country.csv for under-five
+  # cannot assign automatically for older children
+  ind0 <- dt1$Indicator[1]
+  if(grepl("U5MR|P5", ind0)) dt1$Indicator <- "Under-five Mortality Rate"
+  if(grepl("IMR|P1",  ind0)) dt1$Indicator <- "Infant Mortality Rate"
+  if(grepl("CMR|P4",  ind0)) dt1$Indicator <- "Child mortality rate age 1-4"
 
-  if(grepl("10q5", dt_dir))dt1$Indicator <- "Mortality rate age 5-14"
-  if(grepl("5q5", dt_dir)) dt1$Indicator <- "Mortality rate age 5-9"
-  if(grepl("5q10", dt_dir))dt1$Indicator <- "Mortality rate age 10-14"
+  if(grepl("10q5|5-14",  dt_dir)) dt1$Indicator <- "Mortality rate age 5-14"
+  if(grepl("5q5|5-9",    dt_dir)) dt1$Indicator <- "Mortality rate age 5-9"
+  if(grepl("5q10|10-14", dt_dir)) dt1$Indicator <- "Mortality rate age 10-14"
 
-  if(grepl("10q15", dt_dir))dt1$Indicator <- "Mortality rate age 15-24"
-  if(grepl("5q15", dt_dir)) dt1$Indicator <- "Mortality rate age 15-19"
-  if(grepl("5q20", dt_dir)) dt1$Indicator <- "Mortality rate age 20-24"
+  if(grepl("10q15|15-24", dt_dir)) dt1$Indicator <- "Mortality rate age 15-24"
+  if(grepl("5q15|15-19",  dt_dir)) dt1$Indicator <- "Mortality rate age 15-19"
+  if(grepl("5q20|20-24",  dt_dir)) dt1$Indicator <- "Mortality rate age 20-24"
+
+  # but overwrite for P-factor results if it is older children. Cannot
+  # automatically judge indicators since cannot distinguish 5-14 vs 15-24. Need
+  # to do it manually later
+  if(!(dt1$Indicator[1] %in% c("Under-five Mortality Rate",
+                               "Infant Mortality Rate",
+                               "Child mortality rate age 1-4")) & grepl("P", dt_dir)) dt1$Indicator <- ind0
+
   vars_wanted <- c(id_vars, value_vars)
   dt1_long <- melt.data.table(dt1[,..vars_wanted], measure.vars = value_vars,
                               variable.name = "Year", variable.factor = FALSE)
@@ -483,6 +494,7 @@ read.results.csv <- function(
   }
 
   dt1_long[, Sex:= sex]
+
 
   ind_list <- list(
     "Under-five Mortality Rate" = "U5MR",
