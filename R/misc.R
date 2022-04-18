@@ -1,7 +1,7 @@
 # onloading message
 .onAttach <- function(libname, pkgname){
   packageStartupMessage(
-    'To install the latest version from Github,
+    'CME.assistant: To install the latest version from Github,
   run `devtools::install_github("unicef-drp/CME.assistant")`'
   )
 }

@@ -125,11 +125,17 @@ get.ref.date <- function(date0,
 #' @return numeric date for example: 2020.014
 #' @export
 get.numeric.date <- function(date0){
-  y1 <- data.table::year(date0)
-  n_days1 <- ifelse(leap_year(y1), 366, 365) # e.g. 2020 is a leap year with 366 days
-  first_day_of_year <- as.Date(paste(y1, 1, 1, sep = "-")) # use to count diff days
-  date_num <- as.double(difftime(date0, first_day_of_year))/n_days1 + y1
-  return(date_num)
+
+  get.numeric.date.core <- function(date0){
+    if(is.na(date0)) return(NA)
+    y1 <- data.table::year(date0)
+    n_days1 <- ifelse(leap_year(y1), 366, 365) # e.g. 2020 is a leap year with 366 days
+    first_day_of_year <- as.Date(paste(y1, 1, 1, sep = "-")) # use to count diff days
+    date_num <- as.double(difftime(date0, first_day_of_year))/n_days1 + y1
+    return(date_num)
+  }
+  # support vector input
+  unname(sapply(date0, get.numeric.date.core))
 }
 
 # Get database path -------------------------------------------------------
