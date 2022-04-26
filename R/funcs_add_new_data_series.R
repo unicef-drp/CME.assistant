@@ -88,20 +88,22 @@ rbinddatasetNMR <- function(dt_master, dt_new){
   return(dt1)
 }
 
-#' Remove 25-34 age group in `dt_new_entries`
+#' By default remove 25-34 and 10-19 age group in `dt_new_entries` for indirect
+#' estimates
 #'
 #' function used by `add.new.series` functions, remove unwanted age groups
 #' @param dt_new_entries dt of new entries to be added
 #' @return dt_new_entries with 25-34 and 10-19 removed
 #' @export revise.age.group
 revise.age.group <- function(dt_new_entries){
+  if(!grepl("Indirect", dt_new_entries1$Series.Type[1], ignore.case = TRUE)) return(dt_new_entries)
   if(nrow(dt_new_entries[Age.Group.of.Women=="25-34"])>0){
-    message("Remove AOW group '25-34' for ", paste(dt_new_entries[Age.Group.of.Women=="25-34", unique(IGME_Key)], collapse = ", "))
+    message("Remove AOW group '25-34' for ", paste(dt_new_entries[Age.Group.of.Women%in%c("25-34"), unique(IGME_Key)], collapse = ", "))
     dt_new_entries <- dt_new_entries[!Age.Group.of.Women%in%c("25-34"), ]
 
   }
   if(nrow(dt_new_entries[Age.Group.of.Women%in%c("10-19", "19-Oct"), ])>0){
-    message("Remove AOW group '10-19' for ", paste(dt_new_entries[Age.Group.of.Women=="25-34", unique(IGME_Key)], collapse = ", "))
+    message("Remove AOW group '10-19' for ", paste(dt_new_entries[Age.Group.of.Women%in%c("10-19", "19-Oct"), unique(IGME_Key)], collapse = ", "))
     dt_new_entries <- dt_new_entries[!Age.Group.of.Women%in%c("10-19", "19-Oct"), ]
   }
   return(dt_new_entries)

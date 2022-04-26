@@ -2,7 +2,8 @@
 % Please edit documentation in R/funcs_add_new_data_series.R
 \name{revise.age.group}
 \alias{revise.age.group}
-\title{Remove 25-34 age group in `dt_new_entries`}
+\title{By default remove 25-34 and 10-19 age group in `dt_new_entries` for indirect
+estimates}
 \usage{
 revise.age.group(dt_new_entries)
 }
