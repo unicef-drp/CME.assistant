@@ -96,15 +96,14 @@ rbinddatasetNMR <- function(dt_master, dt_new){
 #' @return dt_new_entries with 25-34 and 10-19 removed
 #' @export revise.age.group
 revise.age.group <- function(dt_new_entries){
-  if(!grepl("Indirect", dt_new_entries1$Series.Type[1], ignore.case = TRUE)) return(dt_new_entries)
-  if(nrow(dt_new_entries[Age.Group.of.Women=="25-34"])>0){
-    message("Remove AOW group '25-34' for ", paste(dt_new_entries[Age.Group.of.Women%in%c("25-34"), unique(IGME_Key)], collapse = ", "))
-    dt_new_entries <- dt_new_entries[!Age.Group.of.Women%in%c("25-34"), ]
+  if(nrow(dt_new_entries[grepl("Indirect", Series.Type, ignore.case = TRUE) & Age.Group.of.Women=="25-34"])>0){
+    message("Remove AOW group '25-34' for ", paste(dt_new_entries[grepl("Indirect", Series.Type, ignore.case = TRUE) & Age.Group.of.Women%in%c("25-34"), unique(IGME_Key)], collapse = ", "))
+    dt_new_entries <- dt_new_entries[!(grepl("Indirect", Series.Type, ignore.case = TRUE) & Age.Group.of.Women%in%c("25-34")), ]
 
   }
-  if(nrow(dt_new_entries[Age.Group.of.Women%in%c("10-19", "19-Oct"), ])>0){
-    message("Remove AOW group '10-19' for ", paste(dt_new_entries[Age.Group.of.Women%in%c("10-19", "19-Oct"), unique(IGME_Key)], collapse = ", "))
-    dt_new_entries <- dt_new_entries[!Age.Group.of.Women%in%c("10-19", "19-Oct"), ]
+  if(nrow(dt_new_entries[grepl("Indirect", Series.Type, ignore.case = TRUE) & Age.Group.of.Women%in%c("10-19", "19-Oct"), ])>0){
+    message("Remove AOW group '10-19' for ", paste(dt_new_entries[grepl("Indirect", Series.Type, ignore.case = TRUE) & Age.Group.of.Women%in%c("10-19", "19-Oct"), unique(IGME_Key)], collapse = ", "))
+    dt_new_entries <- dt_new_entries[!(grepl("Indirect", Series.Type, ignore.case = TRUE) & Age.Group.of.Women%in%c("10-19", "19-Oct")), ]
   }
   return(dt_new_entries)
 }
@@ -314,6 +313,12 @@ add.new.series.by.name <- function(
 
   # recreate IGME Key
   dt_new_entries <- create.IGME.key(dt_new_entries)
+
+  # check reference date
+  if(dt_new_entries[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, .N] >0){
+    warning("Set invisible for data point more than 25 years prior to average date of the survey: ",
+            dt_new_entries[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, IGME_Key[1]])
+  }
 
   # number of old rows?
   nrow_old <- dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key)
