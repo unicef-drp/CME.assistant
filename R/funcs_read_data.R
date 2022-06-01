@@ -678,3 +678,4 @@ check.and.install.pkgs <- function(pkgs){
   if(length(new.packages)) install.packages(new.packages, dependencies = TRUE)
   suppressPackageStartupMessages(invisible(lapply(pkgs, library, character.only = TRUE)))
 }
+

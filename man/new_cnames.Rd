@@ -3,7 +3,8 @@
 \docType{data}
 \name{new_cnames}
 \alias{new_cnames}
-\title{new_cnames: the official country names: ISO3Code UNCode OfficialName}
+\title{new_cnames: the official country names: ISO3Code UNCode OfficialName
+update it using function \code{\link{update.data.new_cnames}}}
 \format{
 An object of class \code{data.table} (inherits from \code{data.frame}) with 196 rows and 3 columns.
 }
@@ -12,5 +13,6 @@ new_cnames
 }
 \description{
 new_cnames: the official country names: ISO3Code UNCode OfficialName
+update it using function \code{\link{update.data.new_cnames}}
 }
 \keyword{OfficialName}
