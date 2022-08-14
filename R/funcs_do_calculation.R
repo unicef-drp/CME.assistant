@@ -91,3 +91,23 @@ calculate.pd <- function(dt, year1, year2){
   setnames(dt, "pd", paste0("PD", year1, "-", year2))
   dt
 }
+
+
+
+#' A rounding function that rounds off numbers in the conventional way: rounds 0.5 to 1
+#'
+#' Instead of in R by default round(0.5) = 0, roundoff(0.5, 0) = 1
+#'
+#' @param x the number
+#' @param digits digits, default to 2
+#' @return rounded numeric vector
+#' @export roundoff
+roundoff <- function(#
+  x, digits = 2
+) {
+  if(!is.numeric(x)) message("x coerse to numeric. ")
+  x <- as.numeric(x)
+  z <- trunc(abs(x)*10^digits + 0.5)
+  z <- sign(x)*z/10^digits
+  return(z)
+}

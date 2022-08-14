@@ -293,23 +293,34 @@ add.new.series.nmr <- function(
 
 #' Add new series, match by both `IGME_Key` and `Series.Name`
 #'
+#' This is a very strict match
+#'
 #' @param dt_master master dataset
 #' @param dt_new_entries new entries
 #' @param old_entries_action default to "hide", set old series (matched by both
 #'   `IGME_Key` and `Series.Name`) to invisible = 0 and inclusion = 0; if
 #'   "remove", remove old series; if "no_change": leave as it is
+#' @param trim_series_name default to FALSE, if TURE will remove strings like
+#'   "preliminary", "Adjusted", "MM adjusted" from series.name before matching
 #'
 #' @export
 add.new.series.by.name <- function(
   dt_master,
   dt_new_entries,
-  old_entries_action = "no_change"
+  old_entries_action = "no_change",
+  trim_series_name = FALSE
 ){
   dt_master <- copy(dt_master)
   nrow_master_old <- copy(nrow(dt_master))
   if(!old_entries_action%in%c("hide", "remove", "no_change"))stop("Choose action from: ", paste(c("hide", "remove", "no_change"), collapse =", "))
   message("original nrow:", nrow(dt_master))
   dt_new_entries <- revise.age.group(dt_new_entries)
+
+  if(trim_series_name){
+    strings_to_remove <- " \\(calendar year\\)| \\(Adjusted\\)| \\(MM adjusted\\)| \\(NN adjusted\\)| \\(Preliminary\\)| \\(preliminary\\)| Excluding South Zone"
+    dt_master[, Series.Name := gsub(strings_to_remove, "", Series.Name)]
+    dt_master[, IGME_Key := gsub(strings_to_remove, "", IGME_Key)]
+  }
 
   # recreate IGME Key
   dt_new_entries <- create.IGME.key(dt_new_entries)
@@ -362,3 +373,70 @@ add.new.series.by.name <- function(
 }
 
 
+
+#' Add new series, match by only `DataCatalogID`
+#'
+#' This is a very lose match. It's occasionally useful because sometimes you
+#' revise the series.name for the new series
+#'
+#' @param dt_master master dataset
+#' @param dt_new_entries new entries
+#' @param old_entries_action default to "hide", set old series (matched by both
+#'   `IGME_Key` and `Series.Name`) to invisible = 0 and inclusion = 0; if
+#'   "remove", remove old series; if "no_change": leave as it is
+#' @export
+add.new.series.by.ID <- function(
+    dt_master,
+    dt_new_entries,
+    old_entries_action = "no_change"
+){
+  dt_master <- copy(dt_master)
+  nrow_master_old <- copy(nrow(dt_master))
+  if(!old_entries_action%in%c("hide", "remove", "no_change"))stop("Choose action from: ", paste(c("hide", "remove", "no_change"), collapse =", "))
+  message("original nrow:", nrow(dt_master))
+  dt_new_entries <- revise.age.group(dt_new_entries)
+
+  # recreate IGME Key
+  dt_new_entries <- create.IGME.key(dt_new_entries)
+
+  # check reference date
+  if(dt_new_entries[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, .N] >0){
+    warning("Set invisible for data point more than 25 years prior to average date of the survey: ",
+            dt_new_entries[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, IGME_Key[1]])
+  }
+
+  # number of old rows?
+  nrow_old <- dt_master[DataCatalogID %in% unique(dt_new_entries$DataCatalogID), .N]
+  if(nrow_old > 0){
+    if(old_entries_action == "hide"){
+      message("Change inclusion and visible for old entries to 0: ",
+              paste(dt_master[DataCatalogID %in% unique(dt_new_entries$DataCatalogID), unique(Series.Name)],
+                    collapse = ", "))
+      dt_master[DataCatalogID %in% unique(dt_new_entries$DataCatalogID),
+                `:=`(Inclusion = 0, Visible = 0)]
+    } else if (old_entries_action == "remove"){
+      message("Remove old series: ",
+              paste(dt_master[DataCatalogID %in% unique(dt_new_entries$DataCatalogID), unique(Series.Name)],
+                    collapse = ", "))
+      message("Remove old rows: ", nrow_old)
+      dt_master <- dt_master[!DataCatalogID %in% unique(dt_new_entries$DataCatalogID),]
+    } else {
+      message("Old series unchanged.")
+    }
+  }
+
+  dt1 <- rbindlist(list(dt_master, dt_new_entries), fill = TRUE, use.names = TRUE)
+  dup_key <- dt1[duplicated(dt1), unique(IGME_Key)]
+  if(length(dup_key)>0) message("Notice duplicated series: ", paste(dup_key, collapse = ", "))
+  if(dt_master$Indicator[1] == "log NMR/(U5MR-NMR)" ){
+    # sort different for NMR
+    setorder(dt1, Country.Name, -End.date.of.Survey, Series.Name, Series.Type, -Date.Of.Data.Added, -Reference.Date, -Inclusion)
+
+  } else {
+    setorder(dt1, Country.Name, -Indicator, -Sex, -End.date.of.Survey, Series.Name, Series.Type, -Date.Of.Data.Added, -Reference.Date, - Inclusion)
+  }
+  message("newly added ", nrow(dt_new_entries), " rows: ", paste(unique(dt_new_entries$IGME_Key), collapse = ", "))
+  message("new nrow: ", nrow(dt1), " -adding- ", nrow(dt1) - nrow_master_old)
+  if(nrow(dt_master) + nrow(dt_new_entries) != nrow(dt1)) warning("check row numbers match")
+  return(dt1)
+}

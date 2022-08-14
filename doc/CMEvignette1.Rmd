@@ -19,6 +19,7 @@ The goal of CME.assistant is to share frequently used functions within the CME t
 
 ```{r, echo = FALSE}
 options(rmarkdown.html_vignette.check_title = FALSE)
+library("CME.assistant")
 ```
 
 ## Functions for reading data
@@ -31,25 +32,25 @@ For now the most useful ones I used in many scripts are:
 
 _Examples:_  
 
-```{r}
-# running these code requires access to Dropbox folders
+```{r, eval = FALSE}
+# reproduce these code requires access to our internal Dropbox folders
 
 # Always a good idea to update the library to make sure you have the latest version
 # devtools::install_github("unicef-drp/CME.assistant")
 library("CME.assistant")
-leading_path <- CME.assistant::load_os_leading_dir() # leading dir to Dropbox
+USERPROFILE <- CME.assistant::load_os_leading_dir() # leading dir to Dropbox
 
 # Dropbox directories to all results.csv
-dir_CC_code <- file.path(leading_path, "Dropbox/UNICEF Work/Country consultation/Code_for_CC")
-source(file.path(dir_CC_code, "R/Dropbox_results_directories.R"))
-dt_results <- rbindlist(lapply(results_dir_list_final, CME.assistant::read.results.csv))
+dir_CC_code <- file.path(USERPROFILE, "Dropbox/UNICEF Work/Country consultation/Code_for_CC")
+source(file.path(dir_CC_code, "R/Dropbox_results_directories_2021.R"))
+dt_results <- rbindlist(lapply(results_dir_list_final_2021, CME.assistant::read.results.csv))
 # which the same as:
-dt_results <- do.call(rbind, lapply(results_dir_list_final, CME.assistant::read.results.csv))
+dt_results <- do.call(rbind, lapply(results_dir_list_final_2021, CME.assistant::read.results.csv))
 dt_results[!is.na(value), table(Sex, Shortind)]
 
 
 # Dropbox directories to all final aggregates
-dir_report_code <- file.path(leading_path, "Dropbox/UNICEF Work/IGME report etc/2021/Code_for_report/")
+dir_report_code <- file.path(USERPROFILE, "Dropbox/UNICEF Work/IGME report etc/2021/Code_for_report/")
 source(file.path(dir_report_code, "Dropbox_aggresults_directories_2021.R"))
 dir_country_summary <- c(
   file.path(dir_aggu5,      "Rates & Deaths_Country Summary.csv"),
@@ -89,7 +90,7 @@ A more advanced version of `read.country.summary` that allows more tuning: can o
 
 _Examples:_
 
-```{r}
+```{r, eval = FALSE}
 dir_cs_u5 <- file.path(dir_aggu5, "Rates & Deaths_Country Summary.csv")
 dt_1 <- get.CME.UI.data(dir_file = dir_cs_u5)
 dt_1[Year == 2020][1:3,]
@@ -108,7 +109,7 @@ dt_wy[1:3,]
 
 ## Functions for calculating
 Using the wide-year output above, we can directly calculate ARR or percentage decline (PD)
-```{r}
+```{r, eval = FALSE}
 dt_wy <- calculate.arr(dt_wy, 2000, 2010) # ARR
 dt_wy <- calculate.arr(dt_wy, 2010, 2020) # ARR
 dt_wy <- calculate.pd(dt_wy, 2000, 2020) # percentage decline

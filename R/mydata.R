@@ -39,23 +39,6 @@
 #'
 "hiv.iso"
 
-#' Rates_Deaths_Country_Summary_2019_UI: The 2019 estimates with UI
-#'
-#' Please refer to childmortality.org for details
-#'
-#' @docType data
-#' @keywords dataset
-"Rates_Deaths_Country_Summary_2019_UI"
-
-
-#' Rates_Deaths_Country_Summary_2020_UI: The 2020 estimates with UI
-#'
-#' Please refer to childmortality.org for details
-#'
-#' @docType data
-#' @keywords dataset
-"Rates_Deaths_Country_Summary_2020_UI"
-
 #' A place holder, if supplied in global environment it will be used in the
 #' \code{\link{get.match}} function
 #'

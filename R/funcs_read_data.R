@@ -8,7 +8,7 @@
 #' `get.CME.UI.data` can read in "Rates & Deaths_Country Summary.csv" for any
 #' indicators published so far and include Sex, Quantile in the output. If there
 #' is only median (i.e. no Quantile column in the dataset) the function will
-#' check if there is only one row per country. A pre-saved list of summary.csv
+#' check if there is only one row per country. An example list of summary.csv
 #' files directories could be obtained by \code{\link{load.final_dir}}. Choose
 #' the `format` of the output dataset from `long`, `wide_q`(wide quantile),
 #' `wide_year`, `wide_ind` (wide indicator) and `wide_get` (one column for rate
@@ -26,8 +26,6 @@
 #'   long-format data, wide_get means two columns: rate and death
 #' @param get  default to "rate". Choose among "rate", "death", or "both"
 #' @param round_digit digits to round estimates, default to `NULL`
-#' @param use_IGME_year load the saved IGME final aggregated results (final):
-#'   choose between 2019 or 2020
 #' @param quantile default to TRUE: return upper, median, lower; FALSE: only
 #'   median.
 #' @param sex default as NULL, will determine sex from directory of `dir_file`
@@ -49,18 +47,11 @@ get.CME.UI.data <- function(
   sex = NULL,
   format = "long",  # "raw"/ "long"/ "wide_year"/ "wide_ind"/ "wide_get"
   round_digit = NULL,
-  use_IGME_year = 2020,
   quantile = TRUE
 ){
   # load file
   if(is.null(dir_file)) {
-    if(use_IGME_year==2020){
-      dt <- Rates_Deaths_Country_Summary_2020_UI
-    } else if (use_IGME_year == 2019){
-      dt <- Rates_Deaths_Country_Summary_2019_UI
-    } else {
-      stop("Supply dir_file or choose `use_IGME_year` among 2019, 2020")
-    }
+      stop("Supply `dir_file`: directory to 'Country Summary.csv'")
   } else {
     dir_file <- unlist(dir_file)
     if(file.exists(unlist(dir_file))){
@@ -534,7 +525,7 @@ read.results.csv <- function(
 #' @export read.all.results.csv
 read.all.results.csv <- function(
   results_dir_list,
-  year_range0 = 1931:2020,
+  year_range0 = 1931:2030,
   value_name = "Results"
 ){
   # a list of all the results files:

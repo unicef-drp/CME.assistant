@@ -13,7 +13,6 @@ get.CME.UI.data(
   sex = NULL,
   format = "long",
   round_digit = NULL,
-  use_IGME_year = 2020,
   quantile = TRUE
 )
 }
@@ -40,9 +39,6 @@ long-format data, wide_get means two columns: rate and death}
 
 \item{round_digit}{digits to round estimates, default to `NULL`}
 
-\item{use_IGME_year}{load the saved IGME final aggregated results (final):
-choose between 2019 or 2020}
-
 \item{quantile}{default to TRUE: return upper, median, lower; FALSE: only
 median.}
 }
@@ -53,7 +49,7 @@ a data.table (data.frame)
 `get.CME.UI.data` can read in "Rates & Deaths_Country Summary.csv" for any
 indicators published so far and include Sex, Quantile in the output. If there
 is only median (i.e. no Quantile column in the dataset) the function will
-check if there is only one row per country. A pre-saved list of summary.csv
+check if there is only one row per country. An example list of summary.csv
 files directories could be obtained by \code{\link{load.final_dir}}. Choose
 the `format` of the output dataset from `long`, `wide_q`(wide quantile),
 `wide_year`, `wide_ind` (wide indicator) and `wide_get` (one column for rate
