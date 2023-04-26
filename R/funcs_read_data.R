@@ -262,7 +262,11 @@ read.country.summary <- function(
 
   # find the Quantile column:
   if("Quintile"%in%colnames(dt_cs))setnames(dt_cs, "Quintile", "Quantile")
-  if("X"%in%colnames(dt_cs))setnames(dt_cs, "X", "Quantile")
+
+  if("X"%in%colnames(dt_cs)){
+    if(dt_cs$X[1]!=1) setnames(dt_cs, "X", "Quantile") # it could be a indexing column
+  }
+
   # in case leave as blank, column will have names like V99, V101, etc
   if(!"Quantile"%in%colnames(dt_cs)){
     columnV <- grep("V", colnames(dt_cs), value = TRUE)

@@ -42,6 +42,9 @@ create.IGME.key <- function(dt0, add_Indicator = FALSE){
   dt0[grepl("Direct", Series.Type), IGME_Key := paste0(IGME_Key, "-Direct")]
   dt0[grepl("Indirect", Series.Type), IGME_Key := paste0(IGME_Key, "-Indirect")]
 
+  # We can further distinguish HH in direct in IGME_Key
+  # dt0[Data.Collection.Method == "Household Deaths", IGME_Key:= paste(IGME_Key, "(HH)")]
+
   if(add_Indicator){
     dt0[, IGME_Key_s := IGME_Key]
     dt0[, IGME_Key := paste0(IGME_Key_s, "-", Indicator)]
@@ -300,15 +303,12 @@ add.new.series.nmr <- function(
 #' @param old_entries_action default to "hide", set old series (matched by both
 #'   `IGME_Key` and `Series.Name`) to invisible = 0 and inclusion = 0; if
 #'   "remove", remove old series; if "no_change": leave as it is
-#' @param trim_series_name default to FALSE, if TURE will remove strings like
-#'   "preliminary", "Adjusted", "MM adjusted" from series.name before matching
 #'
 #' @export
 add.new.series.by.name <- function(
   dt_master,
   dt_new_entries,
-  old_entries_action = "no_change",
-  trim_series_name = FALSE
+  old_entries_action = "no_change"
 ){
   dt_master <- copy(dt_master)
   nrow_master_old <- copy(nrow(dt_master))
@@ -316,11 +316,11 @@ add.new.series.by.name <- function(
   message("original nrow:", nrow(dt_master))
   dt_new_entries <- revise.age.group(dt_new_entries)
 
-  if(trim_series_name){
-    strings_to_remove <- " \\(calendar year\\)| \\(Adjusted\\)| \\(MM adjusted\\)| \\(NN adjusted\\)| \\(Preliminary\\)| \\(preliminary\\)| Excluding South Zone"
-    dt_master[, Series.Name := gsub(strings_to_remove, "", Series.Name)]
-    dt_master[, IGME_Key := gsub(strings_to_remove, "", IGME_Key)]
-  }
+  # if(trim_series_name){
+  #   strings_to_remove <- " \\(calendar year\\)| \\(Adjusted\\)| \\(MM adjusted\\)| \\(NN adjusted\\)| \\(Preliminary\\)| \\(preliminary\\)| Excluding South Zone"
+  #   dt_master[, Series.Name := gsub(strings_to_remove, "", Series.Name)]
+  #   dt_master[, IGME_Key := gsub(strings_to_remove, "", IGME_Key)]
+  # }
 
   # recreate IGME Key
   dt_new_entries <- create.IGME.key(dt_new_entries)

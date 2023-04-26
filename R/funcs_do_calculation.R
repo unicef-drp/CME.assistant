@@ -66,7 +66,7 @@ calculate.4q1 <- function(q5, q1, use_q_not_rate = TRUE){
 #'
 calculate.arr <- function(dt, year1, year2){
   get.year <- function(years){
-    if(grepl(".5", years)) years <- gsub(".5", "", years)
+    if(grepl("\\.5", years)) years <- gsub("\\.5", "", years)
     as.numeric(gsub("[^\\d]+", "", years, perl = TRUE))
   }
   # use year1 and year2 value to get ARR
@@ -84,7 +84,7 @@ calculate.arr <- function(dt, year1, year2){
 #'
 calculate.pd <- function(dt, year1, year2){
   get.year <- function(years){
-    if(grepl(".5", years)) years <- gsub(".5", "", years)
+    if(grepl("\\.5", years)) years <- gsub("\\.5", "", years)
     as.numeric(gsub("[^\\d]+", "", years, perl = TRUE))
   }  # use year1 and year2 value to get ARR
   dt[, pd:= (get(as.character(year2))/get(as.character(year1)) - 1)*-100]

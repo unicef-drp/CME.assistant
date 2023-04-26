@@ -7,8 +7,7 @@
 add.new.series.by.name(
   dt_master,
   dt_new_entries,
-  old_entries_action = "no_change",
-  trim_series_name = FALSE
+  old_entries_action = "no_change"
 )
 }
 \arguments{
@@ -19,9 +18,6 @@ add.new.series.by.name(
 \item{old_entries_action}{default to "hide", set old series (matched by both
 `IGME_Key` and `Series.Name`) to invisible = 0 and inclusion = 0; if
 "remove", remove old series; if "no_change": leave as it is}
-
-\item{trim_series_name}{default to FALSE, if TURE will remove strings like
-"preliminary", "Adjusted", "MM adjusted" from series.name before matching}
 }
 \description{
 This is a very strict match
