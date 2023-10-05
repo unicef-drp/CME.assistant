@@ -187,7 +187,7 @@ get.max.date <- function(mydate) {
 #' @param files file path
 #'
 find_latest_date <- function(files){
-  remove_string <- c("data_U5MR_|.csv|data_IMR_|data_NMR_|_5year|dataset_formodeling_|dataset_forplotting_|SexSpecific-entries_")
+  remove_string <- c("data_U5MR_|.csv|data_IMR_|data_NMR_|_5year|dataset_formodeling_|dataset_forplotting_|SexSpecific-entries_|data_residence_")
   dates <- gsub(remove_string, "", files)
   # screen for valid date string:
   # dates <- c("2015", "20200804", "2020-08-01")

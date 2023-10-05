@@ -55,9 +55,3 @@ the `format` of the output dataset from `long`, `wide_q`(wide quantile),
 `wide_year`, `wide_ind` (wide indicator) and `wide_get` (one column for rate
 and one column for death)
 }
-\examples{
-dt_1 <- get.CME.UI.data(use_IGME_year = 2020, format = "wide_year")
-dt_2 <- get.CME.UI.data(format = "wide_ind")
-
-
-}

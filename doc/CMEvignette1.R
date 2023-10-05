@@ -1,20 +1,19 @@
-## ---- include = FALSE---------------------------------------------------------
-knitr::opts_chunk$set(
-  message=FALSE, warning=FALSE, 
-  collapse = TRUE,
-  comment = "#>"
-)
+## ---- include = FALSE, eval = FALSE-------------------------------------------
+#  knitr::opts_chunk$set(
+#    message = FALSE, warning = FALSE,
+#    collapse = TRUE,
+#    comment = "#>"
+#  )
 
-## ---- echo = FALSE------------------------------------------------------------
-options(rmarkdown.html_vignette.check_title = FALSE)
-library("CME.assistant")
+## ---- echo = FALSE, eval = FALSE----------------------------------------------
+#  options(rmarkdown.html_vignette.check_title = FALSE)
 
 ## ---- eval = FALSE------------------------------------------------------------
 #  # reproduce these code requires access to our internal Dropbox folders
 #  
 #  # Always a good idea to update the library to make sure you have the latest version
 #  # devtools::install_github("unicef-drp/CME.assistant")
-#  library("CME.assistant")
+#  # library("CME.assistant")
 #  USERPROFILE <- CME.assistant::load_os_leading_dir() # leading dir to Dropbox
 #  
 #  # Dropbox directories to all results.csv
@@ -85,12 +84,6 @@ library("CME.assistant")
 #  dir_gender <- get.dir_gender(plotting = TRUE) # either dataset for plotting or modeling
 #  dir_gender <- get.dir_gender(plotting = FALSE) # either dataset for plotting or modeling
 
-## -----------------------------------------------------------------------------
-# `dplyr::recode` can do the same and is about 10x faster:
-dplyr::recode(c("a","b", "c"), !!!c("a" = "label 1", "b" = "label 2"))
-
-get.match(c("a","b", "c"), new_list = list("a" = "label 1", "b" = "label 2"))
-
-## -----------------------------------------------------------------------------
-str(UNICEF_colors)
+## ---- eval = FALSE------------------------------------------------------------
+#  str(UNICEF_colors)
 

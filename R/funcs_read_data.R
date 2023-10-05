@@ -33,9 +33,6 @@
 #'
 #' @return a data.table (data.frame)
 #' @export get.CME.UI.data
-#' @examples
-#' dt_1 <- get.CME.UI.data(use_IGME_year = 2020, format = "wide_year")
-#' dt_2 <- get.CME.UI.data(format = "wide_ind")
 #'
 #'
 get.CME.UI.data <- function(
@@ -337,6 +334,9 @@ read.region.summary <- function(
 ){
   if(!file.exists(dir_file)) stop("File doesn't exist: ", dir_file)
   dt_cs <- fread(dir_file)
+
+  if(!"Year" %in% colnames(dt_cs)) stop ("There is no `Year` column, are you reading the country summary?")
+
   # What region is it?
 
   if(grepl("SDG", dir_file)) Regional_Grouping <- "SDG"
@@ -432,7 +432,7 @@ read.results.csv <- function(
 
   if(any(grepl("X", colnames(dt1)))){
     value_vars <- paste0("X", year_range, ".5")
-  } else if (any(grepl(".5", colnames(dt1), fixed = TRUE))) {
+  } else if (any(grepl(".5", colnames(dt1), fixed = TRUE))) { # no need for \\.5 if fixed = TRUE
     value_vars <- paste0(year_range, ".5")
   } else {
     value_vars <- paste0(year_range)

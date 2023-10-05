@@ -24,13 +24,6 @@
 "UNICEF_colors"
 
 
-#'new_cnames: the official country names: ISO3Code UNCode OfficialName
-#'update it using function \code{\link{update.data.new_cnames}}
-#'
-#' @docType data
-#' @keywords OfficialName
-#'
-"new_cnames"
 
 #'hiv.iso: the 17 hiv isos
 #'

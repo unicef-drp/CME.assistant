@@ -7,19 +7,18 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r, include = FALSE, eval = FALSE}
 knitr::opts_chunk$set(
-  message=FALSE, warning=FALSE, 
+  message = FALSE, warning = FALSE, 
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
-The goal of CME.assistant is to share frequently used functions within the CME team.
+The goal of CME.assistant is to store frequently used functions within the CM team.  
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, eval = FALSE}
 options(rmarkdown.html_vignette.check_title = FALSE)
-library("CME.assistant")
 ```
 
 ## Functions for reading data
@@ -37,7 +36,7 @@ _Examples:_
 
 # Always a good idea to update the library to make sure you have the latest version
 # devtools::install_github("unicef-drp/CME.assistant")
-library("CME.assistant")
+# library("CME.assistant")
 USERPROFILE <- CME.assistant::load_os_leading_dir() # leading dir to Dropbox
 
 # Dropbox directories to all results.csv
@@ -136,18 +135,9 @@ dir_gender <- get.dir_gender(plotting = FALSE) # either dataset for plotting or 
 **`round.off`**  
 Almost used in every script  
 
-**`get.match`**  
-Similar to `dplyr::recode`, which takes a named vector to rename values, `get.match` takes a list as input to rename values. Maybe just use `dplyr::recode` in the future  
-```{r}
-# `dplyr::recode` can do the same and is about 10x faster:
-dplyr::recode(c("a","b", "c"), !!!c("a" = "label 1", "b" = "label 2"))
-
-get.match(c("a","b", "c"), new_list = list("a" = "label 1", "b" = "label 2"))
-```
-
 **`UNICEF_colors`**  
 The official color palette, help me to find UNICEF blue  
-```{r}
+```{r, eval = FALSE}
 str(UNICEF_colors)
 ```
 

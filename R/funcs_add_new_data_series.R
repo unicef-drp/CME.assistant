@@ -147,7 +147,7 @@ add.new.series.u5mr <- function(
 
   # check reference date
   if(dt_new_entries[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, .N] >0){
-    warning("Set invisible for data point more than 25 years prior to average date of the survey: ",
+    warning("Might need to set invisible for data point more than 25 years prior to average date of the survey: ",
             dt_new_entries[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, IGME_Key[1]])
   }
 
@@ -327,7 +327,7 @@ add.new.series.by.name <- function(
 
   # check reference date
   if(dt_new_entries[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, .N] >0){
-    warning("Set invisible for data point more than 25 years prior to average date of the survey: ",
+    warning("Might need to set invisible for data point more than 25 years prior to average date of the survey: ",
             dt_new_entries[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, IGME_Key[1]])
   }
 
@@ -376,7 +376,7 @@ add.new.series.by.name <- function(
 
 #' Add new series, match by only `DataCatalogID`
 #'
-#' This is a very lose match. It's occasionally useful because sometimes you
+#' This is a lose match. It's occasionally useful because sometimes you
 #' revise the series.name for the new series
 #'
 #' @param dt_master master dataset
@@ -401,7 +401,7 @@ add.new.series.by.ID <- function(
 
   # check reference date
   if(dt_new_entries[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, .N] >0){
-    warning("Set invisible for data point more than 25 years prior to average date of the survey: ",
+    warning("Might need to set invisible for data point more than 25 years prior to average date of the survey: ",
             dt_new_entries[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, IGME_Key[1]])
   }
 

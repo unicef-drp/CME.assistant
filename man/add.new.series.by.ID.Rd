@@ -20,6 +20,6 @@ add.new.series.by.ID(
 "remove", remove old series; if "no_change": leave as it is}
 }
 \description{
-This is a very lose match. It's occasionally useful because sometimes you
+This is a lose match. It's occasionally useful because sometimes you
 revise the series.name for the new series
 }
