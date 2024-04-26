@@ -4,7 +4,7 @@
 \alias{get.live.birth}
 \title{Load the "data_livebirths.csv", add ISO3Code and country names}
 \usage{
-get.live.birth(year0 = 2021)
+get.live.birth(year0)
 }
 \arguments{
 \item{year0}{IGME round, e.g. 2021}

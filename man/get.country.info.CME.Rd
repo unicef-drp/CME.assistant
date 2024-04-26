@@ -4,7 +4,7 @@
 \alias{get.country.info.CME}
 \title{Load the "country.info.CME"}
 \usage{
-get.country.info.CME(year0 = 2021)
+get.country.info.CME(year0)
 }
 \arguments{
 \item{year0}{IGME round, e.g. 2021}
