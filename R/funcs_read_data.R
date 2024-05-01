@@ -548,13 +548,17 @@ read.all.results.csv <- function(
 #'
 #' Creates UNICEFReportRegion from UNICEFReportRegion1 and UNICEFReportRegion2
 #'
-#' @param year0 IGME round, e.g. 2021
-#'
+#' @param year0 IGME round on Dropbox, until 2023
+#' @param work_dir for IGME round on Dropbox, provide work_dir
 #' @import data.table
 #' @export get.country.info.CME
 #' @return dataset of country info
-get.country.info.CME <- function(year0){
-  # dir_input <- file.path(get.workdir(year = year0), "input")
+get.country.info.CME <- function(year0, work_dir = NULL){
+  if(is.null(work_dir)){
+    dir_input <- file.path(get.workdir(year = year0), "input")
+  } else {
+    dir_input <- file.path(work_dir, "input")
+  }
   dc <- fread(file.path(dir_input, "country.info.CME.csv"))
   # UNICEFReportRegion2 offers subregions for ECA and SSA, combined into UNICEFReportRegion
   dc[, UNICEFReportRegion:= ifelse(UNICEFReportRegion2 == "", UNICEFReportRegion1, UNICEFReportRegion2)]
@@ -564,11 +568,16 @@ get.country.info.CME <- function(year0){
 
 #' Load the "data_livebirths.csv", add ISO3Code and country names
 #'
-#' @param year0 IGME round, e.g. 2021
+#' @param year0 IGME round on Dropbox, until 2023
+#' @param work_dir for IGME round on Dropbox, provide work_dir
 #' @export get.live.birth
 #' @return dataset of live birth
-get.live.birth <- function(year0){
-  dir_input <- file.path(get.workdir(year = year0), "input")
+get.live.birth <- function(year0, work_dir){
+  if(is.null(work_dir)){
+    dir_input <- file.path(get.workdir(year = year0), "input")
+  } else {
+    dir_input <- file.path(work_dir, "input")
+  }
   dc <- fread(file.path(dir_input, "country.info.CME.csv"))
   dtlb <- fread(file.path(dir_input, "data_livebirths.csv"))
   dtlb <- merge(dc[,.(ISO3Code, CountryName, OfficialName, UNCode)], dtlb, by.x = "UNCode", by.y = "uncode")
@@ -686,10 +695,10 @@ get.workdir <- function(year = 2023){
 get.workdir.sharepoint <- function(year = 2024){
   user_name <- Sys.getenv("USERNAME")
   #
+  # add here you home directory to "Documents - Child Mortality/UN IGME data":
   if(user_name == "lyhel"){
     home_dir <- "D:/OneDrive - UNICEF/Documents - Child Mortality/UN IGME data"
   } else if(user_name == "someone"){
-    # add you home directory to "Documents - Child Mortality/UN IGME data":
     home_dir <- ""
   } else {
     stop("Please add your SharePoint home directory in function `get.workdir.sharepoint`")

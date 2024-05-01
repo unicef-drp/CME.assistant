@@ -2,7 +2,7 @@
 % Please edit documentation in R/funcs_read_data.R
 \name{get.workdir.sharepoint}
 \alias{get.workdir.sharepoint}
-\title{Get IGME "Code" dir on SharePoint}
+\title{GReturn the IGME "Code" dir on SharePoint}
 \usage{
 get.workdir.sharepoint(year = 2024)
 }

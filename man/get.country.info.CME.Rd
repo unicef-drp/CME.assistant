@@ -4,10 +4,12 @@
 \alias{get.country.info.CME}
 \title{Load the "country.info.CME"}
 \usage{
-get.country.info.CME(year0)
+get.country.info.CME(year0, work_dir = NULL)
 }
 \arguments{
-\item{year0}{IGME round, e.g. 2021}
+\item{year0}{IGME round on Dropbox, until 2023}
+
+\item{work_dir}{for IGME round on Dropbox, provide work_dir}
 }
 \value{
 dataset of country info

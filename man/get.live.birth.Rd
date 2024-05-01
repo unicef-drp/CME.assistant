@@ -4,10 +4,12 @@
 \alias{get.live.birth}
 \title{Load the "data_livebirths.csv", add ISO3Code and country names}
 \usage{
-get.live.birth(year0)
+get.live.birth(year0, work_dir)
 }
 \arguments{
-\item{year0}{IGME round, e.g. 2021}
+\item{year0}{IGME round on Dropbox, until 2023}
+
+\item{work_dir}{for IGME round on Dropbox, provide work_dir}
 }
 \value{
 dataset of live birth

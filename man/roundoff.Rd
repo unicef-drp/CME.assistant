@@ -5,8 +5,6 @@
 \title{A rounding function that rounds off numbers in the conventional way: rounds 0.5 to 1}
 \usage{
 roundoff(x, digits = 2)
-
-roundoff(x, digits = 2)
 }
 \arguments{
 \item{x}{the number}
@@ -15,11 +13,7 @@ roundoff(x, digits = 2)
 }
 \value{
 rounded numeric vector
-
-rounded numeric vector
 }
 \description{
-Instead of in R by default round(0.5) = 0, roundoff(0.5, 0) = 1
-
 Instead of in R by default round(0.5) = 0, roundoff(0.5, 0) = 1
 }
