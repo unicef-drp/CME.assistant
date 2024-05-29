@@ -4,7 +4,7 @@
 \alias{get.live.birth}
 \title{Load the "data_livebirths.csv", add ISO3Code and country names}
 \usage{
-get.live.birth(year0, work_dir)
+get.live.birth(year0, work_dir = NULL)
 }
 \arguments{
 \item{year0}{IGME round on Dropbox, until 2023}

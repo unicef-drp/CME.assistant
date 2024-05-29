@@ -2,17 +2,17 @@
 % Please edit documentation in R/funcs_read_data.R
 \name{get.workdir}
 \alias{get.workdir}
-\title{Return the IGME "Code" dir for a given year}
+\title{Get IGME "Code" dir for a given year}
 \usage{
-get.workdir(year = 2023)
+get.workdir(year)
 }
 \arguments{
 \item{year}{YYYY}
 }
 \value{
-directory to input folder
+directory to folder
 }
 \description{
-If `year` is 2020, returns the directory to Code folder in the 2020 Round
-Estimation Dropbox folder
+If `year` is 2024, returns the directory to SharePoint folder, otherwise to
+the old Dropbox folder
 }

@@ -398,7 +398,23 @@ read.region.summary <- function(
   return(dt_long)
 }
 
-
+#' sometimes maybe useful, to read the wide-year format SBR output
+#'
+#' @param dir_SBR_wide_year directory to the wide-year format SBR output
+#' @param value_name0 default to "Median"
+#'
+read.region.summary.SBproj <- function(dir_SBR_wide_year, value_name0 = "Median"){
+  if(!file.exists(dir_SBR_wide_year)) stop("File doesn't exist: ", dir_file)
+  dtrp <- fread(dir_SBR_wide_year)
+  id_vars <- c("Region")
+  id_nums <- colnames(dtrp)[!colnames(dtrp) %in% id_vars]
+  dtrp[ , (id_nums) := lapply(.SD, as.numeric), .SDcols = id_nums]
+  dtrpw <- melt(dtrp, id.vars =id_vars, variable.factor = FALSE, value.name = value_name0)
+  dtrpw[, `:=`(Shortind = sub("_.*", "", variable),
+               Year     = as.numeric(sub(".*_", "", variable)),
+               Sex      = "Total")]
+  dtrpw[,.(Region, Shortind, Year, Sex, Year, Median)]
+}
 
 #' Read one results.csv file and reformat into long-format
 #'
@@ -572,7 +588,7 @@ get.country.info.CME <- function(year0, work_dir = NULL){
 #' @param work_dir for IGME round on Dropbox, provide work_dir
 #' @export get.live.birth
 #' @return dataset of live birth
-get.live.birth <- function(year0, work_dir){
+get.live.birth <- function(year0, work_dir = NULL){
   if(is.null(work_dir)){
     dir_input <- file.path(get.workdir(year = year0), "input")
   } else {
@@ -668,24 +684,37 @@ check.and.install.pkgs <- function(pkgs){
 
 
 # Find directories --------------------------------------------------------
-# functions to search and get all major datasets
 
-#' Return the IGME "Code" dir for a given year
+
+#' Get IGME "Code" dir for a given year
 #'
-#' If `year` is 2020, returns the directory to Code folder in the 2020 Round
-#' Estimation Dropbox folder
+#' If `year` is 2024, returns the directory to SharePoint folder, otherwise to
+#' the old Dropbox folder
 #' @param year YYYY
-#' @return directory to input folder
+#' @return directory to folder
 #' @export get.workdir
-get.workdir <- function(year = 2023){
-  USERPROFILE <- load_os_leading_dir()
-  work_dir <- file.path(USERPROFILE, paste0("/Dropbox/UN IGME Data/", year ," Round Estimation/Code"))
-  if(!dir.exists(work_dir))warning("Note that this directory doesn't exist: ", work_dir)
-  return(work_dir)
+get.workdir <- function(year){
+  if(floor(as.numeric(year)) >= 2024){
+    workdir_new <- get.workdir.sharepoint(year)
+  } else {
+    workdir_new <- get.workdir.dropbox(year)
+  }
+  return(workdir_new)
 }
 
 
-#' GReturn the IGME "Code" dir on SharePoint
+#' Get IGME "Code" dir for a given year from Dropbox
+#'
+#' @param year YYYY
+#' @return directory to folder
+#' @export get.workdir.dropbox
+get.workdir.dropbox <- function(year = 2023){
+  USERPROFILE <- load_os_leading_dir()
+  file.path(USERPROFILE, paste0("/Dropbox/UN IGME Data/", year ," Round Estimation/Code/"))
+}
+
+
+#' Get IGME "Code" dir for a given year from SharePoint
 #'
 #' If `year` is 2020, returns the directory to Code folder in the 2020 Round
 #' Estimation Dropbox folder
@@ -695,19 +724,44 @@ get.workdir <- function(year = 2023){
 get.workdir.sharepoint <- function(year = 2024){
   user_name <- Sys.getenv("USERNAME")
   #
-  # add here you home directory to "Documents - Child Mortality/UN IGME data":
   if(user_name == "lyhel"){
     home_dir <- "D:/OneDrive - UNICEF/Documents - Child Mortality/UN IGME data"
   } else if(user_name == "someone"){
+    # add you home directory to "Documents - Child Mortality/UN IGME data":
     home_dir <- ""
   } else {
-    stop("Please add your SharePoint home directory in function `get.workdir.sharepoint`")
+    stop("Please add your SharePoint home directory in this function `get.workdir.sharepoint`")
   }
   work_dir <- file.path(home_dir, paste0(year, " Round Estimation/Code"))
-  if(!dir.exists(work_dir))warning("Note that this directory doesn't exist: ", work_dir)
   return(work_dir)
 }
 
+
+#' Get "output" dir for a given year
+#'
+#' If `year` is 2020, returns the directory to output folder in the 2020 Round
+#' Estimation Dropbox folder
+#'
+#' @param year YYYY
+#' @return directory to output folder
+#' @export get.IGMEoutput.dir
+get.IGMEoutput.dir <- function(year){
+  work_dir <- get.workdir(year)
+  return(file.path(work_dir, "output"))
+}
+
+
+#' Get "input" dir for a given year
+#'
+#' If `year` is 2020, returns the directory to input folder in the 2020 Round
+#' Estimation Dropbox folder
+#' @param year YYYY
+#' @return directory to input folder
+#' @export get.IGMEinput.dir
+get.IGMEinput.dir <- function(year){
+  work_dir <- get.workdir(year)
+  return(file.path(work_dir, "input"))
+}
 
 
 #' Internal function: Check if `date` is a leap year
