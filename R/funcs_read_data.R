@@ -8,8 +8,7 @@
 #' `get.CME.UI.data` can read in "Rates & Deaths_Country Summary.csv" for any
 #' indicators published so far and include Sex, Quantile in the output. If there
 #' is only median (i.e. no Quantile column in the dataset) the function will
-#' check if there is only one row per country. An example list of summary.csv
-#' files directories could be obtained by \code{\link{load.final_dir}}. Choose
+#' check if there is only one row per country. Choose
 #' the `format` of the output dataset from `long`, `wide_q`(wide quantile),
 #' `wide_year`, `wide_ind` (wide indicator) and `wide_get` (one column for rate
 #' and one column for death)
@@ -582,6 +581,27 @@ get.country.info.CME <- function(year0, work_dir = NULL){
 }
 
 
+#' Extract long-format pop0 and pop1-4 from country.info.CME
+#'
+#' @param dc country.info.CME
+#'
+#' @export get.pop.from.CME
+#' @return long-format ISO3Code, year, pop0 and pop1-4
+#'
+get.pop.from.CME <- function(dc){
+  setDT(dc)
+  years_available1 <- colnames(dc)[grepl("pop0", colnames(dc))]
+  years_available2 <- colnames(dc)[grepl("pop1to4", colnames(dc))]
+  stopifnot(length(years_available1) == length(years_available2))
+  years_available1 <- as.numeric(gsub("pop0", "", years_available1))
+  dcpop <- melt(dc, id.vars = "ISO3Code", measure = patterns("pop0", "pop1to4"), value.name = c("pop0", "pop1_4"),
+                variable.name = "year")
+  stopifnot(uniqueN(dcpop$year) == length(years_available1))
+  levels(dcpop$year) <- years_available1
+  dcpop[, year:= as.integer(as.character(year))]
+  message("pop0 and pop1_4 in country.info.CME are available for years: ", paste(range(years_available1), collapse = "-"))
+  return(dcpop)
+}
 #' Load the "data_livebirths.csv", add ISO3Code and country names
 #'
 #' @param year0 IGME round on Dropbox, until 2023
@@ -722,16 +742,17 @@ get.workdir.dropbox <- function(year = 2023){
 #' @return directory to "Code" folder
 #' @export get.workdir.sharepoint
 get.workdir.sharepoint <- function(year = 2024){
-  user_name <- Sys.getenv("USERNAME")
+  user_name <- Sys.info()[["user"]]
+  USERPROFILE <- load_os_leading_dir()
   #
-  if(user_name == "lyhel"){
-    home_dir <- "D:/OneDrive - UNICEF/Documents - Child Mortality/UN IGME data"
-  } else if(user_name == "someone"){
-    # add you home directory to "Documents - Child Mortality/UN IGME data":
-    home_dir <- ""
-  } else {
-    stop("Please add your SharePoint home directory in this function `get.workdir.sharepoint`")
-  }
+  home_dir <- switch(user_name,
+                     "lyhel" = "D:/OneDrive - UNICEF/Documents - Child Mortality/UN IGME data",
+                     "your_user_name" = "your SharePoint home directory",
+
+                     # my best guess is:
+                     file.path(USERPROFILE, "OneDrive - UNICEF/Documents - Child Mortality/UN IGME data")
+  )
+  if(!dir.exists(home_dir)) stop("Please add your SharePoint home directory in this function `get.workdir.sharepoint`")
   work_dir <- file.path(home_dir, paste0(year, " Round Estimation/Code"))
   return(work_dir)
 }
