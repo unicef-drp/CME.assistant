@@ -1,8 +1,6 @@
 # CME.assistant
 
 
-[![CRAN version](http://www.r-pkg.org/badges/version/CME.assistant)](https://cran.r-project.org/package=CME.assistant) 
-
 <!-- badges: start -->
 <!-- badges: end -->
 
