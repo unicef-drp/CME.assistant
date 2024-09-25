@@ -743,12 +743,17 @@ get.workdir.dropbox <- function(year = 2023){
 #' @return directory to "Code" folder
 #' @export get.workdir.sharepoint
 get.workdir.sharepoint <- function(year = 2024){
+  stopifnot(nchar(as.numeric(year)) == 4)
   user_name <- Sys.info()[["user"]]
   USERPROFILE <- load_os_leading_dir()
   #
   home_dir <- switch(user_name,
-                     "lyhel" = "D:/OneDrive - UNICEF/Documents - Child Mortality/UN IGME data",
+                     "lyhel"    = "D:/OneDrive - UNICEF/Documents - Child Mortality/UN IGME data",
+                     "dsharrow" = "C:/Users/dsharrow/OneDrive - UNICEF/Documents - Child Mortality/UN IGME data",
+
                      "gfell" = "C:/Users/gfell/UNICEF/Child Mortality - Documents/UN IGME data",
+                     "lhug"  = "C:/Users/lhug/UNICEF/Child Mortality - Documents/UN IGME data",
+
                      "your_user_name" = "your SharePoint home directory",
 
                      # best guess is:

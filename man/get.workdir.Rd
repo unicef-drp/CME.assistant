@@ -2,7 +2,8 @@
 % Please edit documentation in R/funcs_read_data.R
 \name{get.workdir}
 \alias{get.workdir}
-\title{Get IGME "Code" dir for a given year}
+\title{Get IGME "Code" dir for a given year. These functions won't work on the
+server.}
 \usage{
 get.workdir(year)
 }
