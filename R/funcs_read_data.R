@@ -625,6 +625,70 @@ get.live.birth <- function(year0, work_dir = NULL){
 
 # General helper -----------------------------------------------------------
 
+
+#' Create IGME_Key column
+#'
+#' Create column `IGME_Key` in the format of
+#' ISO3Code-Series.Year-Series.Name-Series.Category,
+#' e.g."TZA-1988-Census-Indirect", "RWA-2017-Malaria Indicator Survey-Indirect".
+#' Extra strings like "Preliminary" or "MM/NN adjusted" are removed
+#'
+#'
+#' @param dt0 dataset
+#' @param add_Indicator default to `FALSE`, if `TRUE` will add indicator in the
+#'   end of `IGME_Key`, keep another `IGME_Key_s` column which doesn't have
+#'   indicator in the end
+#' @param add_VR_series_name do we want to include (S)VR Series.Name and
+#'   Series.Year in the key
+#'
+#' @return dt0 dataset with added column `IGME_Key`
+#' @export create.IGME.key
+create.IGME.key <- function(
+    dt0,
+    add_Indicator = FALSE,
+    add_VR_series_name  = FALSE
+    ){
+  strings_to_remove <- " \\(Adjusted\\)| \\(MM adjusted\\)| \\(NN adjusted\\)| \\(Preliminary\\)| \\(preliminary\\)"
+  dt0[, Series.Year := trimws(Series.Year)]
+
+  # the process to create IGME_Key
+  if ("Country.Code"%in%colnames(dt0)&is.character(dt0$Country.Code)) {
+    dt0[, Code:= Country.Code]
+  } else if ("Country.ISO"%in%colnames(dt0)&is.character(dt0$Country.ISO)) {
+    dt0[, Code:= Country.ISO]
+  } else {stop("Check Country.Code and Country.ISO")}
+  # Some SVR like South Africa has year associated with it
+  dt0[Series.Category %in% c("VR", "SVR"), IGME_Key := paste0(Code, "-", Series.Category)]
+  dt0[Series.Type %in% c("Life Table"), IGME_Key := paste0(Code, "-", Series.Type)]
+  # dt0[Series.Type %in% c("Life Table"), ]
+  dt0[!Series.Category %in% c("VR", "SVR", "Life Table"), IGME_Key := paste0(Code, "-", Series.Year, "-", Series.Name)]
+  # countries with SVR by year
+  dt0[Series.Category %in% c("SVR") & Country.Name == "South Africa", IGME_Key := paste0(Code, "-", Series.Year, "-", Series.Category)]
+
+  dt0[, IGME_Key := gsub(strings_to_remove, "", IGME_Key)]
+  # remove blank
+  dt0[, IGME_Key := trimws(IGME_Key)]
+  # add direct/indirect?
+  dt0[grepl("Direct", Series.Type), IGME_Key := paste0(IGME_Key, "-Direct")]
+  dt0[grepl("Indirect", Series.Type), IGME_Key := paste0(IGME_Key, "-Indirect")]
+
+  if(add_VR_series_name){
+    dt0[Series.Category %in% c("VR", "SVR"), IGME_Key := paste0(Code, "-", Series.Year, "-", Series.Name)]
+  }
+
+  # We can further distinguish HH in direct in IGME_Key
+  # dt0[Data.Collection.Method == "Household Deaths", IGME_Key:= paste(IGME_Key, "(HH)")]
+
+  if(add_Indicator){
+    dt0[, IGME_Key_s := IGME_Key]
+    dt0[, IGME_Key := paste0(IGME_Key_s, "-", Indicator)]
+  }
+  dt0[, Code:=NULL]
+  return(dt0)
+}
+
+
+
 #' Capitalize first letter of each word in the vector
 #' @param y vector of strings
 #' @return a vector of strings with first letter capitalized
