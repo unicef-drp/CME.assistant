@@ -4,7 +4,12 @@
 \alias{create.IGME.key}
 \title{Create IGME_Key column}
 \usage{
-create.IGME.key(dt0, add_Indicator = FALSE, add_VR_series_name = FALSE)
+create.IGME.key(
+  dt0,
+  add_Indicator = FALSE,
+  add_VR_series_name = FALSE,
+  add_series_type = TRUE
+)
 }
 \arguments{
 \item{dt0}{dataset}
@@ -15,6 +20,8 @@ indicator in the end}
 
 \item{add_VR_series_name}{do we want to include (S)VR Series.Name and
 Series.Year in the key}
+
+\item{add_series_type}{do want to add Series.Type in the end of the key}
 }
 \value{
 dt0 dataset with added column `IGME_Key`

@@ -264,7 +264,7 @@ add.new.series.by.name <- function(
   dt_new_entries <- revise.age.group(dt_new_entries)
 
   # if(trim_series_name){
-  #   strings_to_remove <- " \\(calendar year\\)| \\(Adjusted\\)| \\(MM adjusted\\)| \\(NN adjusted\\)| \\(Preliminary\\)| \\(preliminary\\)| Excluding South Zone"
+  #   strings_to_remove <- " \\(calendar year\\)| \\(Adjusted\\)| \\(MM adjusted\\)| \\(NN adjusted\\)| \\(Preliminary\\)| \\(preliminary\\)| \\(LQ\\)| Excluding South Zone"
   #   dt_master[, Series.Name := gsub(strings_to_remove, "", Series.Name)]
   #   dt_master[, IGME_Key := gsub(strings_to_remove, "", IGME_Key)]
   # }
@@ -309,10 +309,14 @@ add.new.series.by.name <- function(
   if(dt_master$Indicator[1] == "log NMR/(U5MR-NMR)" ){
     # sort different for NMR
     setorder(dt1, Country.Name, -End.date.of.Survey, Series.Name, Series.Type, -Date.Of.Data.Added, -Reference.Date, -Inclusion)
-
-  } else {
-    setorder(dt1, Country.Name, -Indicator, -Sex, -End.date.of.Survey, Series.Name, Series.Type, -Date.Of.Data.Added, -Reference.Date, - Inclusion)
-  }
+    } else {
+      # for u5 and older children (B3 system)
+      if("Inclusion.U5MR" %in% colnames(dt1)){
+        setorder(dt1, Country.Name, -Indicator,  -End.date.of.Survey, Series.Name, Series.Type, -Date.Of.Data.Added, -Reference.Date, - Inclusion.U5MR)
+      } else {
+        setorder(dt1, Country.Name, -Indicator, -Sex, -End.date.of.Survey, Series.Name, Series.Type, -Date.Of.Data.Added, -Reference.Date, - Inclusion)
+      }
+    }
   message("newly added ", nrow(dt_new_entries), " rows: ", paste(unique(dt_new_entries$IGME_Key), collapse = ", "))
   message("new nrow: ", nrow(dt1), " -adding- ", nrow(dt1) - nrow_master_old)
   if(nrow(dt_master) + nrow(dt_new_entries) != nrow(dt1)) warning("check row numbers match")
@@ -380,7 +384,12 @@ add.new.series.by.ID <- function(
     setorder(dt1, Country.Name, -End.date.of.Survey, Series.Name, Series.Type, -Date.Of.Data.Added, -Reference.Date, -Inclusion)
 
   } else {
-    setorder(dt1, Country.Name, -Indicator, -Sex, -End.date.of.Survey, Series.Name, Series.Type, -Date.Of.Data.Added, -Reference.Date, - Inclusion)
+    # for u5 and older children (B3 system)
+    if("Inclusion.U5MR" %in% colnames(dt1)){
+      setorder(dt1, Country.Name, -Indicator,  -End.date.of.Survey, Series.Name, Series.Type, -Date.Of.Data.Added, -Reference.Date, - Inclusion.U5MR)
+    } else {
+      setorder(dt1, Country.Name, -Indicator, -Sex, -End.date.of.Survey, Series.Name, Series.Type, -Date.Of.Data.Added, -Reference.Date, - Inclusion)
+    }
   }
   message("newly added ", nrow(dt_new_entries), " rows: ", paste(unique(dt_new_entries$IGME_Key), collapse = ", "))
   message("new nrow: ", nrow(dt1), " -adding- ", nrow(dt1) - nrow_master_old)

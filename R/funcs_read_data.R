@@ -640,15 +640,17 @@ get.live.birth <- function(year0, work_dir = NULL){
 #'   indicator in the end
 #' @param add_VR_series_name do we want to include (S)VR Series.Name and
 #'   Series.Year in the key
+#' @param add_series_type do want to add Series.Type in the end of the key
 #'
 #' @return dt0 dataset with added column `IGME_Key`
 #' @export create.IGME.key
 create.IGME.key <- function(
     dt0,
     add_Indicator = FALSE,
-    add_VR_series_name  = FALSE
+    add_VR_series_name  = FALSE,
+    add_series_type = TRUE
     ){
-  strings_to_remove <- " \\(Adjusted\\)| \\(MM adjusted\\)| \\(NN adjusted\\)| \\(Preliminary\\)| \\(preliminary\\)"
+  strings_to_remove <- " \\(Adjusted\\)| \\(MM adjusted\\)| \\(NN adjusted\\)| \\(Preliminary\\)| \\(preliminary\\)| \\(LQ\\)"
   dt0[, Series.Year := trimws(Series.Year)]
 
   # the process to create IGME_Key
@@ -668,9 +670,13 @@ create.IGME.key <- function(
   dt0[, IGME_Key := gsub(strings_to_remove, "", IGME_Key)]
   # remove blank
   dt0[, IGME_Key := trimws(IGME_Key)]
-  # add direct/indirect?
+
+  if (add_series_type){
+  # add direct/indirect label at the end
   dt0[grepl("Direct", Series.Type), IGME_Key := paste0(IGME_Key, "-Direct")]
   dt0[grepl("Indirect", Series.Type), IGME_Key := paste0(IGME_Key, "-Indirect")]
+  }
+
 
   if(add_VR_series_name){
     dt0[Series.Category %in% c("VR", "SVR"), IGME_Key := paste0(Code, "-", Series.Year, "-", Series.Name)]
