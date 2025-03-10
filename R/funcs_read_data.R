@@ -816,19 +816,11 @@ get.workdir.sharepoint <- function(year = 2024){
   stopifnot(nchar(as.numeric(year)) == 4)
   user_name <- Sys.info()[["user"]]
   USERPROFILE <- load_os_leading_dir()
-  #
-  home_dir <- switch(user_name,
-                     "lyhel"    = "D:/OneDrive - UNICEF/Documents - Child Mortality/UN IGME data",
-                     "dsharrow" = "C:/Users/dsharrow/OneDrive - UNICEF/Documents - Child Mortality/UN IGME data",
 
-                     "gfell" = "C:/Users/gfell/UNICEF/Child Mortality - Documents/UN IGME data",
-                     "lhug"  = "C:/Users/lhug/UNICEF/Child Mortality - Documents/UN IGME data",
+  # defined in this file:
+  source(file.path(USERPROFILE, "Dropbox/UNICEF Work/profile.R"))
 
-                     "your_user_name" = "your SharePoint home directory",
-
-                     # best guess is:
-                     file.path(USERPROFILE, "OneDrive - UNICEF/Documents - Child Mortality/UN IGME data")
-  )
+  home_dir <- dir_IGME
   if(!dir.exists(home_dir)) warning ("To find default working directory on SharePoint, please add your SharePoint home directory in this function `get.workdir.sharepoint`")
   work_dir <- file.path(home_dir, paste0(year, " Round Estimation/Code"))
   return(work_dir)
@@ -1295,6 +1287,7 @@ calculate.4q1 <- function(q5, q1, use_q_not_rate = TRUE){
 #'
 calculate.arr <- function(dt, year1, year2){
   get.year <- function(years){
+    # note that `gsub(".5", "", years)` is a bug, to see the bug, try `gsub(".5", "", "2015.5")`. to remove a literal ".5", use "\\.5" instead.
     if(grepl("\\.5", years)) years <- gsub("\\.5", "", years)
     as.numeric(gsub("[^\\d]+", "", years, perl = TRUE))
   }
