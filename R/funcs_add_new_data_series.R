@@ -273,7 +273,7 @@ add.new.series.by.name <- function(
   dt_new_entries <- create.IGME.key(dt_new_entries)
 
   # check reference date
-  if(dt_new_entries[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, .N] >0){
+  if(dt_new_entries[!Series.Category %in% c("SVR", "VR") & (Average.date.of.Survey - Reference.Date > 25) & Visible==1, .N] >0){
     warning("Might need to set invisible for data point more than 25 years prior to average date of the survey: ",
             dt_new_entries[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, IGME_Key[1]])
   }
@@ -284,12 +284,25 @@ add.new.series.by.name <- function(
   if(nrow_old > 0){
     if(old_entries_action == "hide"){
       message("Change inclusion and visible for old entries to 0: ",
-              paste(dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key)
-                              & Series.Name%in%unique(dt_new_entries$Series.Name), unique(Series.Name)],
+              paste(dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key) &
+                                Series.Name %in% unique(dt_new_entries$Series.Name),
+                              unique(Series.Name)],
                     collapse = ", "))
-      dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key) &
-                  Series.Name%in%unique(dt_new_entries$Series.Name),
-                `:=`(Inclusion = 0, Visible = 0)]
+
+      # set old entries to invisible and inclusion = 0 (and inclusion.U5MR/Inclusion.Gender if applicable)
+
+      if("Inclusion.U5MR" %in% colnames(dt_new_entries)){
+        dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key) &
+                    Series.Name %in% unique(dt_new_entries$Series.Name), `:=`(Visible = 0, Inclusion.U5MR = 0)]
+        if("Inclusion.Gender" %in% colnames(dt_new_entries)){
+          dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key) &
+                      Series.Name %in% unique(dt_new_entries$Series.Name), `:=`(Inclusion.Gender = 0)]
+        }
+      } else {
+        dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key) &
+                    Series.Name %in% unique(dt_new_entries$Series.Name), `:=`(Inclusion = 0, Visible = 0)]
+      }
+
     } else if (old_entries_action == "remove"){
       message("Remove old series: ",
               paste(dt_master[IGME_Key %in% unique(dt_new_entries$IGME_Key)
@@ -351,7 +364,7 @@ add.new.series.by.ID <- function(
   dt_new_entries <- create.IGME.key(dt_new_entries)
 
   # check reference date
-  if(dt_new_entries[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, .N] >0){
+  if(dt_new_entries[!Series.Category %in% c("SVR", "VR") & (Average.date.of.Survey - Reference.Date > 25) & Visible==1, .N] >0){
     warning("Might need to set invisible for data point more than 25 years prior to average date of the survey: ",
             dt_new_entries[(Average.date.of.Survey - Reference.Date > 25) & Visible==1, IGME_Key[1]])
   }
@@ -363,8 +376,17 @@ add.new.series.by.ID <- function(
       message("Change inclusion and visible for old entries to 0: ",
               paste(dt_master[DataCatalogID %in% unique(dt_new_entries$DataCatalogID), unique(Series.Name)],
                     collapse = ", "))
-      dt_master[DataCatalogID %in% unique(dt_new_entries$DataCatalogID),
-                `:=`(Inclusion = 0, Visible = 0)]
+      # set old entries to invisible and inclusion = 0 (and inclusion.U5MR for sex-specific db)
+      if("Inclusion.U5MR" %in% colnames(dt_new_entries)){
+        dt_master[DataCatalogID %in% unique(dt_new_entries$DataCatalogID),
+                  `:=`(Visible = 0, Inclusion.U5MR = 0)]
+        if("Inclusion.Gender" %in% colnames(dt_new_entries)) dt_master[DataCatalogID %in% unique(dt_new_entries$DataCatalogID),
+                                                                `:=`(Inclusion.Gender = 0)]
+
+      } else {
+        dt_master[DataCatalogID %in% unique(dt_new_entries$DataCatalogID),  `:=`(Inclusion = 0, Visible = 0)]
+      }
+
     } else if (old_entries_action == "remove"){
       message("Remove old series: ",
               paste(dt_master[DataCatalogID %in% unique(dt_new_entries$DataCatalogID), unique(Series.Name)],

@@ -397,23 +397,35 @@ read.region.summary <- function(
   return(dt_long)
 }
 
-#' sometimes maybe useful, to read the wide-year format SBR output
+#' Read the wide-year format SBR output (country and region)
 #'
 #' @param dir_SBR_wide_year directory to the wide-year format SBR output
-#' @param value_name0 default to "Median"
+#' @param value_name0 default to "value", what name to mark the value
 #'
-read.region.summary.SBproj <- function(dir_SBR_wide_year, value_name0 = "Median"){
+read.SBproj <- function(dir_SBR_wide_year, id_wanted = NULL, value_name0 = "value"){
   if(!file.exists(dir_SBR_wide_year)) stop("File doesn't exist: ", dir_file)
   dtrp <- fread(dir_SBR_wide_year)
-  id_vars <- c("Region")
-  id_nums <- colnames(dtrp)[!colnames(dtrp) %in% id_vars]
+  cols <- colnames(dtrp)
+  id_nums <- cols[grepl("SBR_|SB_|LB_", cols)]
+  id_vars <- cols[!cols %in% id_nums]
   dtrp[ , (id_nums) := lapply(.SD, as.numeric), .SDcols = id_nums]
   dtrpw <- melt(dtrp, id.vars =id_vars, variable.factor = FALSE, value.name = value_name0)
   dtrpw[, `:=`(Shortind = sub("_.*", "", variable),
                Year     = as.numeric(sub(".*_", "", variable)),
                Sex      = "Total")]
-  dtrpw[,.(Region, Shortind, Year, Sex, Year, Median)]
+  if(is.null(id_wanted)){
+    if("ISO3Code" %in% colnames(dtrpw)){
+      id_wanted <- "ISO3Code"
+    } else if ("Region" %in% colnames(dtrpw)){
+      id_wanted <- "Region"
+    } else {
+      stop("provide id_wanted, cannot find either ISO3Code or Region")
+    }
+  }
+  cols_wanted <- c(id_wanted, "Shortind", "Year", "Sex", "Year", value_name0)
+  dtrpw[, ..cols_wanted]
 }
+
 
 #' Read one results.csv file and reformat into long-format
 #'
@@ -602,6 +614,7 @@ get.pop.from.CME <- function(dc){
   message("pop0 and pop1_4 in country.info.CME are available for years: ", paste(range(years_available1), collapse = "-"))
   return(dcpop)
 }
+
 #' Load the "data_livebirths.csv", add ISO3Code and country names
 #'
 #' @param year0 IGME round on Dropbox, until 2023
@@ -621,6 +634,38 @@ get.live.birth <- function(year0, work_dir = NULL){
 }
 
 
+
+#' Load country indicator from CME output data
+#'
+#' @param shortind Name of `Shortind`
+#' @param round 2024
+#' @param median_only default to TRUE, return medians
+#' @param total_sex default to TRUE, return sex = Total
+get.CME.ind.data <- function(
+    shortind = "U5MR",
+    round = 2024,
+    median_only = TRUE,
+    total_sex = TRUE # Median only
+){
+  USERPROFILE <- Sys.getenv("USERPROFILE")  # leading directory to Dropbox
+  work_dir_CME <- file.path(USERPROFILE, "Dropbox/UNICEF Work/Data and charts for websites/",
+                            paste("Files", round), "CME/Estimates")
+  stopifnot(dir.exists(work_dir_CME))
+  dir_country_data <- file.path(work_dir_CME, paste0("UNIGME", round, "_Country_Rates_&_Deaths.csv"))
+  stopifnot(file.exists(dir_country_data))
+  dt_country_all_w <- fread(dir_country_data)
+  dtc <- melt(dt_country_all_w, measure.vars = c("Lower", "Median", "Upper"), variable.name = "Quantile", variable.factor = FALSE)
+  if(median_only) dtc <- dtc[Quantile == "Median"]
+  if(total_sex) dtc <- dtc[Sex == "Total"]
+  if(!is.null(shortind)){
+    if(!shortind %in% unique(dtc$Shortind)){
+      stop("All available shortinds are: ", paste(unique(dtc$Shortind), collapse = ", "))
+    }
+    dtc <- dtc[Shortind == shortind]
+  }
+  dtc[, Year:= floor(Year)]
+  return(dtc)
+}
 
 
 # General helper -----------------------------------------------------------
