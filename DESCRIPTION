@@ -1,6 +1,7 @@
 Package: CME.assistant
 Title: Reusable Assisting Functions for Data Analysis
 Version: 1.2.8
+Date: 2025-12-15
 Authors@R: 
     person(given = "Yang",
            family = "Liu",

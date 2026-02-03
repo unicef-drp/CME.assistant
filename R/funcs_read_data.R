@@ -397,10 +397,12 @@ read.region.summary <- function(
   return(dt_long)
 }
 
-#' Read the wide-year format SBR output (country and region)
+#' Read the wide-year format SBR output (country or region)
 #'
 #' @param dir_SBR_wide_year directory to the wide-year format SBR output
 #' @param value_name0 default to "value", what name to mark the value
+#' @param id_wanted should be either "ISO3Code" or "Region", default to NULL: so
+#'   must be provided
 #'
 read.SBproj <- function(dir_SBR_wide_year, id_wanted = NULL, value_name0 = "value"){
   if(!file.exists(dir_SBR_wide_year)) stop("File doesn't exist: ", dir_file)
@@ -638,12 +640,12 @@ get.live.birth <- function(year0, work_dir = NULL){
 #' Load country indicator from CME output data
 #'
 #' @param shortind Name of `Shortind`
-#' @param round 2024
+#' @param round default to NULL, IGME round on Dropbox, must be supplied
 #' @param median_only default to TRUE, return medians
 #' @param total_sex default to TRUE, return sex = Total
 get.CME.ind.data <- function(
     shortind = "U5MR",
-    round = 2024,
+    round = NULL,
     median_only = TRUE,
     total_sex = TRUE # Median only
 ){
@@ -710,7 +712,7 @@ create.IGME.key <- function(
   # dt0[Series.Type %in% c("Life Table"), ]
   dt0[!Series.Category %in% c("VR", "SVR", "Life Table"), IGME_Key := paste0(Code, "-", Series.Year, "-", Series.Name)]
   # countries with SVR by year
-  dt0[Series.Category %in% c("SVR") & Country.Name == "South Africa", IGME_Key := paste0(Code, "-", Series.Year, "-", Series.Category)]
+  dt0[Series.Category %in% c("SVR") & Code %in% c("ZAF", "IND"), IGME_Key := paste0(Code, "-", Series.Year, "-", Series.Category)]
 
   dt0[, IGME_Key := gsub(strings_to_remove, "", IGME_Key)]
   # remove blank
